@@ -15,12 +15,14 @@ class OnionArchitectureTest {
 
     @ArchTest
     static final ArchRule onionArchitectureIsRespected = onionArchitecture()
-            .domainModels("..domain.model..")
-            .domainServices("..domain.service..")
-            .applicationServices("..application..")
-            .adapter("mongodb", "..adapter.mongodb..")
-            .adapter("questdb", "..adapter.questdb..")
-            .adapter("web", "..adapter.web..")
+            .domainModels("..domain.models..")
+            .domainServices("..domain.services..")
+            .applicationServices("..application..", "com.github.jmgoyesc.agent")
+            .adapter("mongodb", "..adapters.mongodb..")
+            .adapter("questdb", "..adapters.questdb..")
+            .adapter("web", "..adapters.web..")
+            .ignoreDependency("com.github.jmgoyesc.agent.ApplicationIT__TestContext001_BeanFactoryRegistrations", "com.github.jmgoyesc.agent.adapters.web.controller.AgentController__TestContext001_BeanDefinitions")
+            .ignoreDependency("com.github.jmgoyesc.agent.ApplicationIT__TestContext001_BeanFactoryRegistrations", "com.github.jmgoyesc.agent.adapters.web.handler.GlobalExceptionHandler__TestContext001_BeanDefinitions")
             .allowEmptyShould(true);
 
 }

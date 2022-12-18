@@ -1,0 +1,47 @@
+[
+  {
+    "type": "mileage",
+    "received_at": "2000-12-31T23:59:59.999Z",
+    "originated_at": "2000-12-31T23:59:59.999Z",
+    "vehicle": "",
+    "value": 8888.55
+  },
+  {
+    "type": "fuel-level",
+    "received_at": "2000-12-31T23:59:59.999Z",
+    "originated_at": "2000-12-31T23:59:59.999Z",
+    "vehicle": "",
+    "value": 86.5
+  },
+  {
+    "type": "fuel-ratio",
+    "received_at": "2000-12-31T23:59:59.999Z",
+    "originated_at": "2000-12-31T23:59:59.999Z",
+    "vehicle": "",
+    "value": 0.89
+  },
+  {
+    "type": "fuel-consumption",
+    "received_at": "2000-12-31T23:59:59.999Z",
+    "originated_at": "2000-12-31T23:59:59.999Z",
+    "vehicle": "",
+    "value": 194439
+  },
+  {
+    "type": "position",
+    "received_at": "2000-12-31T23:59:59.999Z",
+    "originated_at": "2000-12-31T23:59:59.999Z",
+    "vehicle": "",
+    "value": {
+      "type": "Point",
+      "coordinates": [ 50.22, 7.99 ]
+    }
+  },
+  {
+    "type": "speed",
+    "received_at": "2000-12-31T23:59:59.999Z",
+    "originated_at": "2000-12-31T23:59:59.999Z",
+    "vehicle": "",
+    "value": 60.5
+  }
+]
