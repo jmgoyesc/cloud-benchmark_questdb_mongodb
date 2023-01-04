@@ -1,6 +1,7 @@
 package com.github.jmgoyesc.agent.domain.services;
 
-import com.github.jmgoyesc.agent.domain.models.Configuration;
+import com.github.jmgoyesc.agent.domain.models.config.Configuration;
+import com.github.jmgoyesc.agent.domain.models.config.Instance;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -15,27 +16,30 @@ import java.util.concurrent.ConcurrentHashMap;
 class InMemoryStorage {
 
     private final Map<String, Configuration> storage = new ConcurrentHashMap<>();
+    private final Map<String, Instance> instances = new ConcurrentHashMap<>();
 
-    void add(Configuration configuration) {
-        var id = configuration.id();
+    public record Pair(Configuration configuration, Instance instance) {}
+
+    void add(Configuration configuration, Instance instance) {
+        var id = configuration.getId();
         storage.put(id, configuration);
-    }
-
-    void update(String id, Configuration configuration) {
-        storage.replace(id, configuration);
+        instances.put(id, instance);
     }
 
     void remove(String id) {
         var removed = storage.remove(id);
+        instances.remove(id);
         if (removed == null)
             throwNotFound(id);
     }
 
-    Configuration get(String id) {
+    Pair get(String id) {
         var found = storage.get(id);
         if (found == null)
             throwNotFound(id);
-        return found;
+
+        var instance = instances.get(id);
+        return new Pair(found, instance);
     }
 
     Collection<Configuration> all() {

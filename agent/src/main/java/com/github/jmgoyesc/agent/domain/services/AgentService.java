@@ -1,15 +1,17 @@
 package com.github.jmgoyesc.agent.domain.services;
 
-import com.github.jmgoyesc.agent.domain.models.Configuration;
-import com.github.jmgoyesc.agent.domain.models.Configuration.ConnectionProperties;
-import com.github.jmgoyesc.agent.domain.models.Configuration.TargetDB;
+import com.github.jmgoyesc.agent.domain.models.config.Configuration;
+import com.github.jmgoyesc.agent.domain.models.config.Configuration.ConnectionProperties;
+import com.github.jmgoyesc.agent.domain.models.config.DatabaseStatus;
+import com.github.jmgoyesc.agent.domain.models.config.TargetDB;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.stream.Stream;
 
-import static com.github.jmgoyesc.agent.domain.models.Configuration.Status.RUNNING;
-import static com.github.jmgoyesc.agent.domain.models.Configuration.Status.WAITING_FOR_TERMINATION;
+import static com.github.jmgoyesc.agent.domain.models.config.Configuration.Status.RUNNING;
+import static com.github.jmgoyesc.agent.domain.models.config.Configuration.Status.WAITING_FOR_TERMINATION;
 
 /**
  * @author Juan Manuel Goyes Coral
@@ -20,10 +22,14 @@ import static com.github.jmgoyesc.agent.domain.models.Configuration.Status.WAITI
 public class AgentService {
 
     private final InMemoryStorage storage;
+    private final InstanceBuilder builder;
 
     public Configuration get(String id) {
-        //TODO: return connection status
-        return storage.get(id);
+        return storage.get(id).configuration();
+    }
+
+    public DatabaseStatus status(String id) {
+        return storage.get(id).instance().getDatabase().status();
     }
 
     public Collection<Configuration> all() {
@@ -31,35 +37,46 @@ public class AgentService {
     }
 
     public Configuration create(TargetDB target, int vehicles, ConnectionProperties connectionProperties) {
-        //TDO: disable spring autoconfiguration from mongo and jdbc
-        //TODO: received connection parameters to targetDB
-        //TODO: open connection to target db -> save connection status into configuration
-        //TODO: prepare threads (allocate threads without start)
-        var configuration = new Configuration(target, vehicles, connectionProperties);
-        storage.add(configuration);
+        var configuration = Configuration.builder()
+                .target(target)
+                .vehicles(vehicles)
+                .connection(connectionProperties)
+                .build();
+        var instance = builder.build(configuration);
+        storage.add(configuration, instance);
+
         return configuration;
     }
 
     public void start(String id) {
-        //TODO: change configuration status from CREATED -> RUNNING
-        //TODO: start threads: 1 thread per vehicle
-        var source = storage.get(id);
-        var updated = new Configuration(source, RUNNING);
-        storage.update(id, updated);
+        var pair = storage.get(id);
+
+        pair.instance().getDatabase().createTable();
+        pair.instance().getDatabase().cleanData();
+
+        pair.configuration().start();
+        pair.instance().startAll();
     }
 
     public void end(String id) {
-        //TODO: change configuration status from RUNNING -> WAITING_FOR_TERMINATION
-        //TODO: when all threads finished. then change the configuration status from WAITING_FOR_TERMINATION -> TERMINATED
-        //TODO: stop threads
-        //TODO: close connection to targetDB
-        var source = storage.get(id);
-        var updated = new Configuration(source, WAITING_FOR_TERMINATION);
-        storage.update(id, updated);
+        var pair = storage.get(id);
+
+        var stats = pair.instance().stopAll();
+
+        int vehicles = pair.instance().getDatabase().count();
+        pair.configuration().stop(vehicles, stats);
     }
 
     public void delete(String id) {
-        //TODO: do not allow to delete RUNNING or WAITING_FOR_TERMINATION configurations
+        var allowToDelete = Stream.of(RUNNING, WAITING_FOR_TERMINATION)
+                .noneMatch(status -> status.equals(storage.get(id).configuration().getStatus()));
+        if (!allowToDelete) {
+            throw new IllegalArgumentException("Configuration can not be deleted while is RUNNING or WAITING_FOR_TERMINATION");
+        }
+
+        var pair = storage.get(id);
+        pair.instance().getDatabase().dropTable();
+        pair.instance().getDatabase().close();
         storage.remove(id);
     }
 

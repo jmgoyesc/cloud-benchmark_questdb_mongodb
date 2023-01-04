@@ -1,8 +1,10 @@
 package com.github.jmgoyesc.agent.adapters.web.controller;
 
-import com.github.jmgoyesc.agent.domain.models.Configuration;
+import com.github.jmgoyesc.agent.domain.models.config.Configuration;
+import com.github.jmgoyesc.agent.domain.models.config.DatabaseStatus;
 import com.github.jmgoyesc.agent.domain.services.AgentService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -24,6 +26,7 @@ import java.util.Collection;
 @RestController
 @RequestMapping(value = "/v1/configurations", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
+@Log4j2
 public class AgentController {
 
     private final AgentService service;
@@ -31,6 +34,11 @@ public class AgentController {
     @GetMapping("/{id}")
     public Configuration get(@PathVariable String id) {
         return service.get(id);
+    }
+
+    @GetMapping("/{id}/status")
+    public DatabaseStatus status(@PathVariable String id) {
+        return service.status(id);
     }
 
     @GetMapping
@@ -53,6 +61,7 @@ public class AgentController {
     @PostMapping("/{id}/end")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void end(@PathVariable String id) {
+        log.info("Calling end for {}", id);
         service.end(id);
     }
 

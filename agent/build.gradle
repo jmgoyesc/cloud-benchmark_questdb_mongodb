@@ -7,7 +7,7 @@ plugins {
 
 group = 'com.github.jmgoyesc'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = JavaVersion.VERSION_19
 
 configurations {
 	compileOnly {
@@ -29,21 +29,18 @@ dependencies {
 	implementation "org.projectlombok:lombok"
 
 	implementation "org.springframework.boot:spring-boot-starter-web"
-	implementation "org.springframework.boot:spring-boot-starter-actuator"
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
 	// validation
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	// questdb postgres jdbc
-	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	runtimeOnly 'org.postgresql:postgresql'
+	implementation 'org.questdb:questdb:6.6.1'
+	implementation 'com.zaxxer:HikariCP:5.0.1'
 
 	// apache commons
 	implementation 'org.apache.commons:commons-lang3:3.12.0'
-
-	//dev tools
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	// test
 	testAnnotationProcessor 'org.projectlombok:lombok'
@@ -60,4 +57,16 @@ dependencyManagement {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+	options.compilerArgs += "--enable-preview"
+}
+
+tasks.withType(Test) {
+	jvmArgs += "--enable-preview"
+}
+
+tasks.withType(JavaExec) {
+	jvmArgs += '--enable-preview'
 }
