@@ -1,7 +1,6 @@
 package com.github.jmgoyesc.agent.domain.models.config;
 
 import java.time.ZonedDateTime;
-import java.util.Objects;
 
 /**
  * @author Juan Manuel Goyes Coral

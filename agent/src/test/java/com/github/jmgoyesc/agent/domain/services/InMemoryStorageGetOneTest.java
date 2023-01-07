@@ -1,6 +1,6 @@
 package com.github.jmgoyesc.agent.domain.services;
 
-import com.github.jmgoyesc.agent.domain.models.Configuration;
+import com.github.jmgoyesc.agent.domain.models.config.Configuration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,8 +13,8 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import static com.github.jmgoyesc.agent.domain.models.Configuration.Status.CREATED;
-import static com.github.jmgoyesc.agent.domain.models.Configuration.TargetDB.mongo;
+import static com.github.jmgoyesc.agent.domain.models.config.Configuration.Status.CREATED;
+import static com.github.jmgoyesc.agent.domain.models.config.TargetDB.mongo;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mockStatic;
 
@@ -33,17 +33,23 @@ class InMemoryStorageGetOneTest {
     @Test
     void test1() {
         //given
+        var id = UUID.fromString("00000000-0000-0000-0000-000000000000");
         var connectionProperties = new Configuration.ConnectionProperties("url");
         var now = ZonedDateTime.of(1999, 12, 31, 23, 59, 59, 0, ZoneOffset.UTC);
 
+        Configuration original;
         try (
                 MockedStatic<UUID> uuidMock = mockStatic(UUID.class);
                 MockedStatic<ZonedDateTime> timeMock = mockStatic(ZonedDateTime.class)
         ) {
-            uuidMock.when(UUID::randomUUID).thenReturn(new UUID(0L, 0L));
+            uuidMock.when(UUID::randomUUID).thenReturn(id);
             timeMock.when(ZonedDateTime::now).thenReturn(now);
-            var original = new Configuration(mongo, 100, connectionProperties);
-            target.add(original);
+            original = Configuration.builder()
+                    .target(mongo)
+                    .vehicles(100)
+                    .connection(connectionProperties)
+                    .build();
+            target.add(original, null);
 
         //when
             var actual = target.get("00000000-0000-0000-0000-000000000000");

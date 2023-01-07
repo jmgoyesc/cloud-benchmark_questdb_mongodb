@@ -1,8 +1,8 @@
-package com.github.jmgoyesc.agent.domain.models;
+package com.github.jmgoyesc.agent.domain.models.config;
 
 import com.github.jmgoyesc.agent.domain.models.ports.DatabasePort;
 import com.github.jmgoyesc.agent.domain.models.ports.MongodbPort;
-import com.github.jmgoyesc.agent.domain.models.ports.QuestdbInfluxPort;
+import com.github.jmgoyesc.agent.domain.models.ports.QuestdbInfluxLineProtocolPort;
 import com.github.jmgoyesc.agent.domain.models.ports.QuestdbPostgresPort;
 import com.github.jmgoyesc.agent.domain.models.ports.QuestdbRestPort;
 import lombok.Getter;
@@ -18,7 +18,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 @Getter
 public enum TargetDB {
-    questdb_influx(context -> context.getBean(QuestdbInfluxPort.class)),
+    questdb_influx(context -> context.getBean(QuestdbInfluxLineProtocolPort.class)),
     questdb_postgres(context -> context.getBean(QuestdbPostgresPort.class)),
     quest_rest(context -> context.getBean(QuestdbRestPort.class)),
     mongo(context -> context.getBean(MongodbPort.class)),

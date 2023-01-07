@@ -1,7 +1,7 @@
 package com.github.jmgoyesc.agent.adapters.web.controller;
 
-import com.github.jmgoyesc.agent.domain.models.Configuration.ConnectionProperties;
-import com.github.jmgoyesc.agent.domain.models.Configuration.TargetDB;
+import com.github.jmgoyesc.agent.domain.models.config.Configuration.ConnectionProperties;
+import com.github.jmgoyesc.agent.domain.models.config.TargetDB;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.validation.annotation.Validated;

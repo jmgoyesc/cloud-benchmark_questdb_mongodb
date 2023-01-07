@@ -23,6 +23,10 @@ class OnionArchitectureTest {
             .adapter("web", "..adapters.web..")
             .ignoreDependency("com.github.jmgoyesc.agent.ApplicationIT__TestContext001_BeanFactoryRegistrations", "com.github.jmgoyesc.agent.adapters.web.controller.AgentController__TestContext001_BeanDefinitions")
             .ignoreDependency("com.github.jmgoyesc.agent.ApplicationIT__TestContext001_BeanFactoryRegistrations", "com.github.jmgoyesc.agent.adapters.web.handler.GlobalExceptionHandler__TestContext001_BeanDefinitions")
+            .ignoreDependency("com.github.jmgoyesc.agent.ApplicationIT__TestContext001_BeanFactoryRegistrations", "com.github.jmgoyesc.agent.adapters.mongodb.MongodbPortImpl__TestContext001_BeanDefinitions")
+            .ignoreDependency("com.github.jmgoyesc.agent.ApplicationIT__TestContext001_BeanFactoryRegistrations", "com.github.jmgoyesc.agent.adapters.questdb.influx.QuestdbInfluxPortImpl__TestContext001_BeanDefinitions")
+            .ignoreDependency("com.github.jmgoyesc.agent.ApplicationIT__TestContext001_BeanFactoryRegistrations", "com.github.jmgoyesc.agent.adapters.questdb.postgres.QuestdbPostgresPortImpl__TestContext001_BeanDefinitions")
+            .ignoreDependency("com.github.jmgoyesc.agent.ApplicationIT__TestContext001_BeanFactoryRegistrations", "com.github.jmgoyesc.agent.adapters.questdb.rest.QuestdbRestPortImpl__TestContext001_BeanDefinitions")
             .allowEmptyShould(true);
 
 }

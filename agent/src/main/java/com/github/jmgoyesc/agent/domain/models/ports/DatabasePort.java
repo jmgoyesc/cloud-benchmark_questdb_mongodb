@@ -1,9 +1,8 @@
-package com.github.jmgoyesc.agent.domain.models.ports.ports;
+package com.github.jmgoyesc.agent.domain.models.ports;
 
-import com.github.jmgoyesc.agent.domain.models.Configuration;
-import com.github.jmgoyesc.agent.domain.models.DatabaseStatus;
-import com.github.jmgoyesc.agent.domain.models.Telemetry;
-import com.github.jmgoyesc.agent.domain.models.Vehicle;
+import com.github.jmgoyesc.agent.domain.models.config.Configuration;
+import com.github.jmgoyesc.agent.domain.models.config.DatabaseStatus;
+import com.github.jmgoyesc.agent.domain.models.biz.Telemetry;
 
 /**
  * @author Juan Manuel Goyes Coral
@@ -11,9 +10,13 @@ import com.github.jmgoyesc.agent.domain.models.Vehicle;
 
 public interface DatabasePort {
 
-    void connect(Configuration configuration);
+    void createdDS(Configuration configuration);
+    void close();
     DatabaseStatus status();
-    void insert(Vehicle vehicle);
-    void insert(Telemetry telemetry);
+    void createTable();
+    void dropTable();
+    void cleanData();
+    String insert(Telemetry<?> telemetry);
+    int count();
 
 }

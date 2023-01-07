@@ -1,4 +1,4 @@
-package com.github.jmgoyesc.agent.domain.models.ports.ports;
+package com.github.jmgoyesc.agent.domain.models.ports;
 
 /**
  * @author Juan Manuel Goyes Coral

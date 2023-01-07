@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Map;
 
-import static com.github.jmgoyesc.agent.domain.models.Configuration.TargetDB.questdb_ilp;
+import static com.github.jmgoyesc.agent.domain.models.config.TargetDB.questdb_influx;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -26,7 +26,7 @@ class AgentDTOTest {
         //given
         var json = """
         {
-            "target": "questdb_ilp",
+            "target": "questdb_influx",
             "vehicles": 100,
             "connection": {
                 "url": "url",
@@ -45,7 +45,7 @@ class AgentDTOTest {
         assertThat(actual)
                 .as("Check AgentDTO got created from json")
                 .isNotNull()
-                .hasFieldOrPropertyWithValue("target", questdb_ilp)
+                .hasFieldOrPropertyWithValue("target", questdb_influx)
                 .hasFieldOrPropertyWithValue("vehicles", 100)
                 .hasFieldOrPropertyWithValue("connection.url", "url")
                 .hasFieldOrPropertyWithValue("connection.values", Map.of("username", "username", "password", "password"));
