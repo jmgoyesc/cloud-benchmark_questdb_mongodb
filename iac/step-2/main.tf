@@ -251,16 +251,49 @@ data "aws_ami" "questdb" {
   owners           = ["self"]
 }
 
-# ec2 - questdb
-resource "aws_instance" "questdb" {
+# ec2 - questdb postgres
+resource "aws_instance" "questdb_pg" {
   ami           = data.aws_ami.questdb.id
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.private.id
   vpc_security_group_ids = [
     aws_security_group.questdb.id
   ]
+  private_ip = "10.0.1.20"
   tags = {
-    "Name"      = "sut - questdb"
+    "Name"      = "20 - sut - questdb postgres"
+    "project"   = "cloud benchmark"
+    "worskapce" = "default"
+  }
+}
+
+# ec2 - questdb web
+resource "aws_instance" "questdb_web" {
+  ami           = data.aws_ami.questdb.id
+  instance_type = "t2.micro"
+  subnet_id     = aws_subnet.private.id
+  vpc_security_group_ids = [
+    aws_security_group.questdb.id
+  ]
+  private_ip = "10.0.1.21"
+  tags = {
+    "Name"      = "21 - sut - questdb web"
+    "project"   = "cloud benchmark"
+    "worskapce" = "default"
+  }
+}
+
+# ec2 - questdb ILP
+resource "aws_instance" "questdb_ilp" {
+  ami           = data.aws_ami.questdb.id
+  instance_type = "t2.micro"
+  subnet_id     = aws_subnet.private.id
+  vpc_security_group_ids = [
+    aws_security_group.questdb.id
+  ]
+  private_ip = "10.0.1.22"
+  tags = {
+    "Name"      = "22 - sut - questdb ilp"
     "project"   = "cloud benchmark"
     "worskapce" = "default"
   }
@@ -274,23 +307,73 @@ resource "aws_instance" "mongodb" {
   vpc_security_group_ids = [
     aws_security_group.mongodb.id
   ]
+  private_ip = "10.0.1.23"
   tags = {
-    "Name"      = "sut - mongodb"
+    "Name"      = "23 - sut - mongodb"
     "project"   = "cloud benchmark"
     "worskapce" = "default"
   }
 }
 
-# ec2 - agent
-resource "aws_instance" "agent" {
+# ec2 - agent questdb postgres
+resource "aws_instance" "agent_questdb_pg" {
   ami           = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.private.id
   vpc_security_group_ids = [
     aws_security_group.agent.id
   ]
+  private_ip = "10.0.1.30"
   tags = {
-    "Name"      = "agent"
+    "Name"      = "30 - agent - questdb - postgres"
+    "project"   = "cloud benchmark"
+    "worskapce" = "default"
+  }
+}
+
+# ec2 - agent questdb web
+resource "aws_instance" "agent_questdb_web" {
+  ami           = "ami-0a261c0e5f51090b1"
+  instance_type = "t2.micro"
+  subnet_id     = aws_subnet.private.id
+  vpc_security_group_ids = [
+    aws_security_group.agent.id
+  ]
+  private_ip = "10.0.1.31"
+  tags = {
+    "Name"      = "31 - agent - questdb - web"
+    "project"   = "cloud benchmark"
+    "worskapce" = "default"
+  }
+}
+
+# ec2 - agent questdb ilp
+resource "aws_instance" "agent_questdb_ilp" {
+  ami           = "ami-0a261c0e5f51090b1"
+  instance_type = "t2.micro"
+  subnet_id     = aws_subnet.private.id
+  vpc_security_group_ids = [
+    aws_security_group.agent.id
+  ]
+  private_ip = "10.0.1.32"
+  tags = {
+    "Name"      = "32 - agent - questdb - ilp"
+    "project"   = "cloud benchmark"
+    "worskapce" = "default"
+  }
+}
+
+# ec2 - agent mongo
+resource "aws_instance" "agent_mongo" {
+  ami           = "ami-0a261c0e5f51090b1"
+  instance_type = "t2.micro"
+  subnet_id     = aws_subnet.private.id
+  vpc_security_group_ids = [
+    aws_security_group.agent.id
+  ]
+  private_ip = "10.0.1.33"
+  tags = {
+    "Name"      = "33 - agent - mongo"
     "project"   = "cloud benchmark"
     "worskapce" = "default"
   }
@@ -304,8 +387,9 @@ resource "aws_instance" "control" {
   vpc_security_group_ids = [
     aws_security_group.control.id
   ]
+  private_ip = "10.0.2.10"
   tags = {
-    "Name"      = "control"
+    "Name"      = "10 - control"
     "project"   = "cloud benchmark"
     "worskapce" = "default"
   }
