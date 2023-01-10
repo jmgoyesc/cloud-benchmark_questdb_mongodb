@@ -1,5 +1,6 @@
 package com.github.jmgoyesc.agent.adapters.questdb.postgres;
 
+import com.github.jmgoyesc.agent.adapters.questdb.SqlQueries;
 import com.github.jmgoyesc.agent.domain.models.biz.Telemetry;
 import com.github.jmgoyesc.agent.domain.models.config.Configuration;
 import com.github.jmgoyesc.agent.domain.models.config.DatabaseStatus;
@@ -26,21 +27,6 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @Log4j2
 class QuestdbPostgresPortImpl implements QuestdbPostgresPort {
 
-    private static final String SQL_INSERT = "INSERT INTO telemetries VALUES (?, ?, ?, ?, ?)";
-    private static final String SQL_COUNT = "select count(1) from telemetries";
-    private static final String SQL_TEST = "SHOW TABLES";
-    private static final String SQL_CREATE = """
-        CREATE TABLE IF NOT EXISTS telemetries (
-            received_at TIMESTAMP,
-            originated_at TIMESTAMP,
-            vehicle STRING,
-            value DOUBLE,
-            position geohash(1c)
-        ) timestamp(received_at)
-    """;
-    private static final String SQL_DROP = "DROP TABLE telemetries";
-    private static final String SQL_DELETE = "TRUNCATE TABLE 'telemetries'";
-
     private HikariDataSource ds;
 
     @Override
@@ -62,28 +48,28 @@ class QuestdbPostgresPortImpl implements QuestdbPostgresPort {
     }
 
     @Override
-    public void createTable() {
-        execute(SQL_CREATE);
-    }
-
-    @Override
-    public void dropTable() {
-        execute(SQL_DROP);
-    }
-
-    @Override
-    public void cleanData() {
-        execute(SQL_DELETE);
-    }
-
-    @Override
     public DatabaseStatus status() {
         return new DatabaseStatus(ds.isClosed(), ds.isRunning(), test());
     }
 
+    @Override
+    public void createTable() {
+        execute(SqlQueries.SQL_CREATE);
+    }
+
+    @Override
+    public void dropTable() {
+        execute(SqlQueries.SQL_DROP);
+    }
+
+    @Override
+    public void cleanData() {
+        execute(SqlQueries.SQL_DELETE);
+    }
+
     private boolean test() {
         try {
-            execute(SQL_TEST);
+            execute(SqlQueries.SQL_TEST);
             return true;
         } catch (RuntimeException e) {
             log.warn("unable to execute test query", e);
@@ -95,7 +81,7 @@ class QuestdbPostgresPortImpl implements QuestdbPostgresPort {
     public String insert(Telemetry<?> telemetry) {
         try (
                 var connection = ds.getConnection();
-                var stmt = connection.prepareStatement(SQL_INSERT)
+                var stmt = connection.prepareStatement(SqlQueries.SQL_INSERT)
         ) {
             var id = io.questdb.std.Os.currentTimeNanos();
 
@@ -109,6 +95,7 @@ class QuestdbPostgresPortImpl implements QuestdbPostgresPort {
                 stmt.setNull(4, Types.DOUBLE);
                 stmt.setNull(5, Types.OTHER);
             }
+            //TODO: fix problem to save geojson as geo-hash
 //            } else if (telemetry.value() instanceof Position value)
             stmt.executeUpdate();
 
@@ -123,7 +110,7 @@ class QuestdbPostgresPortImpl implements QuestdbPostgresPort {
     public int count() {
         try (
                 var connection = ds.getConnection();
-                var stmt = connection.prepareStatement(SQL_COUNT);
+                var stmt = connection.prepareStatement(SqlQueries.SQL_COUNT);
                 var res = stmt.executeQuery()
         ) {
 
