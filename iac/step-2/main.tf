@@ -209,7 +209,7 @@ resource "aws_security_group" "questdb" {
   }
 }
 
-# secutiry group mongodb
+# security group mongodb
 resource "aws_security_group" "mongodb" {
   name        = "mongodb"
   description = "System Under Test - Mongo DB"
@@ -237,9 +237,23 @@ resource "aws_security_group" "mongodb" {
   }
 }
 
+# ami mongo
+data "aws_ami" "mongo" {
+  most_recent      = true
+  name_regex       = "^cbs_ami_mongodb"
+  owners           = ["self"]
+}
+
+# ami questdb
+data "aws_ami" "questdb" {
+  most_recent      = true
+  name_regex       = "^cbs_ami_questdb"
+  owners           = ["self"]
+}
+
 # ec2 - questdb
 resource "aws_instance" "questdb" {
-  ami           = "ami-0a261c0e5f51090b1"
+  ami           = data.aws_ami.questdb.id
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.private.id
   vpc_security_group_ids = [
@@ -254,7 +268,7 @@ resource "aws_instance" "questdb" {
 
 # ec2 - mongodb
 resource "aws_instance" "mongodb" {
-  ami           = "ami-0a261c0e5f51090b1"
+  ami           = data.aws_ami.mongo.id
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.private.id
   vpc_security_group_ids = [

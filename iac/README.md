@@ -38,6 +38,11 @@ To destroy the infrastructure, execute this (assuming inside of subfolder /step-
 terraform destroy
 ```
 
+At the end of this step, there should be 2 AMIs with the following names:
+
+- cbs_ami_mongodb
+- cbs_ami_mongodb
+
 ### Step 2 - Benchmark infrastructure
 
 Create the infrastructure for the experiment using AMIs from step 1
