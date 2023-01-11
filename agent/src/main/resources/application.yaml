@@ -1,8 +1,4 @@
 spring:
-  datasource:
-    url: ss
-    username: xx
-    password: xx
   mvc:
     servlet:
       path: /agent
