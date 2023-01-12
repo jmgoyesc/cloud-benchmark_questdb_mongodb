@@ -6,7 +6,6 @@ import com.github.jmgoyesc.agent.domain.services.AgentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 /**
  * @author Juan Manuel Goyes Coral
  */
 
 @RestController
-@RequestMapping(value = "/v1/configurations", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v1/configurations", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @Log4j2
 public class AgentController {
