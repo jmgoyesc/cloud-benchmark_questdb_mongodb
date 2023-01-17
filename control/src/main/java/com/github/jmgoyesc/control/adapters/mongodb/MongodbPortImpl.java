@@ -18,6 +18,8 @@ import java.util.Optional;
 @Log4j2
 class MongodbPortImpl implements MongodbPort {
 
+    //TODO: in case that the collection already exists, do not failed, and return success
+    //TODO: reduce timeout to 5 seconds
     @Override
     public Optional<String> create(String uri) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.github.jmgoyesc'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 sourceCompatibility = JavaVersion.VERSION_19
 
 configurations {
@@ -53,6 +53,10 @@ dependencyManagement {
 	imports {
 		mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
 	}
+}
+
+tasks.named("jar") {
+	enabled = false
 }
 
 tasks.named('test') {

@@ -26,6 +26,7 @@ class QuestdbPortImpl implements QuestdbPort {
         received_at TIMESTAMP,
         originated_at TIMESTAMP,
         vehicle STRING,
+        type SYMBOL,
         value DOUBLE,
         position geohash(1c)
     ) timestamp(received_at)
@@ -44,6 +45,7 @@ class QuestdbPortImpl implements QuestdbPort {
                 .toUri();
 
         try {
+            log.info("[questdb] endpoint to be called -> {}", endpoint);
             var response = rest.getForObject(endpoint, JsonNode.class);
             log.info("[questdb] submitted without exception. {}", response);
             return Optional.empty();

@@ -22,7 +22,7 @@ public class TableService {
     private final QuestdbPort questdbPort;
 
     public List<DatabaseConnection> create(List<DatabaseConnection> databaseConnections) {
-        return databaseConnections.stream()
+        return databaseConnections.parallelStream()
                 .map(it -> {
                     //noinspection CodeBlock2Expr
                     return switch (it.type()) {

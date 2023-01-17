@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * @author Juan Manuel Goyes Coral
  */
 
+//TODO: add handler exception for invlaid enum in database
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
