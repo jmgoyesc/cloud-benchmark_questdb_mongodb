@@ -109,6 +109,35 @@ resource "aws_route_table_association" "public_association" {
 #   }
 # }
 
+# security group ssh
+resource "aws_security_group" "ssh" {
+  name        = "ssh"
+  description = "SSH access"
+  vpc_id      = aws_vpc.vpc.id
+
+  ingress {
+    description = "ssh"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+  tags = {
+    "Name"      = "ssh access"
+    "project"   = "cloud benchmark"
+    "worskapce" = "default"
+  }
+}
+
 # security group control
 resource "aws_security_group" "control" {
   name        = "control"
@@ -185,7 +214,7 @@ resource "aws_security_group" "questdb" {
     from_port       = 9000
     to_port         = 9000
     protocol        = "tcp"
-    security_groups = [aws_security_group.agent.id]
+    security_groups = [aws_security_group.agent.id, aws_security_group.control.id]
   }
   ingress {
     description     = "influx line protocol"
@@ -220,7 +249,7 @@ resource "aws_security_group" "mongodb" {
     from_port       = 27017
     to_port         = 27017
     protocol        = "tcp"
-    security_groups = [aws_security_group.agent.id]
+    security_groups = [aws_security_group.agent.id, aws_security_group.control.id]
   }
 
   egress {
@@ -239,27 +268,42 @@ resource "aws_security_group" "mongodb" {
 
 # ami mongo
 data "aws_ami" "mongo" {
-  most_recent      = true
-  name_regex       = "^cbs_ami_mongodb"
-  owners           = ["self"]
+  most_recent = true
+  name_regex  = "^cbs_ami_mongodb"
+  owners      = ["self"]
 }
 
 # ami questdb
 data "aws_ami" "questdb" {
-  most_recent      = true
-  name_regex       = "^cbs_ami_questdb"
-  owners           = ["self"]
+  most_recent = true
+  name_regex  = "^cbs_ami_questdb"
+  owners      = ["self"]
+}
+
+# ami agent
+data "aws_ami" "agent" {
+  most_recent = true
+  name_regex  = "^cbs_ami_agent"
+  owners      = ["self"]
+}
+
+# ami control
+data "aws_ami" "control" {
+  most_recent = true
+  name_regex  = "^cbs_ami_control"
+  owners      = ["self"]
 }
 
 # ec2 - questdb postgres
 resource "aws_instance" "questdb_pg" {
   ami           = data.aws_ami.questdb.id
   instance_type = "t2.micro"
-  subnet_id     = aws_subnet.private.id
+  subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
     aws_security_group.questdb.id
   ]
-  private_ip = "10.0.1.20"
+  private_ip = "10.0.2.20"
+  key_name   = "benchamr_key"
   tags = {
     "Name"      = "20 - sut - questdb postgres"
     "project"   = "cloud benchmark"
@@ -271,11 +315,12 @@ resource "aws_instance" "questdb_pg" {
 resource "aws_instance" "questdb_web" {
   ami           = data.aws_ami.questdb.id
   instance_type = "t2.micro"
-  subnet_id     = aws_subnet.private.id
+  subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
     aws_security_group.questdb.id
   ]
-  private_ip = "10.0.1.21"
+  private_ip = "10.0.2.21"
+  key_name   = "benchamr_key"
   tags = {
     "Name"      = "21 - sut - questdb web"
     "project"   = "cloud benchmark"
@@ -287,11 +332,12 @@ resource "aws_instance" "questdb_web" {
 resource "aws_instance" "questdb_ilp" {
   ami           = data.aws_ami.questdb.id
   instance_type = "t2.micro"
-  subnet_id     = aws_subnet.private.id
+  subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
     aws_security_group.questdb.id
   ]
-  private_ip = "10.0.1.22"
+  private_ip = "10.0.2.22"
+  key_name   = "benchamr_key"
   tags = {
     "Name"      = "22 - sut - questdb ilp"
     "project"   = "cloud benchmark"
@@ -303,11 +349,12 @@ resource "aws_instance" "questdb_ilp" {
 resource "aws_instance" "mongodb" {
   ami           = data.aws_ami.mongo.id
   instance_type = "t2.micro"
-  subnet_id     = aws_subnet.private.id
+  subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
     aws_security_group.mongodb.id
   ]
-  private_ip = "10.0.1.23"
+  private_ip = "10.0.2.23"
+  key_name   = "benchamr_key"
   tags = {
     "Name"      = "23 - sut - mongodb"
     "project"   = "cloud benchmark"
@@ -317,13 +364,15 @@ resource "aws_instance" "mongodb" {
 
 # ec2 - agent questdb postgres
 resource "aws_instance" "agent_questdb_pg" {
-  ami           = "ami-0a261c0e5f51090b1"
+  count         = 1
+  ami           = data.aws_ami.agent.id
   instance_type = "t2.micro"
-  subnet_id     = aws_subnet.private.id
+  subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
     aws_security_group.agent.id
   ]
-  private_ip = "10.0.1.30"
+  private_ip = "10.0.2.30"
+  key_name   = "benchamr_key"
   tags = {
     "Name"      = "30 - agent - questdb - postgres"
     "project"   = "cloud benchmark"
@@ -333,13 +382,15 @@ resource "aws_instance" "agent_questdb_pg" {
 
 # ec2 - agent questdb web
 resource "aws_instance" "agent_questdb_web" {
-  ami           = "ami-0a261c0e5f51090b1"
+  count         = 1
+  ami           = data.aws_ami.agent.id
   instance_type = "t2.micro"
-  subnet_id     = aws_subnet.private.id
+  subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
     aws_security_group.agent.id
   ]
-  private_ip = "10.0.1.31"
+  private_ip = "10.0.2.31"
+  key_name   = "benchamr_key"
   tags = {
     "Name"      = "31 - agent - questdb - web"
     "project"   = "cloud benchmark"
@@ -349,13 +400,15 @@ resource "aws_instance" "agent_questdb_web" {
 
 # ec2 - agent questdb ilp
 resource "aws_instance" "agent_questdb_ilp" {
-  ami           = "ami-0a261c0e5f51090b1"
+  count         = 1
+  ami           = data.aws_ami.agent.id
   instance_type = "t2.micro"
-  subnet_id     = aws_subnet.private.id
+  subnet_id     = aws_subnet.publlic.id
   vpc_security_group_ids = [
     aws_security_group.agent.id
   ]
-  private_ip = "10.0.1.32"
+  private_ip = "10.0.2.32"
+  key_name   = "benchamr_key"
   tags = {
     "Name"      = "32 - agent - questdb - ilp"
     "project"   = "cloud benchmark"
@@ -365,13 +418,15 @@ resource "aws_instance" "agent_questdb_ilp" {
 
 # ec2 - agent mongo
 resource "aws_instance" "agent_mongo" {
-  ami           = "ami-0a261c0e5f51090b1"
+  count         = 1
+  ami           = data.aws_ami.agent.id
   instance_type = "t2.micro"
-  subnet_id     = aws_subnet.private.id
+  subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
     aws_security_group.agent.id
   ]
-  private_ip = "10.0.1.33"
+  private_ip = "10.0.2.33"
+  key_name   = "benchamr_key"
   tags = {
     "Name"      = "33 - agent - mongo"
     "project"   = "cloud benchmark"
@@ -381,13 +436,14 @@ resource "aws_instance" "agent_mongo" {
 
 # ec2 - control
 resource "aws_instance" "control" {
-  ami           = "ami-0a261c0e5f51090b1"
+  ami           = data.aws_ami.control.id
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
     aws_security_group.control.id
   ]
   private_ip = "10.0.2.10"
+  key_name   = "benchamr_key"
   tags = {
     "Name"      = "10 - control"
     "project"   = "cloud benchmark"
