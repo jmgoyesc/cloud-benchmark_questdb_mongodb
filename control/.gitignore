@@ -153,6 +153,7 @@ Temporary Items
 **/build/
 !src/**/build/
 bin
+!build/libs/control-1.0.0.jar
 
 # Ignore Gradle GUI config
 gradle-app.setting
