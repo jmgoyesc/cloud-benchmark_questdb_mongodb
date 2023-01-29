@@ -4,6 +4,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+!build/libs/agent-questdb-rest-1.0.0.jar
 
 ### STS ###
 .apt_generated
