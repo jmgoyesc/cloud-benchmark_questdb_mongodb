@@ -150,7 +150,7 @@ Temporary Items
 
 ### Gradle ###
 .gradle
-**/build/
+**/build/*
 !src/**/build/
 bin
 !build/libs/control-1.0.0.jar
