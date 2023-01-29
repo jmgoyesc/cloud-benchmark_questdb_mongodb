@@ -296,7 +296,7 @@ data "aws_ami" "control" {
 
 # ec2 - questdb postgres
 resource "aws_instance" "questdb_pg" {
-  ami           = data.aws_ami.questdb.id
+  ami                    = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
@@ -304,6 +304,32 @@ resource "aws_instance" "questdb_pg" {
   ]
   private_ip = "10.0.2.20"
   key_name   = "benchamr_key"
+
+  user_data = <<EOF
+  #!/bin/bash
+  curl -LJ https://github.com/questdb/questdb/releases/download/6.6.1/questdb-6.6.1-rt-linux-amd64.tar.gz -o /home/ec2-user/questdb-6.6.1-rt-linux-amd64.tar.gz
+  tar -xvf /home/ec2-user/questdb-6.6.1-rt-linux-amd64.tar.gz -C /home/ec2-user/
+
+  sudo echo "[Unit]" >> /lib/systemd/system/questdb.service
+  sudo echo "Description=QuestDB Service" >> /lib/systemd/system/questdb.service
+  sudo echo "After=multi-user.target" >> /lib/systemd/system/questdb.service
+  sudo echo "" >> /lib/systemd/system/questdb.service
+  sudo echo "[Service]" >> /lib/systemd/system/questdb.service
+  sudo echo "Type=idle" >> /lib/systemd/system/questdb.service
+  sudo echo "ExecStart=/home/ec2-user/questdb-6.6.1-rt-linux-amd64/bin/questdb.sh start" >> /lib/systemd/system/questdb.service
+  sudo echo "Restart=on-failure" >> /lib/systemd/system/questdb.service
+  sudo echo "" >> /lib/systemd/system/questdb.service
+  sudo echo "[Install]" >> /lib/systemd/system/questdb.service
+  sudo echo "WantedBy=multi-user.target" >> /lib/systemd/system/questdb.service
+
+  sudo chmod 644 /lib/systemd/system/questdb.service
+
+  sudo systemctl daemon-reload
+  sudo systemctl start questdb.service
+  sudo systemctl enable questdb.service
+
+  EOF
+
   tags = {
     "Name"      = "20 - sut - questdb postgres"
     "project"   = "cloud benchmark"
@@ -313,7 +339,7 @@ resource "aws_instance" "questdb_pg" {
 
 # ec2 - questdb web
 resource "aws_instance" "questdb_web" {
-  ami           = data.aws_ami.questdb.id
+  ami                    = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
@@ -321,6 +347,32 @@ resource "aws_instance" "questdb_web" {
   ]
   private_ip = "10.0.2.21"
   key_name   = "benchamr_key"
+
+  user_data = <<EOF
+  #!/bin/bash
+  curl -LJ https://github.com/questdb/questdb/releases/download/6.6.1/questdb-6.6.1-rt-linux-amd64.tar.gz -o /home/ec2-user/questdb-6.6.1-rt-linux-amd64.tar.gz
+  tar -xvf /home/ec2-user/questdb-6.6.1-rt-linux-amd64.tar.gz -C /home/ec2-user/
+
+  sudo echo "[Unit]" >> /lib/systemd/system/questdb.service
+  sudo echo "Description=QuestDB Service" >> /lib/systemd/system/questdb.service
+  sudo echo "After=multi-user.target" >> /lib/systemd/system/questdb.service
+  sudo echo "" >> /lib/systemd/system/questdb.service
+  sudo echo "[Service]" >> /lib/systemd/system/questdb.service
+  sudo echo "Type=idle" >> /lib/systemd/system/questdb.service
+  sudo echo "ExecStart=/home/ec2-user/questdb-6.6.1-rt-linux-amd64/bin/questdb.sh start" >> /lib/systemd/system/questdb.service
+  sudo echo "Restart=on-failure" >> /lib/systemd/system/questdb.service
+  sudo echo "" >> /lib/systemd/system/questdb.service
+  sudo echo "[Install]" >> /lib/systemd/system/questdb.service
+  sudo echo "WantedBy=multi-user.target" >> /lib/systemd/system/questdb.service
+
+  sudo chmod 644 /lib/systemd/system/questdb.service
+
+  sudo systemctl daemon-reload
+  sudo systemctl start questdb.service
+  sudo systemctl enable questdb.service
+
+  EOF
+
   tags = {
     "Name"      = "21 - sut - questdb web"
     "project"   = "cloud benchmark"
@@ -330,7 +382,7 @@ resource "aws_instance" "questdb_web" {
 
 # ec2 - questdb ILP
 resource "aws_instance" "questdb_ilp" {
-  ami           = data.aws_ami.questdb.id
+  ami                    = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
@@ -338,6 +390,32 @@ resource "aws_instance" "questdb_ilp" {
   ]
   private_ip = "10.0.2.22"
   key_name   = "benchamr_key"
+
+  user_data = <<EOF
+  #!/bin/bash
+  curl -LJ https://github.com/questdb/questdb/releases/download/6.6.1/questdb-6.6.1-rt-linux-amd64.tar.gz -o /home/ec2-user/questdb-6.6.1-rt-linux-amd64.tar.gz
+  tar -xvf /home/ec2-user/questdb-6.6.1-rt-linux-amd64.tar.gz -C /home/ec2-user/
+
+  sudo echo "[Unit]" >> /lib/systemd/system/questdb.service
+  sudo echo "Description=QuestDB Service" >> /lib/systemd/system/questdb.service
+  sudo echo "After=multi-user.target" >> /lib/systemd/system/questdb.service
+  sudo echo "" >> /lib/systemd/system/questdb.service
+  sudo echo "[Service]" >> /lib/systemd/system/questdb.service
+  sudo echo "Type=idle" >> /lib/systemd/system/questdb.service
+  sudo echo "ExecStart=/home/ec2-user/questdb-6.6.1-rt-linux-amd64/bin/questdb.sh start" >> /lib/systemd/system/questdb.service
+  sudo echo "Restart=on-failure" >> /lib/systemd/system/questdb.service
+  sudo echo "" >> /lib/systemd/system/questdb.service
+  sudo echo "[Install]" >> /lib/systemd/system/questdb.service
+  sudo echo "WantedBy=multi-user.target" >> /lib/systemd/system/questdb.service
+
+  sudo chmod 644 /lib/systemd/system/questdb.service
+
+  sudo systemctl daemon-reload
+  sudo systemctl start questdb.service
+  sudo systemctl enable questdb.service
+
+  EOF
+
   tags = {
     "Name"      = "22 - sut - questdb ilp"
     "project"   = "cloud benchmark"
@@ -347,7 +425,7 @@ resource "aws_instance" "questdb_ilp" {
 
 # ec2 - mongodb
 resource "aws_instance" "mongodb" {
-  ami           = data.aws_ami.mongo.id
+  ami                    = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
@@ -355,6 +433,20 @@ resource "aws_instance" "mongodb" {
   ]
   private_ip = "10.0.2.23"
   key_name   = "benchamr_key"
+  user_data = <<EOF
+  #!/bin/bash
+  sudo yum -y install https://repo.mongodb.org/yum/amazon/2/mongodb-org/6.0/x86_64/RPMS/mongodb-org-server-6.0.3-1.amzn2.x86_64.rpm
+  sudo yum -y install https://repo.mongodb.org/yum/amazon/2/mongodb-org/6.0/x86_64/RPMS/mongodb-mongosh-1.6.2.x86_64.rpm
+
+  sudo sed -i 's/^.*bindIp: 127.0.0.1/  bindIpAll: true/' /etc/mongod.conf
+
+  sudo systemctl daemon-reload
+  sudo systemctl start mongod
+  sudo systemctl status mongod
+  sudo systemctl enable mongod
+
+  EOF
+
   tags = {
     "Name"      = "23 - sut - mongodb"
     "project"   = "cloud benchmark"
@@ -365,7 +457,7 @@ resource "aws_instance" "mongodb" {
 # ec2 - agent questdb postgres
 resource "aws_instance" "agent_questdb_pg" {
   count         = 1
-  ami           = data.aws_ami.agent.id
+  ami                    = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
@@ -373,6 +465,34 @@ resource "aws_instance" "agent_questdb_pg" {
   ]
   private_ip = "10.0.2.30"
   key_name   = "benchamr_key"
+
+  user_data = <<EOF
+  #!/bin/bash
+
+  sudo rpm --import https://yum.corretto.aws/corretto.key 
+  sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
+  sudo yum install -y java-19-amazon-corretto-devel
+
+  sudo echo "[Unit]" >> /lib/systemd/system/agent.service
+  sudo echo "Description=CSB - Agent Service" >> /lib/systemd/system/agent.service
+  sudo echo "After=multi-user.target" >> /lib/systemd/system/agent.service
+  sudo echo "" >> /lib/systemd/system/agent.service
+  sudo echo "[Service]" >> /lib/systemd/system/agent.service
+  sudo echo "Type=idle" >> /lib/systemd/system/agent.service
+  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/agent-questdb-rest-1.0.0.jar" >> /lib/systemd/system/agent.service
+  sudo echo "Restart=on-failure" >> /lib/systemd/system/agent.service
+  sudo echo "" >> /lib/systemd/system/agent.service
+  sudo echo "[Install]" >> /lib/systemd/system/agent.service
+  sudo echo "WantedBy=multi-user.target" >> /lib/systemd/system/agent.service
+
+  sudo chmod 644 /lib/systemd/system/agent.service
+
+  # sudo systemctl daemon-reload
+  # sudo systemctl start agent.service
+  # sudo systemctl enable agent.service
+
+  EOF
+
   tags = {
     "Name"      = "30 - agent - questdb - postgres"
     "project"   = "cloud benchmark"
@@ -419,15 +539,14 @@ resource "aws_instance" "agent_questdb_ilp" {
 # ec2 - agent mongo
 resource "aws_instance" "agent_mongo" {
   count         = 1
-  ami           = data.aws_ami.agent.id
+  ami                    = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
     aws_security_group.agent.id
   ]
   private_ip = "10.0.2.33"
-  key_name   = "benchamr_key"
-  tags = {
+  key_name   = "benchamr_key"  tags = {
     "Name"      = "33 - agent - mongo"
     "project"   = "cloud benchmark"
     "worskapce" = "default"
@@ -436,7 +555,7 @@ resource "aws_instance" "agent_mongo" {
 
 # ec2 - control
 resource "aws_instance" "control" {
-  ami           = data.aws_ami.control.id
+  ami           = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
@@ -444,6 +563,33 @@ resource "aws_instance" "control" {
   ]
   private_ip = "10.0.2.10"
   key_name   = "benchamr_key"
+
+  user_data = <<EOF
+  #!/bin/bash
+
+  sudo rpm --import https://yum.corretto.aws/corretto.key 
+  sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
+  sudo yum install -y java-19-amazon-corretto-devel
+
+  sudo echo "[Unit]" >> /lib/systemd/system/control.service
+  sudo echo "Description=CSB - Control Service" >> /lib/systemd/system/control.service
+  sudo echo "After=multi-user.target" >> /lib/systemd/system/control.service
+  sudo echo "" >> /lib/systemd/system/control.service
+  sudo echo "[Service]" >> /lib/systemd/system/control.service
+  sudo echo "Type=idle" >> /lib/systemd/system/control.service
+  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/control-1.0.0.jar" >> /lib/systemd/system/control.service
+  sudo echo "Restart=on-failure" >> /lib/systemd/system/control.service
+  sudo echo "" >> /lib/systemd/system/control.service
+  sudo echo "[Install]" >> /lib/systemd/system/control.service
+  sudo echo "WantedBy=multi-user.target" >> /lib/systemd/system/control.service
+
+  sudo chmod 644 /lib/systemd/system/control.service
+
+  sudo systemctl daemon-reload
+  sudo systemctl start control.service
+  sudo systemctl enable control.service
+
+  EOF
   tags = {
     "Name"      = "10 - control"
     "project"   = "cloud benchmark"
