@@ -109,16 +109,37 @@ resource "aws_route_table_association" "public_association" {
 #   }
 # }
 
-# security group ssh
-resource "aws_security_group" "ssh" {
-  name        = "ssh"
-  description = "SSH access"
+# security group external
+resource "aws_security_group" "external" {
+  name        = "external"
+  description = "external access"
   vpc_id      = aws_vpc.vpc.id
 
   ingress {
     description = "ssh"
     from_port   = 22
     to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description = "http-8080"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description = "mongo"
+    from_port   = 27017
+    to_port     = 27017
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description = "questdb"
+    from_port   = 9000
+    to_port     = 9000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -132,11 +153,12 @@ resource "aws_security_group" "ssh" {
   }
 
   tags = {
-    "Name"      = "ssh access"
+    "Name"      = "external access"
     "project"   = "cloud benchmark"
     "worskapce" = "default"
   }
 }
+
 
 # security group control
 resource "aws_security_group" "control" {
@@ -294,16 +316,18 @@ data "aws_ami" "control" {
   owners      = ["self"]
 }
 
-# ec2 - questdb postgres
+# ec2 - questdb postgres - 20
 resource "aws_instance" "questdb_pg" {
-  ami                    = "ami-0a261c0e5f51090b1"
+  count         = 1
+  ami           = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
-    aws_security_group.questdb.id
+    aws_security_group.questdb.id,
+    aws_security_group.external.id
   ]
   private_ip = "10.0.2.20"
-  key_name   = "benchamr_key"
+  key_name   = "cbs_key"
 
   user_data = <<EOF
   #!/bin/bash
@@ -315,9 +339,11 @@ resource "aws_instance" "questdb_pg" {
   sudo echo "After=multi-user.target" >> /lib/systemd/system/questdb.service
   sudo echo "" >> /lib/systemd/system/questdb.service
   sudo echo "[Service]" >> /lib/systemd/system/questdb.service
-  sudo echo "Type=idle" >> /lib/systemd/system/questdb.service
-  sudo echo "ExecStart=/home/ec2-user/questdb-6.6.1-rt-linux-amd64/bin/questdb.sh start" >> /lib/systemd/system/questdb.service
-  sudo echo "Restart=on-failure" >> /lib/systemd/system/questdb.service
+  sudo echo "Type=forking" >> /lib/systemd/system/questdb.service
+  sudo echo "Restart=always" >> /lib/systemd/system/questdb.service
+  sudo echo "RestartSec=2" >> /lib/systemd/system/questdb.service
+  sudo echo "ExecStart=/home/ec2-user/questdb-6.6.1-rt-linux-amd64/bin/questdb.sh start -d home/ec2-user/.questdb" >> /lib/systemd/system/questdb.service
+  sudo echo "ExecStop=/home/ec2-user/questdb-6.6.1-rt-linux-amd64/bin/questdb.sh stop" >> /lib/systemd/system/questdb.service
   sudo echo "" >> /lib/systemd/system/questdb.service
   sudo echo "[Install]" >> /lib/systemd/system/questdb.service
   sudo echo "WantedBy=multi-user.target" >> /lib/systemd/system/questdb.service
@@ -337,16 +363,18 @@ resource "aws_instance" "questdb_pg" {
   }
 }
 
-# ec2 - questdb web
+# ec2 - questdb web - 21
 resource "aws_instance" "questdb_web" {
-  ami                    = "ami-0a261c0e5f51090b1"
+  count         = 1
+  ami           = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
-    aws_security_group.questdb.id
+    aws_security_group.questdb.id,
+    aws_security_group.external.id
   ]
   private_ip = "10.0.2.21"
-  key_name   = "benchamr_key"
+  key_name   = "cbs_key"
 
   user_data = <<EOF
   #!/bin/bash
@@ -358,9 +386,11 @@ resource "aws_instance" "questdb_web" {
   sudo echo "After=multi-user.target" >> /lib/systemd/system/questdb.service
   sudo echo "" >> /lib/systemd/system/questdb.service
   sudo echo "[Service]" >> /lib/systemd/system/questdb.service
-  sudo echo "Type=idle" >> /lib/systemd/system/questdb.service
-  sudo echo "ExecStart=/home/ec2-user/questdb-6.6.1-rt-linux-amd64/bin/questdb.sh start" >> /lib/systemd/system/questdb.service
-  sudo echo "Restart=on-failure" >> /lib/systemd/system/questdb.service
+  sudo echo "Type=forking" >> /lib/systemd/system/questdb.service
+  sudo echo "Restart=always" >> /lib/systemd/system/questdb.service
+  sudo echo "RestartSec=2" >> /lib/systemd/system/questdb.service
+  sudo echo "ExecStart=/home/ec2-user/questdb-6.6.1-rt-linux-amd64/bin/questdb.sh start -d home/ec2-user/.questdb" >> /lib/systemd/system/questdb.service
+  sudo echo "ExecStop=/home/ec2-user/questdb-6.6.1-rt-linux-amd64/bin/questdb.sh stop" >> /lib/systemd/system/questdb.service
   sudo echo "" >> /lib/systemd/system/questdb.service
   sudo echo "[Install]" >> /lib/systemd/system/questdb.service
   sudo echo "WantedBy=multi-user.target" >> /lib/systemd/system/questdb.service
@@ -382,14 +412,16 @@ resource "aws_instance" "questdb_web" {
 
 # ec2 - questdb ILP
 resource "aws_instance" "questdb_ilp" {
-  ami                    = "ami-0a261c0e5f51090b1"
+  count         = 1
+  ami           = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
-    aws_security_group.questdb.id
+    aws_security_group.questdb.id,
+    aws_security_group.external.id
   ]
   private_ip = "10.0.2.22"
-  key_name   = "benchamr_key"
+  key_name   = "cbs_key"
 
   user_data = <<EOF
   #!/bin/bash
@@ -401,9 +433,11 @@ resource "aws_instance" "questdb_ilp" {
   sudo echo "After=multi-user.target" >> /lib/systemd/system/questdb.service
   sudo echo "" >> /lib/systemd/system/questdb.service
   sudo echo "[Service]" >> /lib/systemd/system/questdb.service
-  sudo echo "Type=idle" >> /lib/systemd/system/questdb.service
-  sudo echo "ExecStart=/home/ec2-user/questdb-6.6.1-rt-linux-amd64/bin/questdb.sh start" >> /lib/systemd/system/questdb.service
-  sudo echo "Restart=on-failure" >> /lib/systemd/system/questdb.service
+  sudo echo "Type=forking" >> /lib/systemd/system/questdb.service
+  sudo echo "Restart=always" >> /lib/systemd/system/questdb.service
+  sudo echo "RestartSec=2" >> /lib/systemd/system/questdb.service
+  sudo echo "ExecStart=/home/ec2-user/questdb-6.6.1-rt-linux-amd64/bin/questdb.sh start -d home/ec2-user/.questdb" >> /lib/systemd/system/questdb.service
+  sudo echo "ExecStop=/home/ec2-user/questdb-6.6.1-rt-linux-amd64/bin/questdb.sh stop" >> /lib/systemd/system/questdb.service
   sudo echo "" >> /lib/systemd/system/questdb.service
   sudo echo "[Install]" >> /lib/systemd/system/questdb.service
   sudo echo "WantedBy=multi-user.target" >> /lib/systemd/system/questdb.service
@@ -425,15 +459,17 @@ resource "aws_instance" "questdb_ilp" {
 
 # ec2 - mongodb
 resource "aws_instance" "mongodb" {
-  ami                    = "ami-0a261c0e5f51090b1"
+  count         = 1
+  ami           = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
-    aws_security_group.mongodb.id
+    aws_security_group.mongodb.id,
+    aws_security_group.external.id
   ]
   private_ip = "10.0.2.23"
-  key_name   = "benchamr_key"
-  user_data = <<EOF
+  key_name   = "cbs_key"
+  user_data  = <<EOF
   #!/bin/bash
   sudo yum -y install https://repo.mongodb.org/yum/amazon/2/mongodb-org/6.0/x86_64/RPMS/mongodb-org-server-6.0.3-1.amzn2.x86_64.rpm
   sudo yum -y install https://repo.mongodb.org/yum/amazon/2/mongodb-org/6.0/x86_64/RPMS/mongodb-mongosh-1.6.2.x86_64.rpm
@@ -457,14 +493,15 @@ resource "aws_instance" "mongodb" {
 # ec2 - agent questdb postgres
 resource "aws_instance" "agent_questdb_pg" {
   count         = 1
-  ami                    = "ami-0a261c0e5f51090b1"
+  ami           = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
-    aws_security_group.agent.id
+    aws_security_group.agent.id,
+    aws_security_group.external.id
   ]
   private_ip = "10.0.2.30"
-  key_name   = "benchamr_key"
+  key_name   = "cbs_key"
 
   user_data = <<EOF
   #!/bin/bash
@@ -473,13 +510,15 @@ resource "aws_instance" "agent_questdb_pg" {
   sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
   sudo yum install -y java-19-amazon-corretto-devel
 
+  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent-questdb-rest/build/libs/agent-questdb-rest-1.0.0.jar -o /home/ec2-user/agent-questdb-rest-1.0.0.jar
+
   sudo echo "[Unit]" >> /lib/systemd/system/agent.service
   sudo echo "Description=CSB - Agent Service" >> /lib/systemd/system/agent.service
   sudo echo "After=multi-user.target" >> /lib/systemd/system/agent.service
   sudo echo "" >> /lib/systemd/system/agent.service
   sudo echo "[Service]" >> /lib/systemd/system/agent.service
   sudo echo "Type=idle" >> /lib/systemd/system/agent.service
-  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/agent-questdb-rest-1.0.0.jar" >> /lib/systemd/system/agent.service
+  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/agent-questdb-rest-1.0.0.jar --spring.profiles.active=ec2" >> /lib/systemd/system/agent.service
   sudo echo "Restart=on-failure" >> /lib/systemd/system/agent.service
   sudo echo "" >> /lib/systemd/system/agent.service
   sudo echo "[Install]" >> /lib/systemd/system/agent.service
@@ -487,9 +526,9 @@ resource "aws_instance" "agent_questdb_pg" {
 
   sudo chmod 644 /lib/systemd/system/agent.service
 
-  # sudo systemctl daemon-reload
-  # sudo systemctl start agent.service
-  # sudo systemctl enable agent.service
+  sudo systemctl daemon-reload
+  sudo systemctl start agent.service
+  sudo systemctl enable agent.service
 
   EOF
 
@@ -502,15 +541,45 @@ resource "aws_instance" "agent_questdb_pg" {
 
 # ec2 - agent questdb web
 resource "aws_instance" "agent_questdb_web" {
-  count         = 1
-  ami           = data.aws_ami.agent.id
+  count         = 0
+  ami           = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
-    aws_security_group.agent.id
+    aws_security_group.agent.id,
+    aws_security_group.external.id
   ]
   private_ip = "10.0.2.31"
-  key_name   = "benchamr_key"
+  key_name   = "cbs_key"
+
+  user_data = <<EOF
+  #!/bin/bash
+
+  sudo rpm --import https://yum.corretto.aws/corretto.key 
+  sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
+  sudo yum install -y java-19-amazon-corretto-devel
+
+  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent-questdb-rest/build/libs/agent-questdb-rest-1.0.0.jar -o /home/ec2-user/agent-questdb-rest-1.0.0.jar
+
+  sudo echo "[Unit]" >> /lib/systemd/system/agent.service
+  sudo echo "Description=CSB - Agent Service" >> /lib/systemd/system/agent.service
+  sudo echo "After=multi-user.target" >> /lib/systemd/system/agent.service
+  sudo echo "" >> /lib/systemd/system/agent.service
+  sudo echo "[Service]" >> /lib/systemd/system/agent.service
+  sudo echo "Type=idle" >> /lib/systemd/system/agent.service
+  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/agent-questdb-rest-1.0.0.jar --spring.profiles.active=ec2" >> /lib/systemd/system/agent.service
+  sudo echo "Restart=on-failure" >> /lib/systemd/system/agent.service
+  sudo echo "" >> /lib/systemd/system/agent.service
+  sudo echo "[Install]" >> /lib/systemd/system/agent.service
+  sudo echo "WantedBy=multi-user.target" >> /lib/systemd/system/agent.service
+
+  sudo chmod 644 /lib/systemd/system/agent.service
+
+  sudo systemctl daemon-reload
+  sudo systemctl start agent.service
+  sudo systemctl enable agent.service
+
+  EOF
   tags = {
     "Name"      = "31 - agent - questdb - web"
     "project"   = "cloud benchmark"
@@ -520,15 +589,45 @@ resource "aws_instance" "agent_questdb_web" {
 
 # ec2 - agent questdb ilp
 resource "aws_instance" "agent_questdb_ilp" {
-  count         = 1
-  ami           = data.aws_ami.agent.id
+  count         = 0
+  ami           = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
-  subnet_id     = aws_subnet.publlic.id
+  subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
-    aws_security_group.agent.id
+    aws_security_group.agent.id,
+    aws_security_group.external.id
   ]
   private_ip = "10.0.2.32"
-  key_name   = "benchamr_key"
+  key_name   = "cbs_key"
+
+  user_data = <<EOF
+  #!/bin/bash
+
+  sudo rpm --import https://yum.corretto.aws/corretto.key 
+  sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
+  sudo yum install -y java-19-amazon-corretto-devel
+
+  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent-questdb-rest/build/libs/agent-questdb-rest-1.0.0.jar -o /home/ec2-user/agent-questdb-rest-1.0.0.jar
+
+  sudo echo "[Unit]" >> /lib/systemd/system/agent.service
+  sudo echo "Description=CSB - Agent Service" >> /lib/systemd/system/agent.service
+  sudo echo "After=multi-user.target" >> /lib/systemd/system/agent.service
+  sudo echo "" >> /lib/systemd/system/agent.service
+  sudo echo "[Service]" >> /lib/systemd/system/agent.service
+  sudo echo "Type=idle" >> /lib/systemd/system/agent.service
+  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/agent-questdb-rest-1.0.0.jar --spring.profiles.active=ec2" >> /lib/systemd/system/agent.service
+  sudo echo "Restart=on-failure" >> /lib/systemd/system/agent.service
+  sudo echo "" >> /lib/systemd/system/agent.service
+  sudo echo "[Install]" >> /lib/systemd/system/agent.service
+  sudo echo "WantedBy=multi-user.target" >> /lib/systemd/system/agent.service
+
+  sudo chmod 644 /lib/systemd/system/agent.service
+
+  sudo systemctl daemon-reload
+  sudo systemctl start agent.service
+  sudo systemctl enable agent.service
+
+  EOF
   tags = {
     "Name"      = "32 - agent - questdb - ilp"
     "project"   = "cloud benchmark"
@@ -538,31 +637,16 @@ resource "aws_instance" "agent_questdb_ilp" {
 
 # ec2 - agent mongo
 resource "aws_instance" "agent_mongo" {
-  count         = 1
-  ami                    = "ami-0a261c0e5f51090b1"
-  instance_type = "t2.micro"
-  subnet_id     = aws_subnet.public.id
-  vpc_security_group_ids = [
-    aws_security_group.agent.id
-  ]
-  private_ip = "10.0.2.33"
-  key_name   = "benchamr_key"  tags = {
-    "Name"      = "33 - agent - mongo"
-    "project"   = "cloud benchmark"
-    "worskapce" = "default"
-  }
-}
-
-# ec2 - control
-resource "aws_instance" "control" {
+  count         = 0
   ami           = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [
-    aws_security_group.control.id
+    aws_security_group.agent.id,
+    aws_security_group.external.id
   ]
-  private_ip = "10.0.2.10"
-  key_name   = "benchamr_key"
+  private_ip = "10.0.2.33"
+  key_name   = "cbs_key"
 
   user_data = <<EOF
   #!/bin/bash
@@ -571,13 +655,63 @@ resource "aws_instance" "control" {
   sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
   sudo yum install -y java-19-amazon-corretto-devel
 
+  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent-questdb-rest/build/libs/agent-questdb-rest-1.0.0.jar -o /home/ec2-user/agent-questdb-rest-1.0.0.jar
+
+  sudo echo "[Unit]" >> /lib/systemd/system/agent.service
+  sudo echo "Description=CSB - Agent Service" >> /lib/systemd/system/agent.service
+  sudo echo "After=multi-user.target" >> /lib/systemd/system/agent.service
+  sudo echo "" >> /lib/systemd/system/agent.service
+  sudo echo "[Service]" >> /lib/systemd/system/agent.service
+  sudo echo "Type=idle" >> /lib/systemd/system/agent.service
+  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/agent-questdb-rest-1.0.0.jar --spring.profiles.active=ec2" >> /lib/systemd/system/agent.service
+  sudo echo "Restart=on-failure" >> /lib/systemd/system/agent.service
+  sudo echo "" >> /lib/systemd/system/agent.service
+  sudo echo "[Install]" >> /lib/systemd/system/agent.service
+  sudo echo "WantedBy=multi-user.target" >> /lib/systemd/system/agent.service
+
+  sudo chmod 644 /lib/systemd/system/agent.service
+
+  sudo systemctl daemon-reload
+  sudo systemctl start agent.service
+  sudo systemctl enable agent.service
+
+  EOF
+  tags = {
+    "Name"      = "33 - agent - mongo"
+    "project"   = "cloud benchmark"
+    "worskapce" = "default"
+  }
+}
+
+# ec2 - control
+resource "aws_instance" "control" {
+  count         = 1
+  ami           = "ami-0a261c0e5f51090b1"
+  instance_type = "t2.micro"
+  subnet_id     = aws_subnet.public.id
+  vpc_security_group_ids = [
+    aws_security_group.control.id,
+    aws_security_group.external.id
+  ]
+  private_ip = "10.0.2.10"
+  key_name   = "cbs_key"
+
+  user_data = <<EOF
+  #!/bin/bash
+
+  sudo rpm --import https://yum.corretto.aws/corretto.key 
+  sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
+  sudo yum install -y java-19-amazon-corretto-devel
+
+  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/control/build/libs/control-1.0.0.jar -o /home/ec2-user/control-1.0.0.jar
+
   sudo echo "[Unit]" >> /lib/systemd/system/control.service
   sudo echo "Description=CSB - Control Service" >> /lib/systemd/system/control.service
   sudo echo "After=multi-user.target" >> /lib/systemd/system/control.service
   sudo echo "" >> /lib/systemd/system/control.service
   sudo echo "[Service]" >> /lib/systemd/system/control.service
   sudo echo "Type=idle" >> /lib/systemd/system/control.service
-  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/control-1.0.0.jar" >> /lib/systemd/system/control.service
+  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/control-1.0.0.jar --spring.profiles.active=ec2" >> /lib/systemd/system/control.service
   sudo echo "Restart=on-failure" >> /lib/systemd/system/control.service
   sudo echo "" >> /lib/systemd/system/control.service
   sudo echo "[Install]" >> /lib/systemd/system/control.service
