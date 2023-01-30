@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.jmgoyesc.agentquestdbrest.domain.models.Telemetry;
 import com.github.jmgoyesc.agentquestdbrest.domain.services.ports.QuestdbRestPort;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
  */
 
 @Service
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 class RestPortImpl implements QuestdbRestPort {
 

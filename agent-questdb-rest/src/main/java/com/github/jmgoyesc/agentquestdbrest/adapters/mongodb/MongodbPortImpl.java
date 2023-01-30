@@ -6,9 +6,8 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.BsonDateTime;
-import org.bson.BsonTimestamp;
 import org.bson.Document;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,7 @@ import java.sql.Timestamp;
  */
 
 @Service
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 class MongodbPortImpl implements MongodbPort {
     @Override

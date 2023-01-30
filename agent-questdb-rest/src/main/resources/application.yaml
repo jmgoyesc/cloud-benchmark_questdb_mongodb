@@ -4,3 +4,22 @@ spring:
       path: /agent
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+  main:
+    banner-mode: off
+logging:
+  level:
+    root: fatal
+    com.github.jmgoyesc.agentquestdbrest: info
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+  file:
+    path: "./logs"
+---
+spring:
+  config:
+    activate:
+      on-profile: ec2
+logging:
+  file:
+    path: "/home/ec2-user/logs"

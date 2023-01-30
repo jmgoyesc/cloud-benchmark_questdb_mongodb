@@ -3,7 +3,7 @@ package com.github.jmgoyesc.agentquestdbrest.domain.services;
 import com.github.jmgoyesc.agentquestdbrest.domain.models.Telemetry;
 import com.github.jmgoyesc.agentquestdbrest.domain.services.ports.DatabasePort;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.ZonedDateTime;
 import java.util.Random;
@@ -14,7 +14,7 @@ import java.util.random.RandomGenerator;
  */
 
 
-@Log4j2
+@Slf4j
 class LoadGenerator implements Runnable {
 
     private final DatabasePort port;

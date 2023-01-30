@@ -3,7 +3,7 @@ package com.github.jmgoyesc.agentquestdbrest.adapters.questdb;
 import com.github.jmgoyesc.agentquestdbrest.domain.models.Telemetry;
 import com.github.jmgoyesc.agentquestdbrest.domain.services.ports.QuestdbPgPort;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
@@ -18,7 +18,7 @@ import java.sql.Types;
  */
 
 @Service
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 class PgPortImpl implements QuestdbPgPort {
 
