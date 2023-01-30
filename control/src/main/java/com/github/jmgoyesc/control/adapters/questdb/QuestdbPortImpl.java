@@ -3,7 +3,7 @@ package com.github.jmgoyesc.control.adapters.questdb;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.jmgoyesc.control.domain.models.ports.QuestdbPort;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 class QuestdbPortImpl implements QuestdbPort {
 
     public static final String SQL_CREATE = """

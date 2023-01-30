@@ -4,7 +4,7 @@ import com.github.jmgoyesc.control.domain.models.ports.MongodbPort;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 
 @Service
-@Log4j2
+@Slf4j
 class MongodbPortImpl implements MongodbPort {
 
     //TODO: in case that the collection already exists, do not failed, and return success
