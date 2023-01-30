@@ -510,7 +510,7 @@ resource "aws_instance" "agent_questdb_pg" {
   sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
   sudo yum install -y java-19-amazon-corretto-devel
 
-  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent-questdb-rest/build/libs/agent-questdb-rest-1.0.0.jar -o /home/ec2-user/agent-questdb-rest-1.0.0.jar
+  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent-questdb-rest/build/libs/agent-1.0.0.jar -o /home/ec2-user/agent-1.0.0.jar
 
   sudo echo "[Unit]" >> /lib/systemd/system/agent.service
   sudo echo "Description=CSB - Agent Service" >> /lib/systemd/system/agent.service
@@ -518,7 +518,7 @@ resource "aws_instance" "agent_questdb_pg" {
   sudo echo "" >> /lib/systemd/system/agent.service
   sudo echo "[Service]" >> /lib/systemd/system/agent.service
   sudo echo "Type=idle" >> /lib/systemd/system/agent.service
-  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/agent-questdb-rest-1.0.0.jar --spring.profiles.active=ec2" >> /lib/systemd/system/agent.service
+  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/agent-1.0.0.jar --spring.profiles.active=ec2" >> /lib/systemd/system/agent.service
   sudo echo "Restart=on-failure" >> /lib/systemd/system/agent.service
   sudo echo "" >> /lib/systemd/system/agent.service
   sudo echo "[Install]" >> /lib/systemd/system/agent.service
@@ -559,7 +559,7 @@ resource "aws_instance" "agent_questdb_web" {
   sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
   sudo yum install -y java-19-amazon-corretto-devel
 
-  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent-questdb-rest/build/libs/agent-questdb-rest-1.0.0.jar -o /home/ec2-user/agent-questdb-rest-1.0.0.jar
+  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent-questdb-rest/build/libs/agent-1.0.0.jar -o /home/ec2-user/agent-1.0.0.jar
 
   sudo echo "[Unit]" >> /lib/systemd/system/agent.service
   sudo echo "Description=CSB - Agent Service" >> /lib/systemd/system/agent.service
@@ -567,7 +567,7 @@ resource "aws_instance" "agent_questdb_web" {
   sudo echo "" >> /lib/systemd/system/agent.service
   sudo echo "[Service]" >> /lib/systemd/system/agent.service
   sudo echo "Type=idle" >> /lib/systemd/system/agent.service
-  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/agent-questdb-rest-1.0.0.jar --spring.profiles.active=ec2" >> /lib/systemd/system/agent.service
+  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/agent-1.0.0.jar --spring.profiles.active=ec2" >> /lib/systemd/system/agent.service
   sudo echo "Restart=on-failure" >> /lib/systemd/system/agent.service
   sudo echo "" >> /lib/systemd/system/agent.service
   sudo echo "[Install]" >> /lib/systemd/system/agent.service
@@ -607,7 +607,7 @@ resource "aws_instance" "agent_questdb_ilp" {
   sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
   sudo yum install -y java-19-amazon-corretto-devel
 
-  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent-questdb-rest/build/libs/agent-questdb-rest-1.0.0.jar -o /home/ec2-user/agent-questdb-rest-1.0.0.jar
+  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent-questdb-rest/build/libs/agent-1.0.0.jar -o /home/ec2-user/agent-1.0.0.jar
 
   sudo echo "[Unit]" >> /lib/systemd/system/agent.service
   sudo echo "Description=CSB - Agent Service" >> /lib/systemd/system/agent.service
@@ -615,7 +615,7 @@ resource "aws_instance" "agent_questdb_ilp" {
   sudo echo "" >> /lib/systemd/system/agent.service
   sudo echo "[Service]" >> /lib/systemd/system/agent.service
   sudo echo "Type=idle" >> /lib/systemd/system/agent.service
-  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/agent-questdb-rest-1.0.0.jar --spring.profiles.active=ec2" >> /lib/systemd/system/agent.service
+  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/agent-1.0.0.jar --spring.profiles.active=ec2" >> /lib/systemd/system/agent.service
   sudo echo "Restart=on-failure" >> /lib/systemd/system/agent.service
   sudo echo "" >> /lib/systemd/system/agent.service
   sudo echo "[Install]" >> /lib/systemd/system/agent.service
@@ -655,7 +655,7 @@ resource "aws_instance" "agent_mongo" {
   sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
   sudo yum install -y java-19-amazon-corretto-devel
 
-  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent-questdb-rest/build/libs/agent-questdb-rest-1.0.0.jar -o /home/ec2-user/agent-questdb-rest-1.0.0.jar
+  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent-questdb-rest/build/libs/agent-1.0.0.jar -o /home/ec2-user/agent-1.0.0.jar
 
   sudo echo "[Unit]" >> /lib/systemd/system/agent.service
   sudo echo "Description=CSB - Agent Service" >> /lib/systemd/system/agent.service
@@ -663,7 +663,7 @@ resource "aws_instance" "agent_mongo" {
   sudo echo "" >> /lib/systemd/system/agent.service
   sudo echo "[Service]" >> /lib/systemd/system/agent.service
   sudo echo "Type=idle" >> /lib/systemd/system/agent.service
-  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/agent-questdb-rest-1.0.0.jar --spring.profiles.active=ec2" >> /lib/systemd/system/agent.service
+  sudo echo "ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/agent-1.0.0.jar --spring.profiles.active=ec2" >> /lib/systemd/system/agent.service
   sudo echo "Restart=on-failure" >> /lib/systemd/system/agent.service
   sudo echo "" >> /lib/systemd/system/agent.service
   sudo echo "[Install]" >> /lib/systemd/system/agent.service
