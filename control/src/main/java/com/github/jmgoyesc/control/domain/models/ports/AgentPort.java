@@ -1,7 +1,7 @@
 package com.github.jmgoyesc.control.domain.models.ports;
 
-import com.github.jmgoyesc.control.domain.models.Agent;
-import com.github.jmgoyesc.control.domain.models.AgentSignal;
+import com.github.jmgoyesc.control.domain.models.agents.Agent;
+import com.github.jmgoyesc.control.domain.models.agents.AgentSignal;
 
 import java.util.Optional;
 

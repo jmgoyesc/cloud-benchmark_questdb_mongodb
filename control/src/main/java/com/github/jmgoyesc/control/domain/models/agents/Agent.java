@@ -1,4 +1,4 @@
-package com.github.jmgoyesc.control.domain.models;
+package com.github.jmgoyesc.control.domain.models.agents;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

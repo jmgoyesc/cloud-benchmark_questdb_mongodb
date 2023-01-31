@@ -1,7 +1,7 @@
 package com.github.jmgoyesc.control.adapters.web.controller.tables;
 
-import com.github.jmgoyesc.control.domain.models.Database;
-import com.github.jmgoyesc.control.domain.models.DatabaseConnection;
+import com.github.jmgoyesc.control.domain.models.tables.Database;
+import com.github.jmgoyesc.control.domain.models.tables.DatabaseConnection;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;

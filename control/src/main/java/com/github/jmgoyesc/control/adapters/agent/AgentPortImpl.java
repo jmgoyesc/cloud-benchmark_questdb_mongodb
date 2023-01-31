@@ -1,7 +1,7 @@
 package com.github.jmgoyesc.control.adapters.agent;
 
-import com.github.jmgoyesc.control.domain.models.Agent;
-import com.github.jmgoyesc.control.domain.models.AgentSignal;
+import com.github.jmgoyesc.control.domain.models.agents.Agent;
+import com.github.jmgoyesc.control.domain.models.agents.AgentSignal;
 import com.github.jmgoyesc.control.domain.models.ports.AgentPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

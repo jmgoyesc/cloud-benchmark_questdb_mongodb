@@ -1,4 +1,4 @@
-package com.github.jmgoyesc.control.domain.models;
+package com.github.jmgoyesc.control.domain.models.tables;
 
 /**
  * @author Juan Manuel Goyes Coral

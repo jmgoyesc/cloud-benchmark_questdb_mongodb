@@ -1,6 +1,6 @@
 package com.github.jmgoyesc.control.adapters.agent;
 
-import com.github.jmgoyesc.control.domain.models.AgentSignal;
+import com.github.jmgoyesc.control.domain.models.agents.AgentSignal;
 
 /**
  * @author Juan Manuel Goyes Coral

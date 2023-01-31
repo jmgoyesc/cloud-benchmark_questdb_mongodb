@@ -1,7 +1,7 @@
 package com.github.jmgoyesc.control.domain.services;
 
-import com.github.jmgoyesc.control.domain.models.DatabaseConnection;
-import com.github.jmgoyesc.control.domain.models.Status;
+import com.github.jmgoyesc.control.domain.models.tables.DatabaseConnection;
+import com.github.jmgoyesc.control.domain.models.tables.Status;
 import com.github.jmgoyesc.control.domain.models.ports.MongodbPort;
 import com.github.jmgoyesc.control.domain.models.ports.QuestdbPort;
 import lombok.RequiredArgsConstructor;
