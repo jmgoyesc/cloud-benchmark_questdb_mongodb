@@ -3,14 +3,10 @@ variable "instances" {
   type = map(object({
     machine_number = number
     name           = string
+    userdata_path  = string
+    subgroups      = list(string)
   }))
   nullable = false
-}
-
-variable "userdata_path" {
-  description = "Path to user-data.sh file"
-  type        = string
-  nullable    = false
 }
 
 variable "key_name" {
@@ -39,10 +35,3 @@ variable "subnet" {
   type        = string
   nullable    = false
 }
-
-variable "subgroups" {
-  description = "aws subgroup ids"
-  type        = list(string)
-  nullable    = false
-}
-

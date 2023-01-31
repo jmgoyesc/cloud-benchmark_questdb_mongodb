@@ -4,11 +4,11 @@ resource "aws_instance" "cbs_vm" {
   ami                    = var.ami
   instance_type          = var.instance_type
   subnet_id              = var.subnet
-  vpc_security_group_ids = var.subgroups
+  vpc_security_group_ids = each.value.subgroups
   private_ip             = "10.0.2.${each.value.machine_number}"
   key_name               = var.key_name
 
-  user_data = file("${var.userdata_path}")
+  user_data = file("${each.value.userdata_path}")
 
   tags = {
     "Name"      = "${each.value.machine_number} - ${each.value.name}"
