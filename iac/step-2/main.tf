@@ -354,6 +354,7 @@ resource "aws_instance" "questdb_pg" {
   sudo systemctl start questdb.service
   sudo systemctl enable questdb.service
 
+  sudo yum install amazon-cloudwatch-agent
   EOF
 
   tags = {
@@ -401,6 +402,7 @@ resource "aws_instance" "questdb_web" {
   sudo systemctl start questdb.service
   sudo systemctl enable questdb.service
 
+  sudo yum install amazon-cloudwatch-agent
   EOF
 
   tags = {
@@ -448,6 +450,8 @@ resource "aws_instance" "questdb_ilp" {
   sudo systemctl start questdb.service
   sudo systemctl enable questdb.service
 
+  sudo yum install amazon-cloudwatch-agent
+
   EOF
 
   tags = {
@@ -481,6 +485,8 @@ resource "aws_instance" "mongodb" {
   sudo systemctl status mongod
   sudo systemctl enable mongod
 
+  sudo yum install amazon-cloudwatch-agent
+
   EOF
 
   tags = {
@@ -510,7 +516,7 @@ resource "aws_instance" "agent_questdb_pg" {
   sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
   sudo yum install -y java-19-amazon-corretto-devel
 
-  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent-questdb-rest/build/libs/agent-1.0.0.jar -o /home/ec2-user/agent-1.0.0.jar
+  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent/build/libs/agent-1.0.0.jar -o /home/ec2-user/agent-1.0.0.jar
 
   sudo echo "[Unit]" >> /lib/systemd/system/agent.service
   sudo echo "Description=CSB - Agent Service" >> /lib/systemd/system/agent.service
@@ -530,6 +536,8 @@ resource "aws_instance" "agent_questdb_pg" {
   sudo systemctl start agent.service
   sudo systemctl enable agent.service
 
+  sudo yum install amazon-cloudwatch-agent
+
   EOF
 
   tags = {
@@ -541,7 +549,7 @@ resource "aws_instance" "agent_questdb_pg" {
 
 # ec2 - agent questdb web
 resource "aws_instance" "agent_questdb_web" {
-  count         = 0
+  count         = 1
   ami           = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
@@ -559,7 +567,7 @@ resource "aws_instance" "agent_questdb_web" {
   sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
   sudo yum install -y java-19-amazon-corretto-devel
 
-  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent-questdb-rest/build/libs/agent-1.0.0.jar -o /home/ec2-user/agent-1.0.0.jar
+  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent/build/libs/agent-1.0.0.jar -o /home/ec2-user/agent-1.0.0.jar
 
   sudo echo "[Unit]" >> /lib/systemd/system/agent.service
   sudo echo "Description=CSB - Agent Service" >> /lib/systemd/system/agent.service
@@ -579,6 +587,8 @@ resource "aws_instance" "agent_questdb_web" {
   sudo systemctl start agent.service
   sudo systemctl enable agent.service
 
+  sudo yum install amazon-cloudwatch-agent
+
   EOF
   tags = {
     "Name"      = "31 - agent - questdb - web"
@@ -589,7 +599,7 @@ resource "aws_instance" "agent_questdb_web" {
 
 # ec2 - agent questdb ilp
 resource "aws_instance" "agent_questdb_ilp" {
-  count         = 0
+  count         = 1
   ami           = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
@@ -607,7 +617,7 @@ resource "aws_instance" "agent_questdb_ilp" {
   sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
   sudo yum install -y java-19-amazon-corretto-devel
 
-  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent-questdb-rest/build/libs/agent-1.0.0.jar -o /home/ec2-user/agent-1.0.0.jar
+  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent/build/libs/agent-1.0.0.jar -o /home/ec2-user/agent-1.0.0.jar
 
   sudo echo "[Unit]" >> /lib/systemd/system/agent.service
   sudo echo "Description=CSB - Agent Service" >> /lib/systemd/system/agent.service
@@ -627,6 +637,8 @@ resource "aws_instance" "agent_questdb_ilp" {
   sudo systemctl start agent.service
   sudo systemctl enable agent.service
 
+  sudo yum install amazon-cloudwatch-agent
+
   EOF
   tags = {
     "Name"      = "32 - agent - questdb - ilp"
@@ -637,7 +649,7 @@ resource "aws_instance" "agent_questdb_ilp" {
 
 # ec2 - agent mongo
 resource "aws_instance" "agent_mongo" {
-  count         = 0
+  count         = 1
   ami           = "ami-0a261c0e5f51090b1"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
@@ -655,7 +667,7 @@ resource "aws_instance" "agent_mongo" {
   sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
   sudo yum install -y java-19-amazon-corretto-devel
 
-  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent-questdb-rest/build/libs/agent-1.0.0.jar -o /home/ec2-user/agent-1.0.0.jar
+  curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent/build/libs/agent-1.0.0.jar -o /home/ec2-user/agent-1.0.0.jar
 
   sudo echo "[Unit]" >> /lib/systemd/system/agent.service
   sudo echo "Description=CSB - Agent Service" >> /lib/systemd/system/agent.service
@@ -674,6 +686,8 @@ resource "aws_instance" "agent_mongo" {
   sudo systemctl daemon-reload
   sudo systemctl start agent.service
   sudo systemctl enable agent.service
+
+  sudo yum install amazon-cloudwatch-agent
 
   EOF
   tags = {
@@ -722,6 +736,8 @@ resource "aws_instance" "control" {
   sudo systemctl daemon-reload
   sudo systemctl start control.service
   sudo systemctl enable control.service
+
+  sudo yum install amazon-cloudwatch-agent
 
   EOF
   tags = {
