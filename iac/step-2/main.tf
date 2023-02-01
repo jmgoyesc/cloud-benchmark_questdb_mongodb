@@ -23,6 +23,84 @@ module "security_groups" {
   vpc_id = module.vpc.vpc_id
 }
 
+# iam policy
+resource "aws_iam_policy" "logs_put_retention" {
+  name = "CloudWatchPutRetentionPolicy"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "logs:PutRetentionPolicy",
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+
+  tags = {
+    "project"   = "cloud benchmark"
+    "worskapce" = "default"
+  }
+}
+
+# iam role
+resource "aws_iam_role" "CloudWatchAgentServerRole" {
+  name = "CloudWatchAgentServerRole"
+  assume_role_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "sts:AssumeRole"
+        ],
+        "Principal" : {
+          "Service" : [
+            "ec2.amazonaws.com"
+          ]
+        }
+      }
+    ]
+  })
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
+    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+    aws_iam_policy.logs_put_retention.arn
+  ]
+
+  tags = {
+    "project"   = "cloud benchmark"
+    "worskapce" = "default"
+  }
+}
+
+# instance profile to help to assume role
+resource "aws_iam_instance_profile" "ec2_cloudwatch_profile" {
+  name = "ec2_cloudwatch_profile"
+  role = aws_iam_role.CloudWatchAgentServerRole.name
+}
+
+# ssm parameter cloudwatch config
+resource "aws_ssm_parameter" "agent" {
+  name        = "agent-cloudwatch-config"
+  description = "CloudWatch config to send metrics and logs from ec2 agent"
+  type        = "String"
+  # TODO: use templatefile from terraform
+  value       = file("${path.module}/cloudwatch/agent/amazon-cloudwatch-agent.json")
+}
+
+# ssm parameter cloudwatch config
+resource "aws_ssm_parameter" "control" {
+  name        = "control-cloudwatch-config"
+  description = "CloudWatch config to send metrics and logs from ec2 control"
+  type        = "String"
+  # TODO: use templatefile from terraform
+  value       = file("${path.module}/cloudwatch/control/amazon-cloudwatch-agent.json")
+}
+
 # ec2s
 module "ec2s" {
   source = "./modules/ec2"
@@ -109,5 +187,10 @@ module "ec2s" {
       ]
     }
   }
-  subnet = module.vpc.subnet_public_id
+  subnet           = module.vpc.subnet_public_id
+  instance_profile = aws_iam_instance_profile.ec2_cloudwatch_profile.name
+  depends_on = [
+    aws_ssm_parameter.agent,
+    aws_ssm_parameter.control
+  ]
 }

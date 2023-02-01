@@ -1,6 +1,7 @@
 #!/bin/bash
 
-sudo yum update -y
+# sudo yum update -y
+sudo yum install -y jq
 
 
 # install mongodb
@@ -20,4 +21,8 @@ sudo systemctl enable mongod
 
 
 # configure cloud watch logs
-sudo yum install amazon-cloudwatch-agent
+sudo yum install -y amazon-cloudwatch-agent
+# TODO: find where are the logs of mongo
+
+# done
+echo "done" > /home/ec2-user/done.txt

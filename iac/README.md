@@ -1,5 +1,7 @@
 # IaC - Infrastructure as Code
 
+TODO: document the iam user thaat needs to existst. user to be user by terraform policies: AmazonEC2FullAccess, AmazonSSMFullAccess, AmazonVPCFullAccess, IAMFullAccess
+
 This project creates the necessary infrastructure to run the benchmark.
 
 Cloud provider: Amazon Web Services (AWS)

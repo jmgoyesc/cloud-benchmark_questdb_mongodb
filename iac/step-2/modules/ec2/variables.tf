@@ -9,6 +9,11 @@ variable "instances" {
   nullable = false
 }
 
+variable "instance_profile" {
+  description = "Instance profile name to assume a role"
+  type        = string
+}
+
 variable "key_name" {
   description = "Key Pair name"
   type        = string

@@ -9,6 +9,7 @@ resource "aws_instance" "cbs_vm" {
   key_name               = var.key_name
 
   user_data = file("${each.value.userdata_path}")
+  iam_instance_profile = var.instance_profile
 
   tags = {
     "Name"      = "${each.value.machine_number} - ${each.value.name}"
