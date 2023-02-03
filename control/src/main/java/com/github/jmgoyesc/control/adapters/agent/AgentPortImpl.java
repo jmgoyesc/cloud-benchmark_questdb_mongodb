@@ -25,9 +25,7 @@ class AgentPortImpl implements AgentPort {
 
     @Override
     public Optional<String> create(Agent agent) {
-        var endpoint = UriComponentsBuilder.fromUriString(agent.location())
-                .pathSegment("v1", "configurations")
-                .toUriString();
+        var endpoint = buildEndpoint(agent.location());
         var config = new Config(agent.uri(), agent.type());
         try {
             rest.postForObject(endpoint, config, Void.class);
@@ -39,18 +37,22 @@ class AgentPortImpl implements AgentPort {
     }
 
     @Override
-    public Optional<String> patch(String location, AgentSignal.Action signal) {
-        var endpoint = UriComponentsBuilder.fromUriString(location)
-                .pathSegment("v1", "configurations")
-                .toUriString();
+    public Optional<String> put(String location, AgentSignal.Action signal) {
+        var endpoint = buildEndpoint(location);
         var request = new Signal(signal);
         try {
-            rest.patchForObject(endpoint, request, Void.class);
+            rest.put(endpoint, request);
             return Optional.empty();
         } catch (RestClientException e) {
             log.info("[agent] Exception caught by patching.", e);
             return Optional.of(StringUtils.defaultString(e.getMessage(), "no message available: %s".formatted(e.getClass())));
         }
+    }
+
+    private static String buildEndpoint(String location) {
+        return UriComponentsBuilder.fromUriString(location)
+                .pathSegment("agent", "v1", "configurations")
+                .toUriString();
     }
 
 }

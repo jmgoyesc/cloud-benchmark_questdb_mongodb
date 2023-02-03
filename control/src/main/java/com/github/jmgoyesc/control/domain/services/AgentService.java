@@ -29,7 +29,7 @@ public class AgentService {
 
     public List<AgentResponse> update(AgentSignal signal) {
         return signal.locations().stream()
-                .map(location -> port.patch(location, signal.action())
+                .map(location -> port.put(location, signal.action())
                         .map(message -> AgentResponse.buildError(location, message))
                         .orElseGet(() -> AgentResponse.buildDone(location)))
                 .toList();

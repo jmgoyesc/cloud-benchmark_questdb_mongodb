@@ -11,5 +11,5 @@ import java.util.Optional;
 
 public interface AgentPort {
     Optional<String> create(Agent agent);
-    Optional<String> patch(String location, AgentSignal.Action signal);
+    Optional<String> put(String location, AgentSignal.Action signal);
 }
