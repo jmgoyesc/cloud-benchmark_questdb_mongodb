@@ -1,7 +1,8 @@
 package com.github.jmgoyesc.agent.adapters.web.controller;
 
+import com.github.jmgoyesc.agent.domain.models.VersionInfo;
+import com.github.jmgoyesc.agent.domain.services.VersionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.info.BuildProperties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,11 +18,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class VersionController {
 
-    private final BuildProperties properties;
+    private final VersionService service;
 
     @GetMapping
-    public BuildProperties get() {
-        return properties;
+    public VersionInfo get() {
+        return service.get();
     }
 
 }
