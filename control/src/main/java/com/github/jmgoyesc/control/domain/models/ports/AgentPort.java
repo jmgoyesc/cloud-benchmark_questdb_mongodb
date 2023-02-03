@@ -2,6 +2,7 @@ package com.github.jmgoyesc.control.domain.models.ports;
 
 import com.github.jmgoyesc.control.domain.models.agents.Agent;
 import com.github.jmgoyesc.control.domain.models.agents.AgentSignal;
+import com.github.jmgoyesc.control.domain.models.versions.VersionInfo;
 
 import java.util.Optional;
 
@@ -12,4 +13,5 @@ import java.util.Optional;
 public interface AgentPort {
     Optional<String> create(Agent agent);
     Optional<String> put(String location, AgentSignal.Action signal);
+    VersionInfo version(String location);
 }
