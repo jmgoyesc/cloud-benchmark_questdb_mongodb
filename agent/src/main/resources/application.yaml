@@ -19,6 +19,13 @@ logging:
 spring:
   config:
     activate:
+      on-profile: local
+server:
+  port: 8181
+---
+spring:
+  config:
+    activate:
       on-profile: ec2
 logging:
   file:

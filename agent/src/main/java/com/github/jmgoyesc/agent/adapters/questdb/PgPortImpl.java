@@ -22,10 +22,14 @@ import java.sql.Types;
 @RequiredArgsConstructor
 class PgPortImpl implements QuestdbPgPort {
 
+    private static final String LOG_PREFIX = "[questdb - pg]";
     private static final String SQL_INSERT = """
-    INSERT INTO telemetries VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO telemetries
+         ("received_at", "originated_at", "vehicle", "type", "source", "value", "position")
+         VALUES (?, ?, ?, ?, ?, ?, ?)
     """;
 
+    //TODO: reuse connection (connection pool?)
     @Override
     public void insert(String uri, Telemetry telemetry) {
         try {
@@ -35,17 +39,18 @@ class PgPortImpl implements QuestdbPgPort {
             try (PreparedStatement stmt = connection.prepareStatement(SQL_INSERT)) {
                 stmt.setTimestamp(1, Timestamp.from(telemetry.receivedAt().toInstant()));
                 stmt.setTimestamp(2, Timestamp.from(telemetry.originatedAt().toInstant()));
-                stmt.setString(3, "pg-" + telemetry.vehicle());
+                stmt.setString(3, telemetry.vehicle());
                 stmt.setString(4, telemetry.type());
-                stmt.setDouble(5, telemetry.value());
-                stmt.setNull(6, Types.OTHER);
+                stmt.setString(5, telemetry.source().name());
+                stmt.setDouble(6, telemetry.value());
+                stmt.setNull(7, Types.OTHER);
 
-                var res = stmt.execute();
-                log.info("[questdb - pg] inserted record in telemetries tables: {}", res);
+                var count = stmt.executeUpdate();
+                log.info("{} inserted record in telemetries tables. count: {}, telemetry: {}", LOG_PREFIX, count, telemetry);
             }
             connection.close();
         } catch (SQLException e) {
-            log.info("[questdb - pg] failed insertion", e);
+            log.info("{} failed insertion. telemetry: {}", LOG_PREFIX, telemetry, e);
         }
     }
 }

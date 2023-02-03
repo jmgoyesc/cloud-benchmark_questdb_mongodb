@@ -1,5 +1,6 @@
 package com.github.jmgoyesc.agent.domain.models;
 
+import com.github.jmgoyesc.agent.domain.models.Config.Database;
 import lombok.Builder;
 import lombok.extern.jackson.Jacksonized;
 
@@ -16,6 +17,7 @@ public record Telemetry(
         ZonedDateTime originatedAt,
         String vehicle,
         String type,
+        Database source,
         double value
 ) {
 }

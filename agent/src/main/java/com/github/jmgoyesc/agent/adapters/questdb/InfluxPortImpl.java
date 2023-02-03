@@ -17,23 +17,29 @@ import java.sql.Timestamp;
 @Slf4j
 @RequiredArgsConstructor
 class InfluxPortImpl implements QuestdbInfluxPort {
+
+    private static final String LOG_PREFIX = "[questdb - influx]";
+
+    private final ThreadLocal<Sender> sender = new ThreadLocal<>();
     @Override
     public void insert(String uri, Telemetry telemetry) {
-        log.info("[questdb - influx] start inserting");
-        try (Sender sender = Sender.builder().address(uri).build()) {
+        if (sender.get() == null) {
+            log.info("{} Request new instance for sender", LOG_PREFIX);
+            sender.set(Sender.builder().address(uri).build());
+            log.info("{} Sender created", LOG_PREFIX);
+        }
 
-            sender.table("telemetries")
+        try {
+            sender.get().table("telemetries")
                     .symbol("type", telemetry.type())
-//                    .timestampColumn("received_at", Timestamp.from(telemetry.receivedAt().toInstant()).getTime())
-                    .timestampColumn("originated_at", Timestamp.from(telemetry.originatedAt().toInstant()).getTime())
-                    .stringColumn("vehicle", "influx-" + telemetry.vehicle())
+                    .symbol("source", telemetry.source().name())
+                    .stringColumn("vehicle", telemetry.vehicle())
                     .doubleColumn("value", telemetry.value())
+                    .timestampColumn("originated_at", Timestamp.from(telemetry.originatedAt().toInstant()).getTime())
                     .atNow();
-//                   //use this instead of received_at --> .atNow();
-            log.info("[questdb - influx] telemetry inserted");
-
+            log.info("{} inserted telemetry: {}", LOG_PREFIX, telemetry);
         } catch (Throwable e) {
-            log.info("[questdb - influx] failed inserting telemetry", e);
+            log.info("{} failed inserting telemetry: {}", LOG_PREFIX, telemetry, e);
         }
     }
 }

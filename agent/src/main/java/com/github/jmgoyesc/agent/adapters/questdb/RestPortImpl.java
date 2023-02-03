@@ -22,20 +22,25 @@ import java.time.format.DateTimeFormatter;
 @RequiredArgsConstructor
 class RestPortImpl implements QuestdbRestPort {
 
+    private static final String LOG_PREFIX = "[questdb - rest]";
     private static final String SQL_INSERT = """
-    INSERT INTO telemetries VALUES ('%s', '%s', '%s', '%s', %s, null)
+    INSERT INTO telemetries
+         ('received_at', 'originated_at', 'vehicle', 'type', 'source', 'value', 'position')
+         VALUES ('%s', '%s', '%s', '%s', '%s', %s, null)
     """;
 
     private final RestTemplate rest;
 
+    //TODO: pre initialize rest template (faster?)
     @Override
     public void insert(String uri, Telemetry telemetry) {
         var query = StringUtils.normalizeSpace(SQL_INSERT)
                 .formatted(
                         telemetry.receivedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'")),
                         telemetry.originatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'")),
-                        "rest-" + telemetry.vehicle(),
+                        telemetry.vehicle(),
                         telemetry.type(),
+                        telemetry.source().name(),
                         telemetry.value());
 
         var endpoint = UriComponentsBuilder.fromUriString(uri)
@@ -46,9 +51,9 @@ class RestPortImpl implements QuestdbRestPort {
 
         try {
             var response = rest.getForObject(endpoint, JsonNode.class);
-            log.info("[questdb] submitted without exception. {}", response);
+            log.info("{} submitted without exception. response: {}, telemetry: {}", LOG_PREFIX, response, telemetry);
         } catch (RestClientException e) {
-            log.info("[questdb] Exception caught by submitting.", e);
+            log.info("{} Exception caught by submitting. telemetry: {}", LOG_PREFIX, telemetry, e);
         }
     }
 

@@ -34,13 +34,16 @@ public class AgentService {
 
     public void start() {
         log.info("[start] Signal received to start the process");
+        if (config == null) {
+            throw new RuntimeException("Configure was not called for agent. Pending configuration: POST /v1/configurations");
+        }
         var port = switch (config.db()) {
             case mongodb -> mongodbPort;
             case questdb_pg -> questdbPgPort;
             case questdb_rest -> questdbRest;
             case questdb_influx -> questdbInfluxPort;
         };
-        load = new LoadGenerator(port, config.uri(), true);
+        load = new LoadGenerator(port, config.uri(), config.db(), true);
         tLoad = new Thread(load);
         tLoad.start();
         log.info("[start] Signal processed");
@@ -48,8 +51,10 @@ public class AgentService {
 
     public void stop() {
         log.info("[stop] Signal received to stop process");
+        if (load == null) {
+            throw new RuntimeException("Not found a running process. Please configure and start it");
+        }
         load.setRunning(false);
-        tLoad.interrupt();
         log.info("[stop] Signal processed");
     }
 }
