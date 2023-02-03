@@ -17,7 +17,7 @@ After=multi-user.target
 
 [Service]
 Type=idle
-ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/agent-1.0.0.jar --spring.profiles.active=ec2
+ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/agent.jar --spring.profiles.active=ec2
 Restart=on-failure
 
 [Install]
@@ -27,7 +27,7 @@ sudo chmod 644 /lib/systemd/system/agent.service
 
 
 # configure agent service
-curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent/build/libs/agent-1.0.0.jar -o /home/ec2-user/agent-1.0.0.jar
+curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/agent/build/libs/agent.jar -o /home/ec2-user/agent.jar
 sudo systemctl daemon-reload
 sudo systemctl start agent.service
 sudo systemctl enable agent.service

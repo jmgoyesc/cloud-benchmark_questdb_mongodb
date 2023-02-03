@@ -18,7 +18,7 @@ After=multi-user.target
 
 [Service]
 Type=idle
-ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/control-1.0.0.jar --spring.profiles.active=ec2
+ExecStart=/usr/bin/java --enable-preview -jar /home/ec2-user/control.jar --spring.profiles.active=ec2
 Restart=on-failure
 
 [Install]
@@ -28,7 +28,7 @@ sudo chmod 644 /lib/systemd/system/control.service
 
 
 # configure control service
-curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/control/build/libs/control-1.0.0.jar -o /home/ec2-user/control-1.0.0.jar
+curl -LJ https://github.com/jmgoyesc/cloud-benchmark_questdb_mongodb/raw/main/control/build/libs/control.jar -o /home/ec2-user/control.jar
 sudo systemctl daemon-reload
 sudo systemctl start control.service
 sudo systemctl enable control.service
