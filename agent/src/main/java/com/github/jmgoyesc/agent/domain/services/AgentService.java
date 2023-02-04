@@ -1,6 +1,7 @@
 package com.github.jmgoyesc.agent.domain.services;
 
 import com.github.jmgoyesc.agent.domain.models.Config;
+import com.github.jmgoyesc.agent.domain.services.ports.DatabasePort;
 import com.github.jmgoyesc.agent.domain.services.ports.MongodbPort;
 import com.github.jmgoyesc.agent.domain.services.ports.QuestdbInfluxPort;
 import com.github.jmgoyesc.agent.domain.services.ports.QuestdbPgPort;
@@ -37,13 +38,8 @@ public class AgentService {
         if (config == null) {
             throw new RuntimeException("Configure was not called for agent. Pending configuration: POST /v1/configurations");
         }
-        var port = switch (config.db()) {
-            case mongodb -> mongodbPort;
-            case questdb_pg -> questdbPgPort;
-            case questdb_rest -> questdbRest;
-            case questdb_influx -> questdbInfluxPort;
-        };
-        load = new LoadGenerator(port, config.uri(), config.db(), true);
+        var db = chooseDatabase();
+        load = new LoadGenerator(db, config.uri(), config.db(), true);
         tLoad = new Thread(load);
         tLoad.start();
         log.info("[start] Signal processed");
@@ -56,5 +52,22 @@ public class AgentService {
         }
         load.setRunning(false);
         log.info("[stop] Signal processed");
+    }
+
+    public long count() {
+        if (config == null) {
+            throw new RuntimeException("Configure was not called for agent. Pending configuration: POST /v1/configurations");
+        }
+        var db = chooseDatabase();
+        return db.count(config.uri());
+    }
+
+    private DatabasePort chooseDatabase() {
+        return switch (config.db()) {
+            case mongodb -> mongodbPort;
+            case questdb_pg -> questdbPgPort;
+            case questdb_rest -> questdbRest;
+            case questdb_influx -> questdbInfluxPort;
+        };
     }
 }

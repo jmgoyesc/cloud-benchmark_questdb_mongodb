@@ -11,6 +11,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -28,6 +29,9 @@ class RestPortImpl implements QuestdbRestPort {
          ('received_at', 'originated_at', 'vehicle', 'type', 'source', 'value', 'position')
          VALUES ('%s', '%s', '%s', '%s', '%s', %s, null)
     """;
+    private static final String SQL_COUNT = """
+    SELECT count() from telemetries
+    """;
 
     private final RestTemplate rest;
 
@@ -43,11 +47,7 @@ class RestPortImpl implements QuestdbRestPort {
                         telemetry.source().name(),
                         telemetry.value());
 
-        var endpoint = UriComponentsBuilder.fromUriString(uri)
-                .pathSegment("exec")
-                .queryParam("query", query)
-                .build()
-                .toUri();
+        var endpoint = buildEndpoint(uri, query);
 
         try {
             var response = rest.getForObject(endpoint, JsonNode.class);
@@ -57,5 +57,30 @@ class RestPortImpl implements QuestdbRestPort {
         }
     }
 
+    @Override
+    public long count(String uri) {
+        var query = StringUtils.normalizeSpace(SQL_COUNT);
+        var endpoint = buildEndpoint(uri, query);
+
+        try {
+            var response = rest.getForObject(endpoint, JsonNode.class);
+            if (response == null || !response.hasNonNull("dataset") || response.get("dataset").get(0) == null || response.get("dataset").get(0).get(0) == null) {
+                log.info("{} Invalid response after counting. response: {}", LOG_PREFIX, response);
+                return 0L;
+            }
+            return response.get("dataset").get(0).get(0).asLong();
+        } catch (RestClientException e) {
+            log.info("{} Exception caught by counting inserted.", LOG_PREFIX, e);
+            return 0L;
+        }
+    }
+
+    private URI buildEndpoint(String uri, String query) {
+        return UriComponentsBuilder.fromUriString(uri)
+                .pathSegment("exec")
+                .queryParam("query", query)
+                .build()
+                .toUri();
+    }
 
 }

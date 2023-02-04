@@ -44,6 +44,17 @@ class MongodbPortImpl implements MongodbPort {
         }
     }
 
+    @Override
+    public long count(String uri) {
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
+            return database.getCollection(COLLECTION_NAME).countDocuments();
+        } catch (Exception e) {
+            log.info("{} => FAILED. In {}.{} collection. Unable to count", LOG_PREFIX, DATABASE_NAME, COLLECTION_NAME, e);
+            return 0L;
+        }
+    }
+
     private static Document build(Telemetry telemetry) {
         var document = new Document();
 

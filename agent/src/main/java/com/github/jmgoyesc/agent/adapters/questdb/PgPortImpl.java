@@ -28,6 +28,9 @@ class PgPortImpl implements QuestdbPgPort {
          ("received_at", "originated_at", "vehicle", "type", "source", "value", "position")
          VALUES (?, ?, ?, ?, ?, ?, ?)
     """;
+    private static final String SQL_COUNT = """
+    SELECT count() from telemetries
+    """;
 
     //TODO: reuse connection (connection pool?)
     @Override
@@ -52,5 +55,25 @@ class PgPortImpl implements QuestdbPgPort {
         } catch (SQLException e) {
             log.info("{} failed insertion. telemetry: {}", LOG_PREFIX, telemetry, e);
         }
+    }
+
+    @Override
+    public long count(String uri) {
+        var count = 0L;
+        try {
+            final Connection connection = DriverManager.getConnection(uri);
+            connection.setAutoCommit(true);
+
+            try (PreparedStatement stmt = connection.prepareStatement(SQL_COUNT)) {
+
+                var rs = stmt.executeQuery();
+                rs.next();
+                count = rs.getLong(1);
+            }
+            connection.close();
+        } catch (SQLException e) {
+            log.info("{} failed count inserted.", LOG_PREFIX, e);
+        }
+        return count;
     }
 }

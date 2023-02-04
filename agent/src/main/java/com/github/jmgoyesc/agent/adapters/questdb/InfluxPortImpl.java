@@ -21,6 +21,9 @@ class InfluxPortImpl implements QuestdbInfluxPort {
     private static final String LOG_PREFIX = "[questdb - influx]";
 
     private final ThreadLocal<Sender> sender = new ThreadLocal<>();
+    private final RestPortImpl rest;
+
+    //TODO: implement sender pool (close sender)
     @Override
     public void insert(String uri, Telemetry telemetry) {
         if (sender.get() == null) {
@@ -41,5 +44,13 @@ class InfluxPortImpl implements QuestdbInfluxPort {
         } catch (Throwable e) {
             log.info("{} failed inserting telemetry: {}", LOG_PREFIX, telemetry, e);
         }
+    }
+
+    @Override
+    public long count(String uri) {
+        // influx line protocol is a protocol only to insert data (one way protocol), not to get data
+        // to implement count, it will be use the rest protocol to the correct uri format
+        var endpoint = "http://" + uri.replace(":9009", ":9000");
+        return rest.count(endpoint);
     }
 }
