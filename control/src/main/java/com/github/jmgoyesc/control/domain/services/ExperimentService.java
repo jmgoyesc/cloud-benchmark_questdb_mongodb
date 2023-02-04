@@ -1,5 +1,6 @@
 package com.github.jmgoyesc.control.domain.services;
 
+import com.github.jmgoyesc.control.domain.models.agents.Agent;
 import com.github.jmgoyesc.control.domain.models.agents.Agent.DatasourceType;
 import com.github.jmgoyesc.control.domain.models.experiment.ExperimentInfo;
 import com.github.jmgoyesc.control.domain.models.experiment.Result;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * @author Juan Manuel Goyes Coral
@@ -24,6 +26,20 @@ public class ExperimentService {
 
     public ExperimentInfo get() {
         return port.get();
+    }
+
+    void addAgents(List<Agent> agents) {
+        var info = port.get();
+
+        // reset and clear: set pending status and remove start and end
+        info.execution().reset();
+        info.results().clear();
+
+        //remove previous agents and add the new ones
+        info.agents().clear();
+        info.agents().addAll(agents);
+
+        port.update(info);
     }
 
     void addTablesStart(ZonedDateTime time){

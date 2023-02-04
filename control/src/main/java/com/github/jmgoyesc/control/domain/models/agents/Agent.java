@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 public record Agent(
         @NotBlank String location,
         @NotNull DatasourceType type,
-        @NotBlank String uri
+        @NotBlank String datasource
 ) {
 
     public enum DatasourceType { mongodb, questdb_pg, questdb_influx, questdb_rest }

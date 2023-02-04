@@ -2,7 +2,6 @@ package com.github.jmgoyesc.control.domain.services;
 
 import com.github.jmgoyesc.control.domain.models.agents.Agent;
 import com.github.jmgoyesc.control.domain.models.ports.AgentPort;
-import com.github.jmgoyesc.control.domain.models.ports.ExperimentConfigPort;
 import com.github.jmgoyesc.control.domain.models.versions.VersionInfo;
 import com.github.jmgoyesc.control.domain.models.versions.Versions;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +22,11 @@ public class VersionService {
 
     private final BuildProperties properties;
     private final AgentPort port;
-    private final ExperimentConfigPort config;
+    private final ExperimentService service;
 
     public Versions get() {
-        var agents = config.get().stream()
-                .map(Agent::uri)
+        var agents = service.get().agents().stream()
+                .map(Agent::location)
                 .map(location -> {
                     var version = port.version(location);
                     return Map.entry(location, version);

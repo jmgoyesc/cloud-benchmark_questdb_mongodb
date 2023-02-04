@@ -22,6 +22,12 @@ public class Period {
         this.status = pending;
     }
 
+    public void reset() {
+        this.status = pending;
+        this.start = null;
+        this.end = null;
+    }
+
     public void setStart(ZonedDateTime time) {
         this.start = time;
         this.status = on_going;
