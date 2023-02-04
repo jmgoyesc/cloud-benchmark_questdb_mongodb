@@ -14,4 +14,5 @@ public interface AgentPort {
     Optional<String> create(Agent agent);
     Optional<String> put(String location, AgentSignal.Action signal);
     VersionInfo version(String location);
+    long countInserted(String location);
 }

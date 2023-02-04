@@ -7,7 +7,6 @@ import com.github.jmgoyesc.control.domain.models.versions.VersionInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.info.BuildProperties;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,6 +15,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.springframework.http.HttpMethod.GET;
@@ -64,6 +64,15 @@ class AgentPortImpl implements AgentPort {
                 .pathSegment("agent", "v1", "version")
                 .toUriString();
         return rest.exchange(endpoint, GET, withContentTypeJson(), VersionInfo.class).getBody();
+    }
+
+    @Override
+    public long countInserted(String location) {
+        var endpoint = UriComponentsBuilder.fromUriString(location)
+                .pathSegment("agent", "v1", "results")
+                .toUriString();
+        var count = rest.exchange(endpoint, GET, withContentTypeJson(), Long.class).getBody();
+        return Objects.requireNonNullElse(count, 0L);
     }
 
     private static String buildEndpoint(String location) {

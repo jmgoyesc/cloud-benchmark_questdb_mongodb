@@ -7,6 +7,7 @@ import com.github.jmgoyesc.control.domain.models.ports.QuestdbPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +19,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TableService {
 
+    private final ExperimentService service;
     private final MongodbPort mongodbPort;
     private final QuestdbPort questdbPort;
 
     public List<DatabaseConnection> create(List<DatabaseConnection> databaseConnections) {
-        return databaseConnections.parallelStream()
+        service.addTablesStart(ZonedDateTime.now());
+        var output = databaseConnections.parallelStream()
                 .map(it -> {
                     //noinspection CodeBlock2Expr
                     return switch (it.type()) {
@@ -31,6 +34,8 @@ public class TableService {
                     };
                 })
                 .toList();
+        service.addTablesEnd(ZonedDateTime.now());
+        return output;
     }
 
     private static DatabaseConnection buildResponse(DatabaseConnection input, Optional<String> error) {
