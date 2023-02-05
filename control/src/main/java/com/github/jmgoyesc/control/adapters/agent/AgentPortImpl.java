@@ -35,7 +35,7 @@ class AgentPortImpl implements AgentPort {
     @Override
     public Optional<String> create(Agent agent) {
         var endpoint = buildEndpoint(agent.location());
-        var config = new Config(agent.datasource(), agent.type());
+        var config = new Config(agent.datasource(), agent.type(), agent.vehicles());
         try {
             rest.postForObject(endpoint, config, Void.class);
             return Optional.empty();

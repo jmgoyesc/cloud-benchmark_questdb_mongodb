@@ -8,5 +8,7 @@ import com.github.jmgoyesc.control.domain.models.agents.Agent.DatasourceType;
 
 record Config(
         String uri,
-        DatasourceType db) {
+        DatasourceType db,
+        int vehicles
+) {
 }
