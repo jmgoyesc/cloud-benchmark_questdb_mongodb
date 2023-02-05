@@ -27,7 +27,7 @@
             "file_path": "/home/ec2-user/.questdb/log/**",
             "retention_in_days": 30,
 
-            "log_group_name": "sut_questdb_pg",
+            "log_group_name": "/cbs/t2.micro/sut_questdb_pg",
             "log_stream_name": "sut_questdb_pg_{ip_address}",
 
             "timestamp_format": "%Y-%m-%d %H:%M:%S",

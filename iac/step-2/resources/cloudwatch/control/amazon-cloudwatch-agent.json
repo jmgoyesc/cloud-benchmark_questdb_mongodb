@@ -7,7 +7,7 @@
             "file_path": "/home/ec2-user/logs/spring.log",
             "retention_in_days": 30,
 
-            "log_group_name": "control",
+            "log_group_name": "/cbs/t2.micro/control",
             "log_stream_name": "{ip_address}",
 
             "timestamp_format": "%Y-%m-%d %H:%M:%S",

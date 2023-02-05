@@ -27,7 +27,7 @@
             "file_path": "/home/ec2-user/logs/spring.log",
             "retention_in_days": 30,
 
-            "log_group_name": "agent_questdb_influx",
+            "log_group_name": "/cbs/t2.micro/agent_questdb_influx",
             "log_stream_name": "agent_questdb_influx_{ip_address}",
 
             "timestamp_format": "%Y-%m-%d %H:%M:%S",

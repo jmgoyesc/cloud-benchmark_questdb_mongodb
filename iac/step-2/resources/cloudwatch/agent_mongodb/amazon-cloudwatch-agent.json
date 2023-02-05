@@ -27,7 +27,7 @@
             "file_path": "/home/ec2-user/logs/spring.log",
             "retention_in_days": 30,
 
-            "log_group_name": "agent_mongodb",
+            "log_group_name": "/cbs/t2.micro//cbs/t2.micro/agent_mongodb",
             "log_stream_name": "agent_monogodb_{ip_address}",
 
             "timestamp_format": "%Y-%m-%d %H:%M:%S",
