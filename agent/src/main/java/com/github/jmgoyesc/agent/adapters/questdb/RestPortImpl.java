@@ -86,10 +86,10 @@ class RestPortImpl implements QuestdbRestPort {
         var endpoint = buildEndpoint(query);
 
         try {
-            var response = rest.getForObject(endpoint, JsonNode.class);
-            log.info("{} submitted without exception. response: {}, telemetry: {}", LOG_PREFIX, response, telemetry);
+            rest.getForObject(endpoint, JsonNode.class);
+            log.info("{} telemetry inserted", LOG_PREFIX);
         } catch (RestClientException e) {
-            log.info("{} Exception caught by submitting. telemetry: {}", LOG_PREFIX, telemetry, e);
+            log.error("{} exception inserting telemetry", LOG_PREFIX, e);
         }
     }
 
@@ -101,12 +101,12 @@ class RestPortImpl implements QuestdbRestPort {
         try {
             var response = rest.getForObject(endpoint, JsonNode.class);
             if (response == null || !response.hasNonNull("dataset") || response.get("dataset").get(0) == null || response.get("dataset").get(0).get(0) == null) {
-                log.info("{} Invalid response after counting. response: {}", LOG_PREFIX, response);
+                log.error("{} exception counting telemetry. Invalid count response {}", LOG_PREFIX, response);
                 return 0L;
             }
             return response.get("dataset").get(0).get(0).asLong();
         } catch (RestClientException e) {
-            log.info("{} Exception caught by counting inserted.", LOG_PREFIX, e);
+            log.error("{} exception counting telemetry", LOG_PREFIX, e);
             return 0L;
         }
     }

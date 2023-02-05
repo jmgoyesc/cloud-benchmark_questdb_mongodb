@@ -50,15 +50,14 @@ class MongodbPortImpl implements MongodbPort {
 
     @Override
     public void insert(Telemetry telemetry) {
-        Document document = null;
         try (var client = MongoClients.create(this.settings)) {
             var coll = client.getDatabase(DATABASE_NAME).getCollection(COLLECTION_NAME);
-            document = build(telemetry);
-            var res = coll.insertOne(document);
-            log.info("{} => INSERTED. In {}.{} collection. ack:{}, id:{}, document: {}", LOG_PREFIX, DATABASE_NAME, COLLECTION_NAME, res.wasAcknowledged(), res.getInsertedId(), document);
+            var document = build(telemetry);
+            coll.insertOne(document);
+            log.info("{} telemetry inserted", LOG_PREFIX);
 
         } catch (Exception e) {
-            log.info("{} => FAILED. In {}.{} collection. document: {}", LOG_PREFIX, DATABASE_NAME, COLLECTION_NAME, document, e);
+            log.error("{} exception inserting telemetry", LOG_PREFIX, e);
         }
     }
 
@@ -67,7 +66,7 @@ class MongodbPortImpl implements MongodbPort {
         try (var client = MongoClients.create(this.settings)) {
             return client.getDatabase(DATABASE_NAME).getCollection(COLLECTION_NAME).countDocuments();
         } catch (Exception e) {
-            log.info("{} => FAILED. In {}.{} collection. Unable to count", LOG_PREFIX, DATABASE_NAME, COLLECTION_NAME, e);
+            log.error("{} exception counting telemetry", LOG_PREFIX, e);
             return 0L;
         }
     }

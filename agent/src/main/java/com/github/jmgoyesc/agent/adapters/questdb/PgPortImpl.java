@@ -56,11 +56,11 @@ class PgPortImpl implements QuestdbPgPort {
                 stmt.setDouble(6, telemetry.value());
                 stmt.setNull(7, Types.OTHER);
 
-                var count = stmt.executeUpdate();
-                log.info("{} inserted record in telemetries tables. count: {}, telemetry: {}", LOG_PREFIX, count, telemetry);
+                stmt.executeUpdate();
+                log.info("{} telemetry inserted", LOG_PREFIX);
             }
         } catch (SQLException e) {
-            log.info("{} failed insertion. telemetry: {}", LOG_PREFIX, telemetry, e);
+            log.error("{} exception inserting telemetry", LOG_PREFIX, e);
         }
     }
 
@@ -74,7 +74,7 @@ class PgPortImpl implements QuestdbPgPort {
                 count = rs.getLong(1);
             }
         } catch (SQLException e) {
-            log.info("{} failed count inserted.", LOG_PREFIX, e);
+            log.error("{} exception counting telemetry", LOG_PREFIX, e);
         }
         return count;
     }

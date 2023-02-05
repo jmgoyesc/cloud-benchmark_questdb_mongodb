@@ -43,9 +43,9 @@ class InfluxPortImpl implements QuestdbInfluxPort {
                     .doubleColumn("value", telemetry.value())
                     .timestampColumn("originated_at", Timestamp.from(telemetry.originatedAt().toInstant()).getTime())
                     .atNow();
-            log.info("{} inserted telemetry: {}", LOG_PREFIX, telemetry);
+            log.info("{} telemetry inserted", LOG_PREFIX);
         } catch (Throwable e) {
-            log.info("{} failed inserting telemetry: {}", LOG_PREFIX, telemetry, e);
+            log.error("{} exception inserting telemetry", LOG_PREFIX, e);
         }
     }
 
