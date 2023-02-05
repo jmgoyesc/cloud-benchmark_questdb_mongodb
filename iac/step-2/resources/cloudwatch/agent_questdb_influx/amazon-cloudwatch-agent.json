@@ -1,0 +1,41 @@
+{
+  "metrics": {
+    "metrics_collected": {
+      "cpu": {
+        "resources": [ "*" ],
+        "totalcpu": true,
+        "measurement": [ "usage_active" ]
+      },
+      "disk": {
+        "resources": [ "/" ],
+        "measurement": [ "used" ]
+      },
+      "diskio": {
+        "resources": [ "*" ],
+        "measurement": [ "iops_in_progress" ]
+      },
+      "mem": {
+        "measurement": [ "used_percent" ]
+      }
+    }
+  },
+  "logs": {
+    "logs_collected": {
+      "files": {
+        "collect_list": [
+          {
+            "file_path": "/home/ec2-user/logs/spring.log",
+            "retention_in_days": 30,
+
+            "log_group_name": "agent_questdb_influx",
+            "log_stream_name": "agent_questdb_influx_{ip_address}",
+
+            "timestamp_format": "%Y-%m-%d %H:%M:%S",
+            "multi_line_start_pattern": "{timestamp_format}"
+          }
+        ]
+      }
+    },
+    "log_stream_name": "agent_questdb_influx_{ip_address}"
+  }
+}

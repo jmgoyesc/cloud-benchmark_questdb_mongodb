@@ -24,12 +24,11 @@
       "files": {
         "collect_list": [
           {
-            "file_path": "/home/ec2-user/logs/spring.log",
-            "auto_removal": true,
+            "file_path": "/home/ec2-user/.questdb/log/**",
             "retention_in_days": 30,
 
-            "log_group_name": "agent_{ip_address}",
-            "log_stream_name": "agent_{ip_address}",
+            "log_group_name": "sut_questdb_pg",
+            "log_stream_name": "sut_questdb_pg_{ip_address}",
 
             "timestamp_format": "%Y-%m-%d %H:%M:%S",
             "multi_line_start_pattern": "{timestamp_format}"
@@ -37,6 +36,6 @@
         ]
       }
     },
-    "log_stream_name": "agent_{ip_address}"
+    "log_stream_name": "sut_questdb_pg_{ip_address}"
   }
 }

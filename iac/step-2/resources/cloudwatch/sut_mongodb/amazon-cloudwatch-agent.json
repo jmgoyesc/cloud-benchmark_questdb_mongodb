@@ -1,0 +1,41 @@
+{
+  "metrics": {
+    "metrics_collected": {
+      "cpu": {
+        "resources": [ "*" ],
+        "totalcpu": true,
+        "measurement": [ "usage_active" ]
+      },
+      "disk": {
+        "resources": [ "/" ],
+        "measurement": [ "used" ]
+      },
+      "diskio": {
+        "resources": [ "*" ],
+        "measurement": [ "iops_in_progress" ]
+      },
+      "mem": {
+        "measurement": [ "used_percent" ]
+      }
+    }
+  },
+  "logs": {
+    "logs_collected": {
+      "files": {
+        "collect_list": [
+          {
+            "file_path": "/var/log/mongodb/mongod.log",
+            "retention_in_days": 30,
+
+            "log_group_name": "sut_mongodb",
+            "log_stream_name": "sut_mongodb_{ip_address}",
+
+            "timestamp_format": "%Y-%m-%d %H:%M:%S",
+            "multi_line_start_pattern": "{timestamp_format}"
+          }
+        ]
+      }
+    },
+    "log_stream_name": "sut_mongodb_{ip_address}"
+  }
+}
