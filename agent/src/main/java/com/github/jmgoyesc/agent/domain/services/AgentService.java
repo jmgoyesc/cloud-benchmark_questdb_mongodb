@@ -10,6 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.util.List;
+import java.util.stream.IntStream;
+
 /**
  * @author Juan Manuel Goyes Coral
  */
@@ -25,11 +29,19 @@ public class AgentService {
     private final MongodbPort mongodbPort;
 
     private Config config;
-    private LoadGenerator load;
-    private Thread tLoad;
+    private List<Thread> threads = List.of();
 
     public void configure(Config config) {
         this.config = config;
+        var db = chooseDatabase();
+        db.init(config.uri());
+
+        this.threads = IntStream.rangeClosed(1, config.vehicles())
+                        .mapToObj(it -> Thread.ofVirtual()
+                                .name("vt-", it)
+                                .unstarted(new LoadGenerator(db, config.db(), "vehicle-" + it)))
+                        .toList();
+
         log.info("[configure] Complete configuration => {}", config);
     }
 
@@ -38,19 +50,26 @@ public class AgentService {
         if (config == null) {
             throw new RuntimeException("Configure was not called for agent. Pending configuration: POST /v1/configurations");
         }
-        var db = chooseDatabase();
-        load = new LoadGenerator(db, config.uri(), config.db(), true);
-        tLoad = new Thread(load);
-        tLoad.start();
+        LoadGenerator.running = true;
+        threads.forEach(Thread::start);
         log.info("[start] Signal processed");
     }
 
     public void stop() {
-        log.info("[stop] Signal received to stop process");
-        if (load == null) {
-            throw new RuntimeException("Not found a running process. Please configure and start it");
-        }
-        load.setRunning(false);
+        log.info("[stop] Signal received to stop process. Wait for all threads to finish: {}", threads.size());
+
+        LoadGenerator.running = false;
+        threads.parallelStream().forEach(thread -> {
+            try {
+                var terminated = thread.join(Duration.ofSeconds(5));
+                if (!terminated) {
+                    thread.interrupt();
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         log.info("[stop] Signal processed");
     }
 
@@ -59,7 +78,7 @@ public class AgentService {
             throw new RuntimeException("Configure was not called for agent. Pending configuration: POST /v1/configurations");
         }
         var db = chooseDatabase();
-        return db.count(config.uri());
+        return db.count();
     }
 
     private DatabasePort chooseDatabase() {

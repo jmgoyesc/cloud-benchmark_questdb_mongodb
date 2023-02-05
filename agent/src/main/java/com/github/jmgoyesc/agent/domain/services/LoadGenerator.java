@@ -3,7 +3,6 @@ package com.github.jmgoyesc.agent.domain.services;
 import com.github.jmgoyesc.agent.domain.models.Config.Database;
 import com.github.jmgoyesc.agent.domain.models.Telemetry;
 import com.github.jmgoyesc.agent.domain.services.ports.DatabasePort;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.ZonedDateTime;
@@ -18,16 +17,16 @@ import java.util.random.RandomGenerator;
 @Slf4j
 class LoadGenerator implements Runnable {
 
-    private final DatabasePort port;
-    private final String uri;
-    private final Database source;
-    @Setter private boolean running;
+    static volatile boolean running = false;
 
-    LoadGenerator(DatabasePort port, String uri, Database source, boolean running) {
+    private final DatabasePort port;
+    private final Database source;
+    private final String vehicle;
+
+    LoadGenerator(DatabasePort port, Database source, String vehicle) {
         this.port = port;
-        this.uri = uri;
-        this.running = running;
         this.source = source;
+        this.vehicle = vehicle;
     }
 
     @Override
@@ -35,17 +34,17 @@ class LoadGenerator implements Runnable {
         log.info("Start load generator");
         while(running) {
             var telemetry = build(source);
-            port.insert(uri, telemetry);
+            port.insert(telemetry);
         }
         log.info("End load generator");
     }
 
-    private static Telemetry build(Database source) {
+    private Telemetry build(Database source) {
         var now = ZonedDateTime.now();
         return Telemetry.builder()
                 .receivedAt(now)
                 .originatedAt(now)
-                .vehicle("vehicle-1")
+                .vehicle(this.vehicle)
                 .type("mileage")
                 .source(source)
                 .value(Random.from(RandomGenerator.getDefault()).nextDouble())

@@ -36,10 +36,15 @@ dependencies {
 
 	// mongodb
 	implementation 'org.mongodb:mongodb-driver-sync:4.8.1'
+	implementation 'org.xerial.snappy:snappy-java:1.1.9.1'
 
 	// questdb postgres jdbc
 	runtimeOnly 'org.postgresql:postgresql'
 	implementation 'org.questdb:questdb:6.6.1'
+	implementation 'com.zaxxer:HikariCP:5.0.1'
+
+	// rest optimizations
+	implementation 'org.apache.httpcomponents.client5:httpclient5'
 
 	// apache commons
 	implementation 'org.apache.commons:commons-lang3:3.12.0'

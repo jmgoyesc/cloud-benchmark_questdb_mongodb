@@ -2,12 +2,12 @@ package com.github.jmgoyesc.agent.adapters.questdb;
 
 import com.github.jmgoyesc.agent.domain.models.Telemetry;
 import com.github.jmgoyesc.agent.domain.services.ports.QuestdbPgPort;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -22,6 +22,8 @@ import java.sql.Types;
 @RequiredArgsConstructor
 class PgPortImpl implements QuestdbPgPort {
 
+    private HikariDataSource ds;
+
     private static final String LOG_PREFIX = "[questdb - pg]";
     private static final String SQL_INSERT = """
     INSERT INTO telemetries
@@ -32,14 +34,20 @@ class PgPortImpl implements QuestdbPgPort {
     SELECT count() from telemetries
     """;
 
+    @Override
+    public void init(String uri) {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(uri);
+        config.setAutoCommit(true);
+        config.setConnectionTimeout(3_000);
+        this.ds = new HikariDataSource(config);
+    }
+
     //TODO: reuse connection (connection pool?)
     @Override
-    public void insert(String uri, Telemetry telemetry) {
-        try {
-            final Connection connection = DriverManager.getConnection(uri);
-            connection.setAutoCommit(true);
-
-            try (PreparedStatement stmt = connection.prepareStatement(SQL_INSERT)) {
+    public void insert(Telemetry telemetry) {
+        try (var conn = ds.getConnection()) {
+            try (PreparedStatement stmt = conn.prepareStatement(SQL_INSERT)) {
                 stmt.setTimestamp(1, Timestamp.from(telemetry.receivedAt().toInstant()));
                 stmt.setTimestamp(2, Timestamp.from(telemetry.originatedAt().toInstant()));
                 stmt.setString(3, telemetry.vehicle());
@@ -51,26 +59,20 @@ class PgPortImpl implements QuestdbPgPort {
                 var count = stmt.executeUpdate();
                 log.info("{} inserted record in telemetries tables. count: {}, telemetry: {}", LOG_PREFIX, count, telemetry);
             }
-            connection.close();
         } catch (SQLException e) {
             log.info("{} failed insertion. telemetry: {}", LOG_PREFIX, telemetry, e);
         }
     }
 
     @Override
-    public long count(String uri) {
+    public long count() {
         var count = 0L;
-        try {
-            final Connection connection = DriverManager.getConnection(uri);
-            connection.setAutoCommit(true);
-
-            try (PreparedStatement stmt = connection.prepareStatement(SQL_COUNT)) {
-
+        try (var conn = ds.getConnection()) {
+            try (PreparedStatement stmt = conn.prepareStatement(SQL_COUNT)) {
                 var rs = stmt.executeQuery();
                 rs.next();
                 count = rs.getLong(1);
             }
-            connection.close();
         } catch (SQLException e) {
             log.info("{} failed count inserted.", LOG_PREFIX, e);
         }

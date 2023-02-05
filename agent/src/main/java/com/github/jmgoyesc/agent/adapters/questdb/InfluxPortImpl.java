@@ -20,20 +20,23 @@ class InfluxPortImpl implements QuestdbInfluxPort {
 
     private static final String LOG_PREFIX = "[questdb - influx]";
 
-    private final ThreadLocal<Sender> sender = new ThreadLocal<>();
     private final RestPortImpl rest;
+    //TODO: sender is not thread safe and must be close after it is not used
+    private Sender sender;
+
+    @Override
+    public void init(String uri) {
+        this.sender = Sender.builder().address(uri).build();
+
+        var endpoint = "http://" + uri.replace(":9009", ":9000");
+        this.rest.init(endpoint);
+    }
 
     //TODO: implement sender pool (close sender)
     @Override
-    public void insert(String uri, Telemetry telemetry) {
-        if (sender.get() == null) {
-            log.info("{} Request new instance for sender", LOG_PREFIX);
-            sender.set(Sender.builder().address(uri).build());
-            log.info("{} Sender created", LOG_PREFIX);
-        }
-
+    public void insert(Telemetry telemetry) {
         try {
-            sender.get().table("telemetries")
+            sender.table("telemetries")
                     .symbol("type", telemetry.type())
                     .symbol("source", telemetry.source().name())
                     .stringColumn("vehicle", telemetry.vehicle())
@@ -47,10 +50,14 @@ class InfluxPortImpl implements QuestdbInfluxPort {
     }
 
     @Override
-    public long count(String uri) {
+    public long count() {
         // influx line protocol is a protocol only to insert data (one way protocol), not to get data
         // to implement count, it will be use the rest protocol to the correct uri format
-        var endpoint = "http://" + uri.replace(":9009", ":9000");
-        return rest.count(endpoint);
+        return rest.count();
+    }
+
+    @Override
+    public void clean() {
+
     }
 }

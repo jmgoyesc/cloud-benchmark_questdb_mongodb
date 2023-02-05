@@ -11,8 +11,8 @@ logging:
     root: fatal
     com.github.jmgoyesc.agent: info
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
-    file: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss} - [%t] - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} - [%t] - %msg%n"
   file:
     path: "./logs"
 ---
