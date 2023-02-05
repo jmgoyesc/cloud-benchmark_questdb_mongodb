@@ -24,7 +24,9 @@ public class ExperimentInfoController {
 
     @GetMapping
     public ExperimentInfo get() {
-        return service.get();
+        var info = service.get();
+        log.info("Experiment info requested: {}", info);
+        return info;
     }
 
 }

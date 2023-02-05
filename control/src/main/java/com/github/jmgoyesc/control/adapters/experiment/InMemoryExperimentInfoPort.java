@@ -2,6 +2,7 @@ package com.github.jmgoyesc.control.adapters.experiment;
 
 import com.github.jmgoyesc.control.domain.models.experiment.ExperimentInfo;
 import com.github.jmgoyesc.control.domain.models.ports.ExperimentInfoPort;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
+@Slf4j
 class InMemoryExperimentInfoPort implements ExperimentInfoPort {
 
     private ExperimentInfo info = new ExperimentInfo();
@@ -21,5 +23,6 @@ class InMemoryExperimentInfoPort implements ExperimentInfoPort {
     @Override
     public void update(ExperimentInfo info) {
         this.info = info;
+        log.info("[in-memory-experiment] Experiment updated: {}", info);
     }
 }

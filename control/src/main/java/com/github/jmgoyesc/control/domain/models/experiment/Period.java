@@ -1,6 +1,7 @@
 package com.github.jmgoyesc.control.domain.models.experiment;
 
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.ZonedDateTime;
 
@@ -12,7 +13,7 @@ import static com.github.jmgoyesc.control.domain.models.experiment.PeriodStatus.
  * @author Juan Manuel Goyes Coral
  */
 
-@Getter
+@Getter @ToString
 public class Period {
     private PeriodStatus status;
     private ZonedDateTime start;
