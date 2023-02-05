@@ -1,0 +1,22 @@
+{
+  "logs": {
+    "logs_collected": {
+      "files": {
+        "collect_list": [
+          {
+            "file_path": "/home/ec2-user/logs/spring.log",
+            "auto_removal": true,
+            "retention_in_days": 30,
+
+            "log_group_name": "control",
+            "log_stream_name": "{ip_address}",
+
+            "timestamp_format": "%Y-%m-%d %H:%M:%S",
+            "multi_line_start_pattern": "{timestamp_format}"
+          }
+        ]
+      }
+    },
+    "log_stream_name": "control_{ip_address}"
+  }
+}

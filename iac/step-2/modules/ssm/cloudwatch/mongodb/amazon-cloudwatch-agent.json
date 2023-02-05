@@ -24,12 +24,12 @@
       "files": {
         "collect_list": [
           {
-            "file_path": "/home/ec2-user/logs/spring.log",
+            "file_path": "/var/log/mongodb/mongod.log",
             "auto_removal": true,
             "retention_in_days": 30,
 
-            "log_group_name": "agent",
-            "log_stream_name": "{ip_address}",
+            "log_group_name": "mongodb_{ip_address}",
+            "log_stream_name": "mongodb_{ip_address}",
 
             "timestamp_format": "%Y-%m-%d %H:%M:%S",
             "multi_line_start_pattern": "{timestamp_format}"
@@ -37,6 +37,6 @@
         ]
       }
     },
-    "log_stream_name": "agent_{ip_address}"
+    "log_stream_name": "mongodb_{ip_address}"
   }
 }

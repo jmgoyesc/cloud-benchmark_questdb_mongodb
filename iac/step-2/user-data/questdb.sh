@@ -35,8 +35,13 @@ sudo systemctl enable questdb.service
 
 
 # configure cloud watch logs
-sudo yum install -y amazon-cloudwatch-agent
-# TODO: find where are the logs for questdb
+aws ssm get-parameter --name "questdb-cloudwatch-config" --region eu-central-1 | jq -r ".Parameter.Value" > /home/ec2-user/amazon-cloudwatch-agent.json
+
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/home/ec2-user/amazon-cloudwatch-agent.json
+
+sudo systemctl status amazon-cloudwatch-agent
+sudo systemctl stop amazon-cloudwatch-agent
+sudo systemctl start amazon-cloudwatch-agent
 
 # done
 echo "done" > /home/ec2-user/done.txt
