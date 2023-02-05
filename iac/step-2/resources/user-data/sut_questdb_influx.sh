@@ -5,8 +5,8 @@ sudo yum install -y jq
 
 
 # install questdb
-curl -LJ https://github.com/questdb/questdb/releases/download/6.6.1/questdb-6.6.1-rt-linux-amd64.tar.gz -o /home/ec2-user/questdb-6.6.1-rt-linux-amd64.tar.gz
-tar -xvf /home/ec2-user/questdb-6.6.1-rt-linux-amd64.tar.gz -C /home/ec2-user/
+curl -LJ https://github.com/questdb/questdb/releases/download/7.0.0/questdb-7.0.0-rt-linux-amd64.tar.gz -o /home/ec2-user/questdb-7.0.0-rt-linux-amd64.tar.gz
+tar -xvf /home/ec2-user/questdb-7.0.0-rt-linux-amd64.tar.gz -C /home/ec2-user/
 
 
 # create questdb.service
@@ -19,8 +19,8 @@ After=multi-user.target
 Type=forking
 Restart=always
 RestartSec=2
-ExecStart=/home/ec2-user/questdb-6.6.1-rt-linux-amd64/bin/questdb.sh start -d home/ec2-user/.questdb
-ExecStop=/home/ec2-user/questdb-6.6.1-rt-linux-amd64/bin/questdb.sh stop
+ExecStart=/home/ec2-user/questdb-7.0.0-rt-linux-amd64/bin/questdb.sh start -d home/ec2-user/.questdb
+ExecStop=/home/ec2-user/questdb-7.0.0-rt-linux-amd64/bin/questdb.sh stop
 
 [Install]
 WantedBy=multi-user.target
