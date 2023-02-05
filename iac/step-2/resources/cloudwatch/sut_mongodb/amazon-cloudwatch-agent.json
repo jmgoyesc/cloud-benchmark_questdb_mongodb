@@ -28,10 +28,7 @@
             "retention_in_days": 30,
 
             "log_group_name": "/cbs/t2.micro/sut_mongodb",
-            "log_stream_name": "sut_mongodb_{ip_address}",
-
-            "timestamp_format": "%Y-%m-%d %H:%M:%S",
-            "multi_line_start_pattern": "{timestamp_format}"
+            "log_stream_name": "sut_mongodb_{ip_address}"
           }
         ]
       }

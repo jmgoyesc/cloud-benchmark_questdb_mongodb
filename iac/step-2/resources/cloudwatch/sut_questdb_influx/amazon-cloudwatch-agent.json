@@ -29,8 +29,7 @@
 
             "log_group_name": "/cbs/t2.micro/sut_questdb_influx",
             "log_stream_name": "sut_questdb_influx_{ip_address}",
-
-            "timestamp_format": "%Y-%m-%d %H:%M:%S",
+            "timestamp_format": "%Y-%m-%dT%H:%M:%S.%fZ",
             "multi_line_start_pattern": "{timestamp_format}"
           }
         ]
