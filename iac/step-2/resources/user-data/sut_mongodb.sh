@@ -21,6 +21,8 @@ sudo systemctl enable mongod
 
 
 # configure cloud watch logs
+sudo yum install -y amazon-cloudwatch-agent
+
 aws ssm get-parameter --name "sut_mongodb" --region eu-central-1 | jq -r ".Parameter.Value" > /home/ec2-user/amazon-cloudwatch-agent.json
 
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/home/ec2-user/amazon-cloudwatch-agent.json
