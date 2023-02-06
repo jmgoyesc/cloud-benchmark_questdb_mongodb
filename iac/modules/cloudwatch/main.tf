@@ -1,6 +1,6 @@
 # iam policy
 resource "aws_iam_policy" "logs_put_retention" {
-  name = "CloudWatchPutRetentionPolicy"
+  name = "${var.sut_instance_type}_CloudWatchPutRetentionPolicy"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -17,13 +17,13 @@ resource "aws_iam_policy" "logs_put_retention" {
 
   tags = {
     "project"   = "cloud benchmark"
-    "worskapce" = "default"
+    "worskapce" = var.sut_instance_type
   }
 }
 
 # iam role
 resource "aws_iam_role" "CloudWatchAgentServerRole" {
-  name = "CloudWatchAgentServerRole"
+  name = "${var.sut_instance_type}_CloudWatchAgentServerRole"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -48,12 +48,12 @@ resource "aws_iam_role" "CloudWatchAgentServerRole" {
 
   tags = {
     "project"   = "cloud benchmark"
-    "worskapce" = "default"
+    "worskapce" = var.sut_instance_type
   }
 }
 
 # instance profile to help to assume role
 resource "aws_iam_instance_profile" "ec2_cloudwatch_profile" {
-  name = "ec2_cloudwatch_profile"
+  name = "${var.sut_instance_type}_ec2_cloudwatch_profile"
   role = aws_iam_role.CloudWatchAgentServerRole.name
 }

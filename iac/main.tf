@@ -9,70 +9,86 @@ terraform {
 
 # Configure the AWS Provider
 provider "aws" {
-  region = "eu-central-1"
+  region = var.region
 }
 
 # vpc
 module "vpc" {
-  source = "./modules/vpc"
+  source            = "./modules/vpc"
+  sut_instance_type = var.sut_instance_type
+  region            = var.region
 }
 
 # security groups
 module "security_groups" {
-  source = "./modules/security_groups"
-  vpc_id = module.vpc.vpc_id
+  source            = "./modules/security_groups"
+  sut_instance_type = var.sut_instance_type
+  vpc_id            = module.vpc.vpc_id
 }
 
 module "cloudwatch" {
-  source = "./modules/cloudwatch"
+  source            = "./modules/cloudwatch"
+  sut_instance_type = var.sut_instance_type
 }
 
 # ssm
 module "ssm" {
-  source = "./modules/ssm"
+  source            = "./modules/ssm"
+  sut_instance_type = var.sut_instance_type
   configs = {
     sut_questdb_pg = {
-      name            = "sut_questdb_pg"
-      config_location = "${path.module}/resources/cloudwatch/sut_questdb_pg/amazon-cloudwatch-agent.json"
+      name             = "sut_questdb_pg"
+      file_path        = "/home/ec2-user/.questdb/log/**"
+      timestamp_format = "%Y-%m-%dT%H:%M:%S.%fZ"
     }
     sut_questdb_rest = {
-      name            = "sut_questdb_rest"
-      config_location = "${path.module}/resources/cloudwatch/sut_questdb_rest/amazon-cloudwatch-agent.json"
+      name             = "sut_questdb_rest"
+      file_path        = "/home/ec2-user/.questdb/log/**"
+      timestamp_format = "%Y-%m-%dT%H:%M:%S.%fZ"
     }
     sut_questdb_influx = {
-      name            = "sut_questdb_influx"
-      config_location = "${path.module}/resources/cloudwatch/sut_questdb_influx/amazon-cloudwatch-agent.json"
+      name             = "sut_questdb_influx"
+      file_path        = "/home/ec2-user/.questdb/log/**"
+      timestamp_format = "%Y-%m-%dT%H:%M:%S.%fZ"
     }
     sut_mongodb = {
-      name            = "sut_mongodb"
-      config_location = "${path.module}/resources/cloudwatch/sut_mongodb/amazon-cloudwatch-agent.json"
+      name             = "sut_mongodb"
+      file_path        = "/var/log/mongodb/mongod.log"
+      timestamp_format = "no-timestamp"
     }
     agent_questdb_pg = {
-      name            = "agent_questdb_pg"
-      config_location = "${path.module}/resources/cloudwatch/agent_questdb_pg/amazon-cloudwatch-agent.json"
+      name             = "agent_questdb_pg"
+      file_path        = "/home/ec2-user/logs/spring.log"
+      timestamp_format = "%Y-%m-%d %H:%M:%S"
     }
     agent_questdb_rest = {
-      name            = "agent_questdb_rest"
-      config_location = "${path.module}/resources/cloudwatch/agent_questdb_rest/amazon-cloudwatch-agent.json"
+      name             = "agent_questdb_rest"
+      file_path        = "/home/ec2-user/logs/spring.log"
+      timestamp_format = "%Y-%m-%d %H:%M:%S"
     }
     agent_questdb_influx = {
-      name            = "agent_questdb_influx"
-      config_location = "${path.module}/resources/cloudwatch/agent_questdb_influx/amazon-cloudwatch-agent.json"
+      name             = "agent_questdb_influx"
+      file_path        = "/home/ec2-user/logs/spring.log"
+      timestamp_format = "%Y-%m-%d %H:%M:%S"
     }
     agent_mongodb = {
-      name            = "agent_mongodb"
-      config_location = "${path.module}/resources/cloudwatch/agent_mongodb/amazon-cloudwatch-agent.json"
+      name             = "agent_mongodb"
+      file_path        = "/home/ec2-user/logs/spring.log"
+      timestamp_format = "%Y-%m-%d %H:%M:%S"
     }
     control = {
-      name            = "control"
-      config_location = "${path.module}/resources/cloudwatch/control/amazon-cloudwatch-agent.json"
+      name             = "control"
+      file_path        = "/home/ec2-user/logs/spring.log"
+      timestamp_format = "%Y-%m-%d %H:%M:%S"
     }
   }
 }
 
 # ec2s
 module "ec2s" {
-  source = "./modules/ec2"
+  source            = "./modules/ec2"
+  sut_instance_type = var.sut_instance_type
+  region            = var.region
   instances = {
     sut_questdb_pg = {
       machine_number = 20
@@ -82,6 +98,7 @@ module "ec2s" {
         module.security_groups.sg_questdb,
         module.security_groups.sg_external
       ]
+      instance_type = var.sut_instance_type
     }
     sut_questdb_rest = {
       machine_number = 21
@@ -91,6 +108,7 @@ module "ec2s" {
         module.security_groups.sg_questdb,
         module.security_groups.sg_external
       ]
+      instance_type = var.sut_instance_type
     }
     sut_questdb_influx = {
       machine_number = 22
@@ -100,6 +118,7 @@ module "ec2s" {
         module.security_groups.sg_questdb,
         module.security_groups.sg_external
       ]
+      instance_type = var.sut_instance_type
     }
     sut_mongodb = {
       machine_number = 23
@@ -109,6 +128,7 @@ module "ec2s" {
         module.security_groups.sg_mongodb,
         module.security_groups.sg_external
       ]
+      instance_type = var.sut_instance_type
     }
     agent_questdb_pg = {
       machine_number = 30
@@ -118,6 +138,7 @@ module "ec2s" {
         module.security_groups.sg_agent,
         module.security_groups.sg_external
       ]
+      instance_type = var.agent_instance_type
     }
     agent_questdb_rest = {
       machine_number = 31
@@ -127,6 +148,7 @@ module "ec2s" {
         module.security_groups.sg_agent,
         module.security_groups.sg_external
       ]
+      instance_type = var.agent_instance_type
     }
     agent_questdb_influx = {
       machine_number = 32
@@ -136,6 +158,7 @@ module "ec2s" {
         module.security_groups.sg_agent,
         module.security_groups.sg_external
       ]
+      instance_type = var.agent_instance_type
     }
     agent_mongodb = {
       machine_number = 33
@@ -145,6 +168,7 @@ module "ec2s" {
         module.security_groups.sg_agent,
         module.security_groups.sg_external
       ]
+      instance_type = var.agent_instance_type
     }
     control = {
       machine_number = 10
@@ -154,6 +178,7 @@ module "ec2s" {
         module.security_groups.sg_control,
         module.security_groups.sg_external
       ]
+      instance_type = "t2.micro"
     }
   }
   subnet           = module.vpc.subnet_public_id

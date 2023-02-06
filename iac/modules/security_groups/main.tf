@@ -1,7 +1,7 @@
 
 # security group external
 resource "aws_security_group" "external" {
-  name        = "external"
+  name        = "${var.sut_instance_type}_external"
   description = "external access"
   vpc_id      = var.vpc_id
 
@@ -43,15 +43,15 @@ resource "aws_security_group" "external" {
   }
 
   tags = {
-    "Name"      = "external access"
+    "Name"      = "${var.sut_instance_type}_external access"
     "project"   = "cloud benchmark"
-    "worskapce" = "default"
+    "worskapce" = var.sut_instance_type
   }
 }
 
 # security group control
 resource "aws_security_group" "control" {
-  name        = "control"
+  name        = "${var.sut_instance_type}_control"
   description = "control - Experiment controller"
   vpc_id      = var.vpc_id
 
@@ -72,15 +72,15 @@ resource "aws_security_group" "control" {
   }
 
   tags = {
-    "Name"      = "control"
+    "Name"      = "${var.sut_instance_type}_control"
     "project"   = "cloud benchmark"
-    "worskapce" = "default"
+    "worskapce" = var.sut_instance_type
   }
 }
 
 # security group agent
 resource "aws_security_group" "agent" {
-  name        = "agent"
+  name        = "${var.sut_instance_type}_agent"
   description = "Agent - Load Generator"
   vpc_id      = var.vpc_id
 
@@ -101,15 +101,15 @@ resource "aws_security_group" "agent" {
   }
 
   tags = {
-    "Name"      = "agent"
+    "Name"      = "${var.sut_instance_type}_agent"
     "project"   = "cloud benchmark"
-    "worskapce" = "default"
+    "worskapce" = var.sut_instance_type
   }
 }
 
 # secutiry group questdb
 resource "aws_security_group" "questdb" {
-  name        = "questdb"
+  name        = "${var.sut_instance_type}_questdb"
   description = "System Under Test - QuestDB"
   vpc_id      = var.vpc_id
 
@@ -143,15 +143,15 @@ resource "aws_security_group" "questdb" {
     ipv6_cidr_blocks = ["::/0"]
   }
   tags = {
-    "Name"      = "sut - questdb"
+    "Name"      = "${var.sut_instance_type}_sut - questdb"
     "project"   = "cloud benchmark"
-    "worskapce" = "default"
+    "worskapce" = var.sut_instance_type
   }
 }
 
 # security group mongodb
 resource "aws_security_group" "mongodb" {
-  name        = "mongodb"
+  name        = "${var.sut_instance_type}_mongodb"
   description = "System Under Test - Mongo DB"
   vpc_id      = var.vpc_id
 
@@ -171,8 +171,8 @@ resource "aws_security_group" "mongodb" {
     ipv6_cidr_blocks = ["::/0"]
   }
   tags = {
-    "Name"      = "sut - mongodb"
+    "Name"      = "${var.sut_instance_type}_sut - mongodb"
     "project"   = "cloud benchmark"
-    "worskapce" = "default"
+    "worskapce" = var.sut_instance_type
   }
 }

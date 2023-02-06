@@ -1,0 +1,17 @@
+{
+  "logs": {
+    "logs_collected": {
+      "files": {
+        "collect_list": {
+          "file_path": "/home/ec2-user/logs/spring.log",
+          "log_group_name": "/cbs/t3.micro/control",
+          "log_stream_name": "control_{ip_address}",
+          "multi_line_start_pattern": "{timestamp_format}",
+          "retention_in_days": 30,
+          "timestamp_format": "%Y-%m-%d %H:%M:%S"
+        }
+      }
+    },
+    "log_stream_name": "control_{ip_address}"
+  }
+}

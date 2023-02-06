@@ -5,8 +5,18 @@ variable "instances" {
     name           = string
     userdata_path  = string
     subgroups      = list(string)
+    instance_type  = string
   }))
   nullable = false
+}
+
+variable "sut_instance_type" {
+  type = string
+  description = "Use to find the ssm parameter"
+}
+
+variable "region" {
+  type = string
 }
 
 variable "instance_profile" {
@@ -26,13 +36,6 @@ variable "ami" {
   type        = string
   nullable    = false
   default     = "ami-0a261c0e5f51090b1"
-}
-
-variable "instance_type" {
-  description = "Instance type to be created"
-  type        = string
-  nullable    = false
-  default     = "t2.micro"
 }
 
 variable "subnet" {

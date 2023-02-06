@@ -2,9 +2,9 @@
 resource "aws_vpc" "vpc" {
   cidr_block = "10.0.0.0/16"
   tags = {
-    "Name"      = "vpc_cbs"
+    "Name"      = "${var.sut_instance_type}_vpc_cbs"
     "project"   = "cloud benchmark"
-    "worskapce" = "default"
+    "worskapce" = var.sut_instance_type
   }
 }
 
@@ -12,11 +12,11 @@ resource "aws_vpc" "vpc" {
 resource "aws_subnet" "private" {
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = "10.0.1.0/24"
-  availability_zone = "eu-central-1a"
+  availability_zone = "${var.region}a"
   tags = {
-    "Name"      = "private"
+    "Name"      = "${var.sut_instance_type}_private"
     "project"   = "cloud benchmark"
-    "worskapce" = "default"
+    "worskapce" = var.sut_instance_type
   }
 }
 
@@ -24,12 +24,12 @@ resource "aws_subnet" "private" {
 resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = "10.0.2.0/24"
-  availability_zone       = "eu-central-1a"
+  availability_zone       = "${var.region}a"
   map_public_ip_on_launch = true
   tags = {
-    "Name"      = "public"
+    "Name"      = "${var.sut_instance_type}_public"
     "project"   = "cloud benchmark"
-    "worskapce" = "default"
+    "worskapce" = var.sut_instance_type
   }
 }
 
@@ -37,9 +37,9 @@ resource "aws_subnet" "public" {
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id
   tags = {
-    "Name"      = "igw cbs"
+    "Name"      = "${var.sut_instance_type}_igw cbs"
     "project"   = "cloud benchmark"
-    "worskapce" = "default"
+    "worskapce" = var.sut_instance_type
   }
 }
 
@@ -47,9 +47,9 @@ resource "aws_internet_gateway" "igw" {
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.vpc.id
   tags = {
-    "Name"      = "private route_table_cbs"
+    "Name"      = "${var.sut_instance_type}_private route_table_cbs"
     "project"   = "cloud benchmark"
-    "worskapce" = "default"
+    "worskapce" = var.sut_instance_type
   }
 }
 
@@ -61,9 +61,9 @@ resource "aws_route_table" "public" {
     gateway_id = aws_internet_gateway.igw.id
   }
   tags = {
-    "Name"      = "public route_table_cbs"
+    "Name"      = "${var.sut_instance_type}_public route_table_cbs"
     "project"   = "cloud benchmark"
-    "worskapce" = "default"
+    "worskapce" = var.sut_instance_type
   }
 }
 
