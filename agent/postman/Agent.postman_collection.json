@@ -1,0 +1,612 @@
+{
+	"info": {
+		"_postman_id": "7f22fe0d-6179-4db2-93c0-38bbdf2b92f0",
+		"name": "Agent",
+		"description": "agent API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2506469"
+	},
+	"item": [
+		{
+			"name": "agent",
+			"item": [
+				{
+					"name": "configure",
+					"item": [
+						{
+							"name": "configure mongodb",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"uri\": \"mongodb://localhost\",\n    \"db\": \"mongodb\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{agent.url}}/agent/v1/configurations",
+									"host": [
+										"{{agent.url}}"
+									],
+									"path": [
+										"agent",
+										"v1",
+										"configurations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "configure questddb - postgres",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"uri\": \"jdbc:postgresql://localhost:8812/qdb?user=admin&password=quest&sslmode=disable\",\n    \"db\": \"questdb_pg\",\n    \"vehicles\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{agent.url}}/agent/v1/configurations",
+									"host": [
+										"{{agent.url}}"
+									],
+									"path": [
+										"agent",
+										"v1",
+										"configurations"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "configure questddb - postgres",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"uri\": \"jdbc:postgresql://localhost:8812/qdb?user=admin&password=quest&sslmode=disable\",\n    \"db\": \"questdb_pg\",\n    \"vehicles\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{agent.url}}/agent/v1/configurations",
+											"host": [
+												"{{agent.url}}"
+											],
+											"path": [
+												"agent",
+												"v1",
+												"configurations"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "0"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 Feb 2023 19:32:18 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "configure questddb - influx",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"uri\": \"localhost:9009\",\n    \"db\": \"questdb_influx\",\n    \"vehicles\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{agent.url}}/agent/v1/configurations",
+									"host": [
+										"{{agent.url}}"
+									],
+									"path": [
+										"agent",
+										"v1",
+										"configurations"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "configure questddb - influx",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"uri\": \"localhost:9009\",\n    \"db\": \"questdb_influx\",\n    \"vehicles\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{agent.url}}/agent/v1/configurations",
+											"host": [
+												"{{agent.url}}"
+											],
+											"path": [
+												"agent",
+												"v1",
+												"configurations"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "0"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 Feb 2023 19:52:28 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "configure questddb - rest",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"uri\": \"http://localhost:9000\",\n    \"db\": \"questdb_rest\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{agent.url}}/agent/v1/configurations",
+									"host": [
+										"{{agent.url}}"
+									],
+									"path": [
+										"agent",
+										"v1",
+										"configurations"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "start",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"signal\": \"start\"\n}"
+						},
+						"url": {
+							"raw": "{{agent.url}}/agent/v1/configurations",
+							"host": [
+								"{{agent.url}}"
+							],
+							"path": [
+								"agent",
+								"v1",
+								"configurations"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "start",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \"signal\": \"start\" }"
+								},
+								"url": {
+									"raw": "{{agent.url}}/agent/v1/configurations",
+									"host": [
+										"{{agent.url}}"
+									],
+									"path": [
+										"agent",
+										"v1",
+										"configurations"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 06 Feb 2023 19:55:04 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "stop",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"signal\": \"stop\"\n}"
+						},
+						"url": {
+							"raw": "{{agent.url}}/agent/v1/configurations",
+							"host": [
+								"{{agent.url}}"
+							],
+							"path": [
+								"agent",
+								"v1",
+								"configurations"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "stop",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \"signal\": \"stop\" }"
+								},
+								"url": {
+									"raw": "{{agent.url}}/agent/v1/configurations",
+									"host": [
+										"{{agent.url}}"
+									],
+									"path": [
+										"agent",
+										"v1",
+										"configurations"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 06 Feb 2023 19:56:01 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "version",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{agent.url}}/agent/v1/version",
+					"host": [
+						"{{agent.url}}"
+					],
+					"path": [
+						"agent",
+						"v1",
+						"version"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "version",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{agent.url}}/agent/v1/version",
+							"host": [
+								"{{agent.url}}"
+							],
+							"path": [
+								"agent",
+								"v1",
+								"version"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 06 Feb 2023 19:27:22 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"version\": \"2.0.10\",\n    \"time\": \"2023-02-06T19:27:03.952Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "results",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{agent.url}}/agent/v1/results",
+					"host": [
+						"{{agent.url}}"
+					],
+					"path": [
+						"agent",
+						"v1",
+						"results"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "results",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{agent.url}}/agent/v1/results",
+							"host": [
+								"{{agent.url}}"
+							],
+							"path": [
+								"agent",
+								"v1",
+								"results"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 06 Feb 2023 19:32:41 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "21139"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/agent",
+			"type": "string"
+		},
+		{
+			"key": "configuration.id",
+			"value": ""
+		}
+	]
+}

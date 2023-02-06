@@ -40,10 +40,10 @@ class PgPortImpl implements QuestdbPgPort {
         config.setJdbcUrl(uri);
         config.setAutoCommit(true);
         config.setConnectionTimeout(3_000);
+        config.setInitializationFailTimeout(3_000);
         this.ds = new HikariDataSource(config);
     }
 
-    //TODO: reuse connection (connection pool?)
     @Override
     public void insert(Telemetry telemetry) {
         try (var conn = ds.getConnection()) {
@@ -78,4 +78,5 @@ class PgPortImpl implements QuestdbPgPort {
         }
         return count;
     }
+
 }
