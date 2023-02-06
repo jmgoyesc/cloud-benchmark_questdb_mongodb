@@ -20,7 +20,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"uri\": \"mongodb://localhost\",\n    \"db\": \"mongodb\"\n}",
+									"raw": "{\n    \"uri\": \"mongodb://localhost\",\n    \"db\": \"mongodb\",\n    \"vehicles\": 1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -39,7 +39,58 @@
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "configure mongodb",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"uri\": \"mongodb://localhost\",\n    \"db\": \"mongodb\",\n    \"vehicles\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{agent.url}}/agent/v1/configurations",
+											"host": [
+												"{{agent.url}}"
+											],
+											"path": [
+												"agent",
+												"v1",
+												"configurations"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "0"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 Feb 2023 20:21:10 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
 						},
 						{
 							"name": "configure questddb - postgres",
