@@ -33,7 +33,7 @@ Note: Fixed Performance instance families (e.g. M6, C6, and R6)
 5. Confirm the request in the command line. Type "yes"
 6. After the experiment is finished, execute `terraform destroy`
 
-## Tool versions
+## Requirements
 
 Install the tools using homebrew in mac
 
