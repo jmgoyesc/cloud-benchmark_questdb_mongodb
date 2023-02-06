@@ -11,7 +11,7 @@ Orchestrator of the experiment. Responsible for:
 ## Getting started
 
 This project is using gradle and spring boot.
-Therefore, to run to the project you can user this command
+Therefore, to run to the project you can use this command
 
 ```
 ./gradlew bootRun -Dspring.profiles.active=local
@@ -33,7 +33,7 @@ This file is committed to the repository and the userdata configured in AWS will
 ### GET /control/v1/versions
 
 Get the deployed version of the control.
-After the agents are configured, the it will get the version of the agents as well.
+After the agents are configured, it will get the version of the agents as well.
 
 ```json
 {
