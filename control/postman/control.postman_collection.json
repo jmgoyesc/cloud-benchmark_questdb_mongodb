@@ -1,0 +1,781 @@
+{
+	"info": {
+		"_postman_id": "e5646965-2ba6-4bb9-ab4f-ef58fd8836b1",
+		"name": "control",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2506469"
+	},
+	"item": [
+		{
+			"name": "local",
+			"item": [
+				{
+					"name": "tables",
+					"item": [
+						{
+							"name": "local: create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://localhost:9000\"\n    },\n    {\n        \"type\": \"mongodb\",\n        \"uri\": \"mongodb://localhost\"\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{control.url}}/control/v1/setups/tables",
+									"host": [
+										"{{control.url}}"
+									],
+									"path": [
+										"control",
+										"v1",
+										"setups",
+										"tables"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "agents",
+					"item": [
+						{
+							"name": "questdb pg - local: create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"location\": \"http://localhost:8181\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://localhost:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{control.url}}/control/v1/setups/agents",
+									"host": [
+										"{{control.url}}"
+									],
+									"path": [
+										"control",
+										"v1",
+										"setups",
+										"agents"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "questdb rest - local: create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"location\": \"http://localhost:8181\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://localhost:9000\",\n        \"vehicles\": 20\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{control.url}}/control/v1/setups/agents",
+									"host": [
+										"{{control.url}}"
+									],
+									"path": [
+										"control",
+										"v1",
+										"setups",
+										"agents"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "questdb influx - local: create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"location\": \"http://localhost:8181\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"localhost:9009\",\n        \"vehicles\": 12\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{control.url}}/control/v1/setups/agents",
+									"host": [
+										"{{control.url}}"
+									],
+									"path": [
+										"control",
+										"v1",
+										"setups",
+										"agents"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "mongodb - local: create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"location\": \"http://localhost:8181\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://localhost\",\n        \"vehicles\": 200\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{control.url}}/control/v1/setups/agents",
+									"host": [
+										"{{control.url}}"
+									],
+									"path": [
+										"control",
+										"v1",
+										"setups",
+										"agents"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "aws",
+			"item": [
+				{
+					"name": "tables",
+					"item": [
+						{
+							"name": "aws: create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.20:9000\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.21:9000\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.22:9000\"\n    },\n    {\n        \"type\": \"mongodb\",\n        \"uri\": \"mongodb://10.0.2.23\"\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{control.url}}/control/v1/setups/tables",
+									"host": [
+										"{{control.url}}"
+									],
+									"path": [
+										"control",
+										"v1",
+										"setups",
+										"tables"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "aws: create",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.20:9000\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.21:9000\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.22:9000\"\n    },\n    {\n        \"type\": \"mongodb\",\n        \"uri\": \"mongodb://10.0.2.23\"\n    }\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{control.url}}/control/v1/setups/tables",
+											"host": [
+												"{{control.url}}"
+											],
+											"path": [
+												"control",
+												"v1",
+												"setups",
+												"tables"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 05 Feb 2023 17:27:19 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.20:9000\",\n        \"status\": \"done\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.21:9000\",\n        \"status\": \"done\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.22:9000\",\n        \"status\": \"done\"\n    },\n    {\n        \"type\": \"mongodb\",\n        \"uri\": \"mongodb://10.0.2.23\",\n        \"status\": \"done\"\n    }\n]"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "agents",
+					"item": [
+						{
+							"name": "aws. create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"location\": \"http://10.0.2.30:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.31:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.21:9000\",\n        \"vehicles\": 20\n    },\n    {\n        \"location\": \"http://10.0.2.32:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.22:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.33:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.23\",\n        \"vehicles\": 200\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{control.url}}/control/v1/setups/agents",
+									"host": [
+										"{{control.url}}"
+									],
+									"path": [
+										"control",
+										"v1",
+										"setups",
+										"agents"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "aws. create",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\n    {\n        \"location\": \"http://10.0.2.30:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.31:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.21:9000\",\n        \"vehicles\": 20\n    },\n    {\n        \"location\": \"http://10.0.2.32:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.22:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.33:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.23\",\n        \"vehicles\": 200\n    }\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{control.url}}/control/v1/setups/agents",
+											"host": [
+												"{{control.url}}"
+											],
+											"path": [
+												"control",
+												"v1",
+												"setups",
+												"agents"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 05 Feb 2023 17:28:56 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"location\": \"http://10.0.2.30:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.31:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.32:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.33:8080\",\n        \"status\": \"done\"\n    }\n]"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "start",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"action\": \"start\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{control.url}}/control/v1/setups/agents",
+					"host": [
+						"{{control.url}}"
+					],
+					"path": [
+						"control",
+						"v1",
+						"setups",
+						"agents"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "start",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"action\": \"start\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{control.url}}/control/v1/setups/agents",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"setups",
+								"agents"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 05 Feb 2023 17:48:55 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"location\": \"http://10.0.2.30:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.31:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.32:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.33:8080\",\n        \"status\": \"done\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "stop",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"action\": \"stop\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{control.url}}/control/v1/setups/agents",
+					"host": [
+						"{{control.url}}"
+					],
+					"path": [
+						"control",
+						"v1",
+						"setups",
+						"agents"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "stop",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"action\": \"stop\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{control.url}}/control/v1/setups/agents",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"setups",
+								"agents"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 05 Feb 2023 18:54:10 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"location\": \"http://10.0.2.30:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.31:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.32:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.33:8080\",\n        \"status\": \"done\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "versions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{control.url}}/control/v1/versions",
+					"host": [
+						"{{control.url}}"
+					],
+					"path": [
+						"control",
+						"v1",
+						"versions"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "versions",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{control.url}}/control/v1/versions",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"versions"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 05 Feb 2023 17:27:34 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"control\": {\n        \"version\": \"2.0.11\",\n        \"time\": \"2023-02-05T17:06:07.805Z\"\n    },\n    \"agents\": {\n        \"http://10.0.2.30:8080\": {\n            \"version\": \"2.0.9\",\n            \"time\": \"2023-02-05T17:06:03.016Z\"\n        },\n        \"http://10.0.2.32:8080\": {\n            \"version\": \"2.0.9\",\n            \"time\": \"2023-02-05T17:06:03.016Z\"\n        },\n        \"http://10.0.2.33:8080\": {\n            \"version\": \"2.0.9\",\n            \"time\": \"2023-02-05T17:06:03.016Z\"\n        },\n        \"http://10.0.2.31:8080\": {\n            \"version\": \"2.0.9\",\n            \"time\": \"2023-02-05T17:06:03.016Z\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "experiments",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{control.url}}/control/v1/experiments",
+					"host": [
+						"{{control.url}}"
+					],
+					"path": [
+						"control",
+						"v1",
+						"experiments"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "experiments_2023-02-05T04:30:11.331Z",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{control.url}}/control/v1/experiments",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"experiments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 05 Feb 2023 04:33:07 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"tables\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-05T04:26:28.275Z\",\n        \"end\": \"2023-02-05T04:26:28.891Z\"\n    },\n    \"execution\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-05T04:30:11.331Z\",\n        \"end\": \"2023-02-05T04:32:58.395Z\"\n    },\n    \"agents\": [\n        {\n            \"location\": \"http://10.0.2.30:8080\",\n            \"type\": \"questdb_pg\",\n            \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.31:8080\",\n            \"type\": \"questdb_rest\",\n            \"datasource\": \"http://10.0.2.21:9000\",\n            \"vehicles\": 20\n        },\n        {\n            \"location\": \"http://10.0.2.32:8080\",\n            \"type\": \"questdb_influx\",\n            \"datasource\": \"10.0.2.22:9009\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.33:8080\",\n            \"type\": \"mongodb\",\n            \"datasource\": \"mongodb://10.0.2.23\",\n            \"vehicles\": 200\n        }\n    ],\n    \"results\": {\n        \"questdb_influx\": {\n            \"inserted\": 208059,\n            \"duration\": {\n                \"total_in_seconds\": 167,\n                \"total_in_minutes\": 2,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 1245.8622754491018,\n                \"rpm\": 104029.5,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_rest\": {\n            \"inserted\": 72021,\n            \"duration\": {\n                \"total_in_seconds\": 167,\n                \"total_in_minutes\": 2,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 431.2634730538922,\n                \"rpm\": 36010.5,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"mongodb\": {\n            \"inserted\": 36584,\n            \"duration\": {\n                \"total_in_seconds\": 167,\n                \"total_in_minutes\": 2,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 219.06586826347305,\n                \"rpm\": 18292,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_pg\": {\n            \"inserted\": 180351,\n            \"duration\": {\n                \"total_in_seconds\": 167,\n                \"total_in_minutes\": 2,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 1079.9461077844312,\n                \"rpm\": 90175.5,\n                \"rph\": \"Infinity\"\n            }\n        }\n    }\n}"
+				},
+				{
+					"name": "experiments_2023-02-05T09:59:42.429Z",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{control.url}}/control/v1/experiments",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"experiments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 05 Feb 2023 11:01:45 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"tables\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-05T09:57:51.718Z\",\n        \"end\": \"2023-02-05T09:57:52.376Z\"\n    },\n    \"execution\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-05T09:59:42.429Z\",\n        \"end\": \"2023-02-05T11:00:33.010Z\"\n    },\n    \"agents\": [\n        {\n            \"location\": \"http://10.0.2.30:8080\",\n            \"type\": \"questdb_pg\",\n            \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.31:8080\",\n            \"type\": \"questdb_rest\",\n            \"datasource\": \"http://10.0.2.21:9000\",\n            \"vehicles\": 20\n        },\n        {\n            \"location\": \"http://10.0.2.32:8080\",\n            \"type\": \"questdb_influx\",\n            \"datasource\": \"10.0.2.22:9009\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.33:8080\",\n            \"type\": \"mongodb\",\n            \"datasource\": \"mongodb://10.0.2.23\",\n            \"vehicles\": 200\n        }\n    ],\n    \"results\": {\n        \"questdb_influx\": {\n            \"inserted\": 2664761,\n            \"duration\": {\n                \"total_in_seconds\": 3650,\n                \"total_in_minutes\": 60,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 730.071506849315,\n                \"rpm\": 44412.683333333334,\n                \"rph\": 2664761\n            }\n        },\n        \"questdb_rest\": {\n            \"inserted\": 0,\n            \"duration\": {\n                \"total_in_seconds\": 3650,\n                \"total_in_minutes\": 60,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 0,\n                \"rpm\": 0,\n                \"rph\": 0\n            }\n        },\n        \"questdb_pg\": {\n            \"inserted\": 2480705,\n            \"duration\": {\n                \"total_in_seconds\": 3650,\n                \"total_in_minutes\": 60,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 679.6452054794521,\n                \"rpm\": 41345.083333333336,\n                \"rph\": 2480705\n            }\n        },\n        \"mongodb\": {\n            \"inserted\": 521853,\n            \"duration\": {\n                \"total_in_seconds\": 3650,\n                \"total_in_minutes\": 60,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 142.97342465753425,\n                \"rpm\": 8697.55,\n                \"rph\": 521853\n            }\n        }\n    }\n}"
+				},
+				{
+					"name": "experiments_2023-02-05T17:48:55.065Z",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{control.url}}/control/v1/experiments",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"experiments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 05 Feb 2023 18:55:16 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"tables\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-05T17:45:30.841Z\",\n        \"end\": \"2023-02-05T17:45:31.427Z\"\n    },\n    \"execution\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-05T17:48:55.065Z\",\n        \"end\": \"2023-02-05T18:53:53.681Z\"\n    },\n    \"agents\": [\n        {\n            \"location\": \"http://10.0.2.30:8080\",\n            \"type\": \"questdb_pg\",\n            \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.31:8080\",\n            \"type\": \"questdb_rest\",\n            \"datasource\": \"http://10.0.2.21:9000\",\n            \"vehicles\": 20\n        },\n        {\n            \"location\": \"http://10.0.2.32:8080\",\n            \"type\": \"questdb_influx\",\n            \"datasource\": \"10.0.2.22:9009\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.33:8080\",\n            \"type\": \"mongodb\",\n            \"datasource\": \"mongodb://10.0.2.23\",\n            \"vehicles\": 200\n        }\n    ],\n    \"results\": {\n        \"questdb_pg\": {\n            \"inserted\": 2401853,\n            \"duration\": {\n                \"total_in_seconds\": 3898,\n                \"total_in_minutes\": 64,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 616.1757311441766,\n                \"rpm\": 37528.953125,\n                \"rph\": 2401853\n            }\n        },\n        \"questdb_rest\": {\n            \"inserted\": 415158,\n            \"duration\": {\n                \"total_in_seconds\": 3898,\n                \"total_in_minutes\": 64,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 106.50538737814264,\n                \"rpm\": 6486.84375,\n                \"rph\": 415158\n            }\n        },\n        \"questdb_influx\": {\n            \"inserted\": 7322010,\n            \"duration\": {\n                \"total_in_seconds\": 3898,\n                \"total_in_minutes\": 64,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 1878.401744484351,\n                \"rpm\": 114406.40625,\n                \"rph\": 7322010\n            }\n        },\n        \"mongodb\": {\n            \"inserted\": 510880,\n            \"duration\": {\n                \"total_in_seconds\": 3898,\n                \"total_in_minutes\": 64,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 131.06208311954848,\n                \"rpm\": 7982.5,\n                \"rph\": 510880\n            }\n        }\n    }\n}"
+				}
+			]
+		}
+	]
+}
