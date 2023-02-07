@@ -51,7 +51,7 @@ public class AgentService {
     }
 
     private List<AgentResponse> submitSignal(AgentSignal.Action action) {
-        return service.get().agents().stream()
+        return service.get().agents().parallelStream()
             .map(Agent::location)
             .map(location -> port.put(location, action)
                     .map(message -> AgentResponse.buildError(location, message))
