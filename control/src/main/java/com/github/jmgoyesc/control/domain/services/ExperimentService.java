@@ -3,9 +3,11 @@ package com.github.jmgoyesc.control.domain.services;
 import com.github.jmgoyesc.control.domain.models.agents.Agent;
 import com.github.jmgoyesc.control.domain.models.agents.Agent.DatasourceType;
 import com.github.jmgoyesc.control.domain.models.experiment.ExperimentInfo;
+import com.github.jmgoyesc.control.domain.models.experiment.PeriodStatus;
 import com.github.jmgoyesc.control.domain.models.experiment.Result;
 import com.github.jmgoyesc.control.domain.models.experiment.ResultDuration;
 import com.github.jmgoyesc.control.domain.models.experiment.ResultThroughput;
+import com.github.jmgoyesc.control.domain.models.experiment.Stats;
 import com.github.jmgoyesc.control.domain.models.ports.ExperimentInfoPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,9 +25,16 @@ import java.util.List;
 public class ExperimentService {
 
     private final ExperimentInfoPort port;
+    private final CollectorService collector;
 
     public ExperimentInfo get() {
-        return port.get();
+        var info = port.get();
+        if (info.execution().getStatus() == PeriodStatus.on_going) {
+            info.execution().setPartialEnd(ZonedDateTime.now());
+            collector.collect(info.agents(), this);
+            port.update(info);
+        }
+        return info;
     }
 
     void addAgents(List<Agent> agents) {
@@ -63,14 +72,15 @@ public class ExperimentService {
         port.update(info);
     }
 
-    void addResultsInserted(DatasourceType datasource, long inserted) {
+    void addResultsInserted(DatasourceType datasource, Stats stats) {
         var info = port.get();
-        var value = calculateStats(info, inserted);
+        var value = calculateStats(info, stats);
         info.results().put(datasource, value);
         port.update(info);
     }
 
-    private Result calculateStats(ExperimentInfo info, long inserted) {
+    private Result calculateStats(ExperimentInfo info, Stats stats) {
+        long inserted = stats.telemetries() - stats.error();
         var duration = Duration.between(info.execution().getStart(), info.execution().getEnd());
 
         return Result.builder()

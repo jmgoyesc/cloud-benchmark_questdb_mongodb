@@ -32,17 +32,31 @@ public class AgentService {
     }
 
     public List<AgentResponse> update(AgentSignal signal) {
-        var agents = service.get().agents();
-        switch (signal.action()) {
-            case start -> service.addExecutionStart(ZonedDateTime.now());
-            case stop -> collector.collect();
-        }
-        return agents.stream()
-                .map(Agent::location)
-                .map(location -> port.put(location, signal.action())
-                        .map(message -> AgentResponse.buildError(location, message))
-                        .orElseGet(() -> AgentResponse.buildDone(location)))
-                .toList();
+        return switch (signal.action()) {
+            case start -> start();
+            case stop -> stop();
+        };
+    }
+
+    private List<AgentResponse> start() {
+        service.addExecutionStart(ZonedDateTime.now());
+        return submitSignal(AgentSignal.Action.start);
+    }
+
+    private List<AgentResponse> stop() {
+        var responses = submitSignal(AgentSignal.Action.stop);
+        service.addExecutionEnd(ZonedDateTime.now());
+        collector.collect(service.get().agents(), service);
+        return responses;
+    }
+
+    private List<AgentResponse> submitSignal(AgentSignal.Action action) {
+        return service.get().agents().stream()
+            .map(Agent::location)
+            .map(location -> port.put(location, action)
+                    .map(message -> AgentResponse.buildError(location, message))
+                    .orElseGet(() -> AgentResponse.buildDone(location)))
+            .toList();
     }
 
 }

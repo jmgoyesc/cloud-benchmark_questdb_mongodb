@@ -2,6 +2,7 @@ package com.github.jmgoyesc.control.adapters.agent;
 
 import com.github.jmgoyesc.control.domain.models.agents.Agent;
 import com.github.jmgoyesc.control.domain.models.agents.AgentSignal;
+import com.github.jmgoyesc.control.domain.models.experiment.Stats;
 import com.github.jmgoyesc.control.domain.models.ports.AgentPort;
 import com.github.jmgoyesc.control.domain.models.versions.VersionInfo;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Objects;
 import java.util.Optional;
 
 import static org.springframework.http.HttpMethod.GET;
@@ -67,12 +67,11 @@ class AgentPortImpl implements AgentPort {
     }
 
     @Override
-    public long countInserted(String location) {
+    public Stats results(String location) {
         var endpoint = UriComponentsBuilder.fromUriString(location)
                 .pathSegment("agent", "v1", "results")
                 .toUriString();
-        var count = rest.exchange(endpoint, GET, withContentTypeJson(), Long.class).getBody();
-        return Objects.requireNonNullElse(count, 0L);
+        return rest.exchange(endpoint, GET, withContentTypeJson(), Stats.class).getBody();
     }
 
     private static String buildEndpoint(String location) {

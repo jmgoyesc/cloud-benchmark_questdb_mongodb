@@ -38,4 +38,8 @@ public class Period {
         this.end = time;
         this.status = completed;
     }
+
+    public void setPartialEnd(ZonedDateTime time) {
+        this.end = time;
+    }
 }
