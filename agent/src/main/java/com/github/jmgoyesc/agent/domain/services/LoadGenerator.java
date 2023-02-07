@@ -1,13 +1,15 @@
 package com.github.jmgoyesc.agent.domain.services;
 
 import com.github.jmgoyesc.agent.domain.models.Config.Database;
+import com.github.jmgoyesc.agent.domain.models.Stats;
 import com.github.jmgoyesc.agent.domain.models.Telemetry;
 import com.github.jmgoyesc.agent.domain.services.ports.DatabasePort;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.ZonedDateTime;
 import java.util.Random;
-import java.util.random.RandomGenerator;
 
 /**
  * @author Juan Manuel Goyes Coral
@@ -15,28 +17,33 @@ import java.util.random.RandomGenerator;
 
 
 @Slf4j
+@RequiredArgsConstructor
 class LoadGenerator implements Runnable {
 
     static volatile boolean running = false;
 
     private final DatabasePort port;
     private final Database source;
-    private final String vehicle;
+    @Getter private final String vehicle;
 
-    LoadGenerator(DatabasePort port, Database source, String vehicle) {
-        this.port = port;
-        this.source = source;
-        this.vehicle = vehicle;
-    }
+    private long telemetries = 0L;
+    private long error = 0L;
 
     @Override
     public void run() {
-        log.info("Start load generator");
         while(running) {
             var telemetry = build(source);
-            port.insert(telemetry);
+            var done = port.insert(telemetry);
+            telemetries++;
+            if (!done) {
+                error++;
+            }
         }
-        log.info("End load generator");
+        port.clean();
+    }
+
+    Stats stats() {
+        return new Stats(telemetries, error);
     }
 
     private Telemetry build(Database source) {
@@ -45,9 +52,17 @@ class LoadGenerator implements Runnable {
                 .receivedAt(now)
                 .originatedAt(now)
                 .vehicle(this.vehicle)
-                .type("mileage")
+                .type(Type.giveOne().name())
                 .source(source)
-                .value(Random.from(RandomGenerator.getDefault()).nextDouble())
+                .value(Math.random())
                 .build();
+    }
+
+    enum Type {
+        mileage, fuel_level, fuel_ratio, fuel_consumption;
+
+        static Type giveOne() {
+            return Type.values()[new Random().nextInt(Type.values().length)];
+        }
     }
 }

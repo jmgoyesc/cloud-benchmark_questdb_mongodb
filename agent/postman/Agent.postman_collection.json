@@ -538,19 +538,9 @@
 		},
 		{
 			"name": "results",
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"accept": true
-				}
-			},
 			"request": {
 				"method": "GET",
 				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
 					{
 						"key": "Content-Type",
 						"value": "application/json",
@@ -575,11 +565,6 @@
 					"originalRequest": {
 						"method": "GET",
 						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
 							{
 								"key": "Content-Type",
 								"value": "application/json",
@@ -612,7 +597,7 @@
 						},
 						{
 							"key": "Date",
-							"value": "Mon, 06 Feb 2023 19:32:41 GMT"
+							"value": "Tue, 07 Feb 2023 01:25:18 GMT"
 						},
 						{
 							"key": "Keep-Alive",
@@ -624,7 +609,7 @@
 						}
 					],
 					"cookie": [],
-					"body": "21139"
+					"body": "{\n    \"telemetries\": 186219,\n    \"error\": 102328\n}"
 				}
 			]
 		}

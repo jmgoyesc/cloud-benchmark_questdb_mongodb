@@ -1,17 +1,14 @@
 package com.github.jmgoyesc.agent.domain.services;
 
 import com.github.jmgoyesc.agent.domain.models.Config;
-import com.github.jmgoyesc.agent.domain.services.ports.DatabasePort;
-import com.github.jmgoyesc.agent.domain.services.ports.MongodbPort;
-import com.github.jmgoyesc.agent.domain.services.ports.QuestdbInfluxPort;
-import com.github.jmgoyesc.agent.domain.services.ports.QuestdbPgPort;
-import com.github.jmgoyesc.agent.domain.services.ports.QuestdbRestPort;
+import com.github.jmgoyesc.agent.domain.models.Stats;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
 
 /**
@@ -23,26 +20,19 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class AgentService {
 
-    private final QuestdbRestPort questdbRest;
-    private final QuestdbInfluxPort questdbInfluxPort;
-    private final QuestdbPgPort questdbPgPort;
-    private final MongodbPort mongodbPort;
+    private final DatabasePortCreator creator;
 
     private Config config;
-    private List<Thread> threads = List.of();
+    private List<LoadGenerator> workers = List.of();
+    private ExecutorService executor;
+    private MonitorService monitor;
 
     public void configure(Config config) {
         this.config = config;
-        var db = chooseDatabase();
-        db.init(config.uri());
-
-        this.threads = IntStream.rangeClosed(1, config.vehicles())
-                        .mapToObj(it -> Thread.ofVirtual()
-                                .name("vt-", it)
-                                .unstarted(new LoadGenerator(db, config.db(), "vehicle-" + it)))
-                        .toList();
-
-        log.info("[configure] Complete configuration => {}", config);
+        this.workers = IntStream.rangeClosed(1, config.vehicles())
+                .mapToObj(it -> new LoadGenerator(creator.newInstance(config), config.db(), "vehicle-" + it))
+                .toList();
+        this.executor = Executors.newFixedThreadPool(config.vehicles());
     }
 
     public void start() {
@@ -51,42 +41,33 @@ public class AgentService {
             throw new RuntimeException("Configure was not called for agent. Pending configuration: POST /v1/configurations");
         }
         LoadGenerator.running = true;
-        threads.forEach(Thread::start);
-        log.info("[start] Signal processed");
+        this.workers.forEach(executor::submit);
+        triggerMonitor();
     }
 
     public void stop() {
-        log.info("[stop] Signal received to stop process. Wait for all threads to finish: {}", threads.size());
-
         LoadGenerator.running = false;
-        threads.parallelStream().forEach(thread -> {
-            try {
-                var terminated = thread.join(Duration.ofSeconds(5));
-                if (!terminated) {
-                    thread.interrupt();
-                }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        log.info("[stop] Signal processed");
-    }
-
-    public long count() {
-        if (config == null) {
-            throw new RuntimeException("Configure was not called for agent. Pending configuration: POST /v1/configurations");
+        if (executor != null) {
+            executor.shutdown();
+            executor.close();
         }
-        var db = chooseDatabase();
-        return db.count();
+        cancelMonitor();
+        log.info("[stop] Signal 'stop' completed. workers: {}", workers.size());
     }
 
-    private DatabasePort chooseDatabase() {
-        return switch (config.db()) {
-            case mongodb -> mongodbPort;
-            case questdb_pg -> questdbPgPort;
-            case questdb_rest -> questdbRest;
-            case questdb_influx -> questdbInfluxPort;
-        };
+    public Stats getResults() {
+        if (monitor == null)
+            return new Stats(0L, 0L);
+        return monitor.getResults();
     }
+
+    private void triggerMonitor() {
+        monitor = new MonitorService(this.workers);
+    }
+
+    private void cancelMonitor() {
+        if (monitor != null)
+            monitor.cancel();
+    }
+
 }

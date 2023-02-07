@@ -1,5 +1,6 @@
 package com.github.jmgoyesc.agent.adapters.web.controller;
 
+import com.github.jmgoyesc.agent.domain.models.Stats;
 import com.github.jmgoyesc.agent.domain.services.AgentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ public class ResultsController {
     private final AgentService service;
 
     @GetMapping
-    long count() {
-        return service.count();
+    Stats results() {
+        return service.getResults();
     }
 }

@@ -12,8 +12,8 @@ logging:
     com.github.jmgoyesc.agent: info
   # original pattern: %d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd'T'HH:mm:ss.SSSXXX}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - ${LOG_LEVEL_PATTERN:-%5p} --- [%t]: %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
-    file: "%d{yyyy-MM-dd HH:mm:ss} - ${LOG_LEVEL_PATTERN:-%5p} --- [%t]: %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+    console: "%d{yyyy-MM-dd HH:mm:ss} - ${LOG_LEVEL_PATTERN:-%5p} --- %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+    file: "%d{yyyy-MM-dd HH:mm:ss} - ${LOG_LEVEL_PATTERN:-%5p} --- %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
   file:
     path: "./logs"
 ---

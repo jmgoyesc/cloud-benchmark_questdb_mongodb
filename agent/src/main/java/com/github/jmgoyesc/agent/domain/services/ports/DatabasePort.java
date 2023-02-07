@@ -7,8 +7,6 @@ import com.github.jmgoyesc.agent.domain.models.Telemetry;
  */
 
 public interface DatabasePort {
-    void init(String uri);
-    void insert(Telemetry telemetry);
-    long count();
-    default void clean() {}
+    boolean insert(Telemetry telemetry);
+    void clean();
 }

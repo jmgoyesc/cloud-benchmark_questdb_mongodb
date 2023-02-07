@@ -39,10 +39,13 @@ Get the deployed version of the agent.
 
 ### GET /agent/v1/results
 
-Count the number of records inserted at the requested time
+Get the telemetries sent and number of errors at the execution time
 
 ```json
-21139
+{
+  "telemetries": 186219,
+  "error": 102328
+}
 ```
 
 ### POST /agent/v1/configurations
