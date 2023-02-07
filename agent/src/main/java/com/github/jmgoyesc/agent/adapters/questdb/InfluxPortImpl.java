@@ -8,6 +8,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
@@ -20,15 +24,19 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @Slf4j
 class InfluxPortImpl implements QuestdbInfluxPort {
 
-    private final Sender sender;
+    private static final long BUILDER_TIMEOUT = 3L;
+
+    private final Sender.LineSenderBuilder builder;
+    private Sender sender;
 
     public InfluxPortImpl(String uri) {
-        this.sender = Sender.builder().address(uri).build();
+        this.builder = Sender.builder().address(uri);
     }
 
     @Override
     public boolean insert(Telemetry telemetry) {
         try {
+            initSender();
             sender.table("telemetries")
                     .symbol("type", telemetry.type())
                     .symbol("source", telemetry.source().name())
@@ -44,6 +52,18 @@ class InfluxPortImpl implements QuestdbInfluxPort {
 
     @Override
     public void clean() {
-        this.sender.close();
+        if (sender != null)
+            this.sender.close();
+    }
+    private void initSender() {
+        if (sender == null) {
+            try (var executor = Executors.newSingleThreadExecutor()) {
+                var future = executor.submit(builder::build);
+                sender = future.get(BUILDER_TIMEOUT, TimeUnit.SECONDS);
+            } catch (ExecutionException | InterruptedException | TimeoutException e) {
+                log.error("[questdb influx] Unable to create Sender without {} seconds: {}", BUILDER_TIMEOUT, e.getMessage());
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

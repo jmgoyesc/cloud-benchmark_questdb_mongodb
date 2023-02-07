@@ -27,6 +27,7 @@ public class AgentService {
     private ExecutorService executor;
     private MonitorService monitor;
 
+
     public void configure(Config config) {
         this.config = config;
         this.workers = IntStream.rangeClosed(1, config.vehicles())
