@@ -24,7 +24,7 @@ public class AgentService {
 
     public List<AgentResponse> create(List<Agent> agents) {
         service.addAgents(agents);
-        return agents.stream()
+        return agents.parallelStream()
                 .map(a -> port.create(a)
                         .map(message -> AgentResponse.buildError(a.location(), message))
                         .orElseGet(() -> AgentResponse.buildDone(a.location())))

@@ -33,7 +33,7 @@ public class VersionService {
     }
 
     public Versions get() {
-        var agents = service.get().agents().stream()
+        var agents = service.get().agents().parallelStream()
                 .map(Agent::location)
                 .map(location -> {
                     var version = port.version(location);
