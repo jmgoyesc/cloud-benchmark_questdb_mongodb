@@ -85,5 +85,3 @@ tasks.withType(Test).configureEach {
 tasks.withType(JavaExec).configureEach {
 	jvmArgs += '--enable-preview'
 }
-
-build.dependsOn patchVersionUpdate
