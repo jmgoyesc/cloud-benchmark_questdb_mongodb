@@ -85,3 +85,10 @@ tasks.withType(Test).configureEach {
 tasks.withType(JavaExec).configureEach {
 	jvmArgs += '--enable-preview'
 }
+
+task copyJar(type: Copy) {
+	from './build/libs/agent.jar'
+	into './executable'
+}
+
+build.finalizedBy copyJar
