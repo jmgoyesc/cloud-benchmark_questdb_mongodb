@@ -82,7 +82,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "[\n    {\n        \"location\": \"http://localhost:8181\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://localhost:9000\",\n        \"vehicles\": 20\n    }\n]",
+									"raw": "[\n    {\n        \"location\": \"http://localhost:8181\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://localhost:9000\",\n        \"vehicles\": 1\n    }\n]",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -111,7 +111,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "[\n    {\n        \"location\": \"http://localhost:8181\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"localhost:9009\",\n        \"vehicles\": 12\n    }\n]",
+									"raw": "[\n    {\n        \"location\": \"http://localhost:8181\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"localhost:9009\",\n        \"vehicles\": 1\n    }\n]",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -140,7 +140,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "[\n    {\n        \"location\": \"http://localhost:8181\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://localhost\",\n        \"vehicles\": 200\n    }\n]",
+									"raw": "[\n    {\n        \"location\": \"http://localhost:8181\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://localhost\",\n        \"vehicles\": 2\n    }\n]",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -170,106 +170,16 @@
 			"name": "aws",
 			"item": [
 				{
-					"name": "tables",
+					"name": "1 to 1",
 					"item": [
 						{
-							"name": "aws: create",
+							"name": "config agents",
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "[\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.20:9000\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.21:9000\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.22:9000\"\n    },\n    {\n        \"type\": \"mongodb\",\n        \"uri\": \"mongodb://10.0.2.23\"\n    }\n]",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{control.url}}/control/v1/setups/tables",
-									"host": [
-										"{{control.url}}"
-									],
-									"path": [
-										"control",
-										"v1",
-										"setups",
-										"tables"
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "aws: create",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "[\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.20:9000\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.21:9000\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.22:9000\"\n    },\n    {\n        \"type\": \"mongodb\",\n        \"uri\": \"mongodb://10.0.2.23\"\n    }\n]",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{control.url}}/control/v1/setups/tables",
-											"host": [
-												"{{control.url}}"
-											],
-											"path": [
-												"control",
-												"v1",
-												"setups",
-												"tables"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 05 Feb 2023 17:27:19 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "[\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.20:9000\",\n        \"status\": \"done\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.21:9000\",\n        \"status\": \"done\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.22:9000\",\n        \"status\": \"done\"\n    },\n    {\n        \"type\": \"mongodb\",\n        \"uri\": \"mongodb://10.0.2.23\",\n        \"status\": \"done\"\n    }\n]"
-								}
-							]
-						}
-					]
-				},
-				{
-					"name": "agents",
-					"item": [
-						{
-							"name": "aws. create",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "[\n    {\n        \"location\": \"http://10.0.2.30:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.31:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.21:9000\",\n        \"vehicles\": 20\n    },\n    {\n        \"location\": \"http://10.0.2.32:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.22:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.33:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.23\",\n        \"vehicles\": 200\n    }\n]",
+									"raw": "[\n    {\n        \"location\": \"http://10.0.2.20:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.70:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.120:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.170:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    }\n]",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -291,13 +201,13 @@
 							},
 							"response": [
 								{
-									"name": "aws. create",
+									"name": "config agents",
 									"originalRequest": {
 										"method": "POST",
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "[\n    {\n        \"location\": \"http://10.0.2.30:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.31:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.21:9000\",\n        \"vehicles\": 20\n    },\n    {\n        \"location\": \"http://10.0.2.32:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.22:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.33:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.23\",\n        \"vehicles\": 200\n    }\n]",
+											"raw": "[\n    {\n        \"location\": \"http://10.0.2.30:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.31:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.21:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.32:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.22:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.33:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.23\",\n        \"vehicles\": 4\n    }\n]",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -331,7 +241,7 @@
 										},
 										{
 											"key": "Date",
-											"value": "Sun, 05 Feb 2023 17:28:56 GMT"
+											"value": "Tue, 07 Feb 2023 20:24:07 GMT"
 										},
 										{
 											"key": "Keep-Alive",
@@ -346,6 +256,271 @@
 									"body": "[\n    {\n        \"location\": \"http://10.0.2.30:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.31:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.32:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.33:8080\",\n        \"status\": \"done\"\n    }\n]"
 								}
 							]
+						}
+					]
+				},
+				{
+					"name": "10 to 1",
+					"item": [
+						{
+							"name": "config agents",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"location\": \"http://10.0.2.20:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.21:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.22:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.23:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.24:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.25:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.26:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.27:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.28:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.29:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n\n\n    {\n        \"location\": \"http://10.0.2.70:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.71:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.72:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.73:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.74:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.75:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.76:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.77:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.78:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.79:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n\n\n    {\n        \"location\": \"http://10.0.2.120:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.121:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.122:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.123:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.124:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.125:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.126:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.127:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.128:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.129:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n\n\n    {\n        \"location\": \"http://10.0.2.170:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.171:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.172:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.173:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.174:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.175:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.176:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.177:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.178:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.179:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{control.url}}/control/v1/setups/agents",
+									"host": [
+										"{{control.url}}"
+									],
+									"path": [
+										"control",
+										"v1",
+										"setups",
+										"agents"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "config agents",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\n    {\n        \"location\": \"http://10.0.2.30:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.31:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.21:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.32:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.22:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.33:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.23\",\n        \"vehicles\": 4\n    }\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{control.url}}/control/v1/setups/agents",
+											"host": [
+												"{{control.url}}"
+											],
+											"path": [
+												"control",
+												"v1",
+												"setups",
+												"agents"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Feb 2023 20:24:07 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"location\": \"http://10.0.2.30:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.31:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.32:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.33:8080\",\n        \"status\": \"done\"\n    }\n]"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "1 to 50",
+					"item": [
+						{
+							"name": "config agents",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"location\": \"http://10.0.2.20:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.21:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.22:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.23:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.24:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.25:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.26:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.27:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.28:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.29:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.11:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n\n\n    {\n        \"location\": \"http://10.0.2.70:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.71:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.72:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.73:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.74:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.75:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.76:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.77:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.78:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.79:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.12:9000\",\n        \"vehicles\": 1\n    },\n\n\n    {\n        \"location\": \"http://10.0.2.120:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.121:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.122:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.123:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.124:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.125:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.126:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.127:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.128:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.129:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.13:9009\",\n        \"vehicles\": 1\n    },\n\n\n    {\n        \"location\": \"http://10.0.2.170:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.171:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.172:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.173:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.174:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.175:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.176:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.177:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.178:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    },\n    {\n        \"location\": \"http://10.0.2.179:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.14\",\n        \"vehicles\": 4\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{control.url}}/control/v1/setups/agents",
+									"host": [
+										"{{control.url}}"
+									],
+									"path": [
+										"control",
+										"v1",
+										"setups",
+										"agents"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "config agents",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\n    {\n        \"location\": \"http://10.0.2.30:8080\",\n        \"type\": \"questdb_pg\",\n        \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.31:8080\",\n        \"type\": \"questdb_rest\",\n        \"datasource\": \"http://10.0.2.21:9000\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.32:8080\",\n        \"type\": \"questdb_influx\",\n        \"datasource\": \"10.0.2.22:9009\",\n        \"vehicles\": 1\n    },\n    {\n        \"location\": \"http://10.0.2.33:8080\",\n        \"type\": \"mongodb\",\n        \"datasource\": \"mongodb://10.0.2.23\",\n        \"vehicles\": 4\n    }\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{control.url}}/control/v1/setups/agents",
+											"host": [
+												"{{control.url}}"
+											],
+											"path": [
+												"control",
+												"v1",
+												"setups",
+												"agents"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Feb 2023 20:24:07 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"location\": \"http://10.0.2.30:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.31:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.32:8080\",\n        \"status\": \"done\"\n    },\n    {\n        \"location\": \"http://10.0.2.33:8080\",\n        \"status\": \"done\"\n    }\n]"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "config tables",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.11:9000\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.12:9000\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.13:9000\"\n    },\n    {\n        \"type\": \"mongodb\",\n        \"uri\": \"mongodb://10.0.2.14\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{control.url}}/control/v1/setups/tables",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"setups",
+								"tables"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "config tables",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.11:9000\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.12:9000\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.13:9000\"\n    },\n    {\n        \"type\": \"mongodb\",\n        \"uri\": \"mongodb://10.0.2.14\"\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{control.url}}/control/v1/setups/tables",
+									"host": [
+										"{{control.url}}"
+									],
+									"path": [
+										"control",
+										"v1",
+										"setups",
+										"tables"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 07 Feb 2023 21:50:12 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.11:9000\",\n        \"status\": \"done\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.12:9000\",\n        \"status\": \"done\"\n    },\n    {\n        \"type\": \"questdb\",\n        \"uri\": \"http://10.0.2.13:9000\",\n        \"status\": \"done\"\n    },\n    {\n        \"type\": \"mongodb\",\n        \"uri\": \"mongodb://10.0.2.14\",\n        \"status\": \"done\"\n    }\n]"
 						}
 					]
 				}
@@ -774,8 +949,611 @@
 					],
 					"cookie": [],
 					"body": "{\n    \"tables\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-05T17:45:30.841Z\",\n        \"end\": \"2023-02-05T17:45:31.427Z\"\n    },\n    \"execution\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-05T17:48:55.065Z\",\n        \"end\": \"2023-02-05T18:53:53.681Z\"\n    },\n    \"agents\": [\n        {\n            \"location\": \"http://10.0.2.30:8080\",\n            \"type\": \"questdb_pg\",\n            \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.31:8080\",\n            \"type\": \"questdb_rest\",\n            \"datasource\": \"http://10.0.2.21:9000\",\n            \"vehicles\": 20\n        },\n        {\n            \"location\": \"http://10.0.2.32:8080\",\n            \"type\": \"questdb_influx\",\n            \"datasource\": \"10.0.2.22:9009\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.33:8080\",\n            \"type\": \"mongodb\",\n            \"datasource\": \"mongodb://10.0.2.23\",\n            \"vehicles\": 200\n        }\n    ],\n    \"results\": {\n        \"questdb_pg\": {\n            \"inserted\": 2401853,\n            \"duration\": {\n                \"total_in_seconds\": 3898,\n                \"total_in_minutes\": 64,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 616.1757311441766,\n                \"rpm\": 37528.953125,\n                \"rph\": 2401853\n            }\n        },\n        \"questdb_rest\": {\n            \"inserted\": 415158,\n            \"duration\": {\n                \"total_in_seconds\": 3898,\n                \"total_in_minutes\": 64,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 106.50538737814264,\n                \"rpm\": 6486.84375,\n                \"rph\": 415158\n            }\n        },\n        \"questdb_influx\": {\n            \"inserted\": 7322010,\n            \"duration\": {\n                \"total_in_seconds\": 3898,\n                \"total_in_minutes\": 64,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 1878.401744484351,\n                \"rpm\": 114406.40625,\n                \"rph\": 7322010\n            }\n        },\n        \"mongodb\": {\n            \"inserted\": 510880,\n            \"duration\": {\n                \"total_in_seconds\": 3898,\n                \"total_in_minutes\": 64,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 131.06208311954848,\n                \"rpm\": 7982.5,\n                \"rph\": 510880\n            }\n        }\n    }\n}"
+				},
+				{
+					"name": "experiments_2023-02-07T03:05:11.709Z",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{control.url}}/control/v1/experiments",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"experiments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Feb 2023 03:15:56 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"tables\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T03:04:21.524Z\",\n        \"end\": \"2023-02-07T03:04:22.091Z\"\n    },\n    \"execution\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T03:05:11.709Z\",\n        \"end\": \"2023-02-07T03:15:52.890Z\"\n    },\n    \"agents\": [\n        {\n            \"location\": \"http://10.0.2.30:8080\",\n            \"type\": \"questdb_pg\",\n            \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.31:8080\",\n            \"type\": \"questdb_rest\",\n            \"datasource\": \"http://10.0.2.21:9000\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.32:8080\",\n            \"type\": \"questdb_influx\",\n            \"datasource\": \"10.0.2.22:9009\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.33:8080\",\n            \"type\": \"mongodb\",\n            \"datasource\": \"mongodb://10.0.2.23\",\n            \"vehicles\": 1\n        }\n    ],\n    \"results\": {\n        \"questdb_pg\": {\n            \"inserted\": 898043,\n            \"duration\": {\n                \"total_in_seconds\": 641,\n                \"total_in_minutes\": 10,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 1401.003120124805,\n                \"rpm\": 89804.3,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"mongodb\": {\n            \"inserted\": 727410,\n            \"duration\": {\n                \"total_in_seconds\": 641,\n                \"total_in_minutes\": 10,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 1134.804992199688,\n                \"rpm\": 72741,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_rest\": {\n            \"inserted\": 369207,\n            \"duration\": {\n                \"total_in_seconds\": 641,\n                \"total_in_minutes\": 10,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 575.9859594383776,\n                \"rpm\": 36920.7,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_influx\": {\n            \"inserted\": 9860568,\n            \"duration\": {\n                \"total_in_seconds\": 641,\n                \"total_in_minutes\": 10,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 15383.101404056162,\n                \"rpm\": 986056.8,\n                \"rph\": \"Infinity\"\n            }\n        }\n    }\n}"
+				},
+				{
+					"name": "experiments_2023-02-07T03:00:02.622Z",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{control.url}}/control/v1/experiments",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"experiments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Feb 2023 03:17:20 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"tables\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T02:58:07.546Z\",\n        \"end\": \"2023-02-07T02:58:08.184Z\"\n    },\n    \"execution\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T03:00:02.622Z\",\n        \"end\": \"2023-02-07T03:17:15.963Z\"\n    },\n    \"agents\": [\n        {\n            \"location\": \"http://10.0.2.30:8080\",\n            \"type\": \"questdb_pg\",\n            \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.31:8080\",\n            \"type\": \"questdb_rest\",\n            \"datasource\": \"http://10.0.2.21:9000\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.32:8080\",\n            \"type\": \"questdb_influx\",\n            \"datasource\": \"10.0.2.22:9009\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.33:8080\",\n            \"type\": \"mongodb\",\n            \"datasource\": \"mongodb://10.0.2.23\",\n            \"vehicles\": 1\n        }\n    ],\n    \"results\": {\n        \"questdb_influx\": {\n            \"inserted\": 16060996,\n            \"duration\": {\n                \"total_in_seconds\": 1033,\n                \"total_in_minutes\": 17,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 15547.91481122943,\n                \"rpm\": 944764.4705882353,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"mongodb\": {\n            \"inserted\": 1317390,\n            \"duration\": {\n                \"total_in_seconds\": 1033,\n                \"total_in_minutes\": 17,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 1275.3049370764763,\n                \"rpm\": 77493.5294117647,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_rest\": {\n            \"inserted\": 578553,\n            \"duration\": {\n                \"total_in_seconds\": 1033,\n                \"total_in_minutes\": 17,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 560.0706679574056,\n                \"rpm\": 34032.529411764706,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_pg\": {\n            \"inserted\": 1551668,\n            \"duration\": {\n                \"total_in_seconds\": 1033,\n                \"total_in_minutes\": 17,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 1502.0987415295256,\n                \"rpm\": 91274.58823529411,\n                \"rph\": \"Infinity\"\n            }\n        }\n    }\n}"
+				},
+				{
+					"name": "experiments_t2.micro_2023-02-07T10:35:40.478Z",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{control.url}}/control/v1/experiments",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"experiments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Feb 2023 11:38:57 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"tables\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T10:32:44.755Z\",\n        \"end\": \"2023-02-07T10:32:45.424Z\"\n    },\n    \"execution\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T10:35:40.478Z\",\n        \"end\": \"2023-02-07T11:36:49.967Z\"\n    },\n    \"agents\": [\n        {\n            \"location\": \"http://10.0.2.30:8080\",\n            \"type\": \"questdb_pg\",\n            \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n            \"vehicles\": 4\n        },\n        {\n            \"location\": \"http://10.0.2.31:8080\",\n            \"type\": \"questdb_rest\",\n            \"datasource\": \"http://10.0.2.21:9000\",\n            \"vehicles\": 4\n        },\n        {\n            \"location\": \"http://10.0.2.32:8080\",\n            \"type\": \"questdb_influx\",\n            \"datasource\": \"10.0.2.22:9009\",\n            \"vehicles\": 4\n        },\n        {\n            \"location\": \"http://10.0.2.33:8080\",\n            \"type\": \"mongodb\",\n            \"datasource\": \"mongodb://10.0.2.23\",\n            \"vehicles\": 4\n        }\n    ],\n    \"results\": {\n        \"questdb_influx\": {\n            \"inserted\": 28821160,\n            \"duration\": {\n                \"total_in_seconds\": 3669,\n                \"total_in_minutes\": 61,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 7855.31752521123,\n                \"rpm\": 472478.0327868852,\n                \"rph\": 28821160\n            }\n        },\n        \"questdb_pg\": {\n            \"inserted\": 899575,\n            \"duration\": {\n                \"total_in_seconds\": 3669,\n                \"total_in_minutes\": 61,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 245.18261106568548,\n                \"rpm\": 14747.131147540984,\n                \"rph\": 899575\n            }\n        },\n        \"mongodb\": {\n            \"inserted\": 6151378,\n            \"duration\": {\n                \"total_in_seconds\": 3669,\n                \"total_in_minutes\": 61,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 1676.5816298718996,\n                \"rpm\": 100842.26229508196,\n                \"rph\": 6151378\n            }\n        },\n        \"questdb_rest\": {\n            \"inserted\": 563426,\n            \"duration\": {\n                \"total_in_seconds\": 3669,\n                \"total_in_minutes\": 61,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 153.56391387298993,\n                \"rpm\": 9236.491803278688,\n                \"rph\": 563426\n            }\n        }\n    }\n}"
+				},
+				{
+					"name": "experiments_t2.micro_2023-02-07T11:43:32.184Z",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{control.url}}/control/v1/experiments",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"experiments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Feb 2023 13:40:15 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"tables\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T11:42:21.590Z\",\n        \"end\": \"2023-02-07T11:42:21.811Z\"\n    },\n    \"execution\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T11:43:32.184Z\",\n        \"end\": \"2023-02-07T13:39:44.519Z\"\n    },\n    \"agents\": [\n        {\n            \"location\": \"http://10.0.2.30:8080\",\n            \"type\": \"questdb_pg\",\n            \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.31:8080\",\n            \"type\": \"questdb_rest\",\n            \"datasource\": \"http://10.0.2.21:9000\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.32:8080\",\n            \"type\": \"questdb_influx\",\n            \"datasource\": \"10.0.2.22:9009\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.33:8080\",\n            \"type\": \"mongodb\",\n            \"datasource\": \"mongodb://10.0.2.23\",\n            \"vehicles\": 1\n        }\n    ],\n    \"results\": {\n        \"questdb_influx\": {\n            \"inserted\": 11530298,\n            \"duration\": {\n                \"total_in_seconds\": 6972,\n                \"total_in_minutes\": 116,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 1653.800631095812,\n                \"rpm\": 99399.12068965517,\n                \"rph\": 11530298\n            }\n        },\n        \"questdb_pg\": {\n            \"inserted\": 917497,\n            \"duration\": {\n                \"total_in_seconds\": 6972,\n                \"total_in_minutes\": 116,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 131.59738955823292,\n                \"rpm\": 7909.456896551724,\n                \"rph\": 917497\n            }\n        },\n        \"mongodb\": {\n            \"inserted\": 1700911,\n            \"duration\": {\n                \"total_in_seconds\": 6972,\n                \"total_in_minutes\": 116,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 243.96313826735513,\n                \"rpm\": 14663.025862068966,\n                \"rph\": 1700911\n            }\n        },\n        \"questdb_rest\": {\n            \"inserted\": 379735,\n            \"duration\": {\n                \"total_in_seconds\": 6972,\n                \"total_in_minutes\": 116,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 54.465720022948936,\n                \"rpm\": 3273.5775862068967,\n                \"rph\": 379735\n            }\n        }\n    }\n}"
+				},
+				{
+					"name": "experiments_t2.micro_2023-02-07T13:41:10.999Z",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{control.url}}/control/v1/experiments",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"experiments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Feb 2023 15:31:58 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"tables\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T13:40:50.698Z\",\n        \"end\": \"2023-02-07T13:40:50.831Z\"\n    },\n    \"execution\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T13:41:10.999Z\",\n        \"end\": \"2023-02-07T15:31:55.511Z\"\n    },\n    \"agents\": [\n        {\n            \"location\": \"http://10.0.2.30:8080\",\n            \"type\": \"questdb_pg\",\n            \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n            \"vehicles\": 2\n        },\n        {\n            \"location\": \"http://10.0.2.31:8080\",\n            \"type\": \"questdb_rest\",\n            \"datasource\": \"http://10.0.2.21:9000\",\n            \"vehicles\": 2\n        },\n        {\n            \"location\": \"http://10.0.2.32:8080\",\n            \"type\": \"questdb_influx\",\n            \"datasource\": \"10.0.2.22:9009\",\n            \"vehicles\": 2\n        },\n        {\n            \"location\": \"http://10.0.2.33:8080\",\n            \"type\": \"mongodb\",\n            \"datasource\": \"mongodb://10.0.2.23\",\n            \"vehicles\": 2\n        }\n    ],\n    \"results\": {\n        \"questdb_influx\": {\n            \"inserted\": 7498146,\n            \"duration\": {\n                \"total_in_seconds\": 6644,\n                \"total_in_minutes\": 110,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 1128.559000602047,\n                \"rpm\": 68164.96363636364,\n                \"rph\": 7498146\n            }\n        },\n        \"questdb_pg\": {\n            \"inserted\": 848178,\n            \"duration\": {\n                \"total_in_seconds\": 6644,\n                \"total_in_minutes\": 110,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 127.66074653822999,\n                \"rpm\": 7710.709090909091,\n                \"rph\": 848178\n            }\n        },\n        \"mongodb\": {\n            \"inserted\": 1778920,\n            \"duration\": {\n                \"total_in_seconds\": 6644,\n                \"total_in_minutes\": 110,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 267.74834437086093,\n                \"rpm\": 16172,\n                \"rph\": 1778920\n            }\n        },\n        \"questdb_rest\": {\n            \"inserted\": 261956,\n            \"duration\": {\n                \"total_in_seconds\": 6644,\n                \"total_in_minutes\": 110,\n                \"total_in_hours\": 1\n            },\n            \"throughput\": {\n                \"rps\": 39.427453341360625,\n                \"rpm\": 2381.418181818182,\n                \"rph\": 261956\n            }\n        }\n    }\n}"
+				},
+				{
+					"name": "experiments_m6a.large_2023-02-07T18:19:56.560Z",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{control.url}}/control/v1/experiments",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"experiments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Feb 2023 18:23:45 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"tables\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T18:18:07.931Z\",\n        \"end\": \"2023-02-07T18:18:37.960Z\"\n    },\n    \"execution\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T18:19:56.560Z\",\n        \"end\": \"2023-02-07T18:23:26.694Z\"\n    },\n    \"agents\": [\n        {\n            \"location\": \"http://10.0.2.30:8080\",\n            \"type\": \"questdb_pg\",\n            \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.31:8080\",\n            \"type\": \"questdb_rest\",\n            \"datasource\": \"http://10.0.2.21:9000\",\n            \"vehicles\": 8\n        },\n        {\n            \"location\": \"http://10.0.2.32:8080\",\n            \"type\": \"questdb_influx\",\n            \"datasource\": \"10.0.2.22:9009\",\n            \"vehicles\": 8\n        },\n        {\n            \"location\": \"http://10.0.2.33:8080\",\n            \"type\": \"mongodb\",\n            \"datasource\": \"mongodb://10.0.2.23\",\n            \"vehicles\": 8\n        }\n    ],\n    \"results\": {\n        \"questdb_pg\": {\n            \"inserted\": 2609603,\n            \"duration\": {\n                \"total_in_seconds\": 210,\n                \"total_in_minutes\": 3,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 12426.680952380952,\n                \"rpm\": 869867.6666666666,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_rest\": {\n            \"inserted\": 328738,\n            \"duration\": {\n                \"total_in_seconds\": 210,\n                \"total_in_minutes\": 3,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 1565.4190476190477,\n                \"rpm\": 109579.33333333333,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_influx\": {\n            \"inserted\": 75540206,\n            \"duration\": {\n                \"total_in_seconds\": 210,\n                \"total_in_minutes\": 3,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 359715.26666666666,\n                \"rpm\": 25180068.666666668,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"mongodb\": {\n            \"inserted\": 0,\n            \"duration\": {\n                \"total_in_seconds\": 210,\n                \"total_in_minutes\": 3,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 0,\n                \"rpm\": 0,\n                \"rph\": \"NaN\"\n            }\n        }\n    }\n}"
+				},
+				{
+					"name": "experiments_m6a.large_2023-02-07T19:18:27.923Z",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{control.url}}/control/v1/experiments",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"experiments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Feb 2023 19:27:09 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"tables\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T19:17:55.978Z\",\n        \"end\": \"2023-02-07T19:17:56.520Z\"\n    },\n    \"execution\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T19:18:27.923Z\",\n        \"end\": \"2023-02-07T19:27:04.840Z\"\n    },\n    \"agents\": [\n        {\n            \"location\": \"http://10.0.2.30:8080\",\n            \"type\": \"questdb_pg\",\n            \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.31:8080\",\n            \"type\": \"questdb_rest\",\n            \"datasource\": \"http://10.0.2.21:9000\",\n            \"vehicles\": 8\n        },\n        {\n            \"location\": \"http://10.0.2.32:8080\",\n            \"type\": \"questdb_influx\",\n            \"datasource\": \"10.0.2.22:9009\",\n            \"vehicles\": 8\n        },\n        {\n            \"location\": \"http://10.0.2.33:8080\",\n            \"type\": \"mongodb\",\n            \"datasource\": \"mongodb://10.0.2.23\",\n            \"vehicles\": 8\n        }\n    ],\n    \"results\": {\n        \"questdb_influx\": {\n            \"inserted\": 262967242,\n            \"duration\": {\n                \"total_in_seconds\": 516,\n                \"total_in_minutes\": 8,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 509626.4379844961,\n                \"rpm\": 32870905.25,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_rest\": {\n            \"inserted\": 690007,\n            \"duration\": {\n                \"total_in_seconds\": 516,\n                \"total_in_minutes\": 8,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 1337.2228682170542,\n                \"rpm\": 86250.875,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_pg\": {\n            \"inserted\": 6268087,\n            \"duration\": {\n                \"total_in_seconds\": 516,\n                \"total_in_minutes\": 8,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 12147.45542635659,\n                \"rpm\": 783510.875,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"mongodb\": {\n            \"inserted\": 4430746,\n            \"duration\": {\n                \"total_in_seconds\": 516,\n                \"total_in_minutes\": 8,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 8586.717054263567,\n                \"rpm\": 553843.25,\n                \"rph\": \"Infinity\"\n            }\n        }\n    }\n}"
+				},
+				{
+					"name": "experiments_m6a.large_2023-02-07T19:30:42.075Z",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{control.url}}/control/v1/experiments",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"experiments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Feb 2023 19:33:03 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"tables\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T19:27:42.003Z\",\n        \"end\": \"2023-02-07T19:27:42.558Z\"\n    },\n    \"execution\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T19:30:42.075Z\",\n        \"end\": \"2023-02-07T19:32:35.892Z\"\n    },\n    \"agents\": [\n        {\n            \"location\": \"http://10.0.2.30:8080\",\n            \"type\": \"questdb_pg\",\n            \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n            \"vehicles\": 16\n        },\n        {\n            \"location\": \"http://10.0.2.31:8080\",\n            \"type\": \"questdb_rest\",\n            \"datasource\": \"http://10.0.2.21:9000\",\n            \"vehicles\": 16\n        },\n        {\n            \"location\": \"http://10.0.2.32:8080\",\n            \"type\": \"questdb_influx\",\n            \"datasource\": \"10.0.2.22:9009\",\n            \"vehicles\": 16\n        },\n        {\n            \"location\": \"http://10.0.2.33:8080\",\n            \"type\": \"mongodb\",\n            \"datasource\": \"mongodb://10.0.2.23\",\n            \"vehicles\": 16\n        }\n    ],\n    \"results\": {\n        \"questdb_influx\": {\n            \"inserted\": 58765401,\n            \"duration\": {\n                \"total_in_seconds\": 113,\n                \"total_in_minutes\": 1,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 520047.796460177,\n                \"rpm\": 58765401,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_rest\": {\n            \"inserted\": 176633,\n            \"duration\": {\n                \"total_in_seconds\": 113,\n                \"total_in_minutes\": 1,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 1563.1238938053098,\n                \"rpm\": 176633,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_pg\": {\n            \"inserted\": 213824,\n            \"duration\": {\n                \"total_in_seconds\": 113,\n                \"total_in_minutes\": 1,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 1892.2477876106195,\n                \"rpm\": 213824,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"mongodb\": {\n            \"inserted\": 958055,\n            \"duration\": {\n                \"total_in_seconds\": 113,\n                \"total_in_minutes\": 1,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 8478.362831858407,\n                \"rpm\": 958055,\n                \"rph\": \"Infinity\"\n            }\n        }\n    }\n}"
+				},
+				{
+					"name": "experiments_m6a.large_2023-02-07T19:34:41.649Z",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{control.url}}/control/v1/experiments",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"experiments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Feb 2023 19:43:31 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"tables\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T19:33:57.833Z\",\n        \"end\": \"2023-02-07T19:33:58.058Z\"\n    },\n    \"execution\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T19:34:41.649Z\",\n        \"end\": \"2023-02-07T19:43:26.299Z\"\n    },\n    \"agents\": [\n        {\n            \"location\": \"http://10.0.2.30:8080\",\n            \"type\": \"questdb_pg\",\n            \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.31:8080\",\n            \"type\": \"questdb_rest\",\n            \"datasource\": \"http://10.0.2.21:9000\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.32:8080\",\n            \"type\": \"questdb_influx\",\n            \"datasource\": \"10.0.2.22:9009\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.33:8080\",\n            \"type\": \"mongodb\",\n            \"datasource\": \"mongodb://10.0.2.23\",\n            \"vehicles\": 1\n        }\n    ],\n    \"results\": {\n        \"questdb_influx\": {\n            \"inserted\": 505263069,\n            \"duration\": {\n                \"total_in_seconds\": 524,\n                \"total_in_minutes\": 8,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 964242.498091603,\n                \"rpm\": 63157883.625,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_rest\": {\n            \"inserted\": 1422357,\n            \"duration\": {\n                \"total_in_seconds\": 524,\n                \"total_in_minutes\": 8,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 2714.421755725191,\n                \"rpm\": 177794.625,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_pg\": {\n            \"inserted\": 6561920,\n            \"duration\": {\n                \"total_in_seconds\": 524,\n                \"total_in_minutes\": 8,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 12522.748091603053,\n                \"rpm\": 820240,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"mongodb\": {\n            \"inserted\": 2237733,\n            \"duration\": {\n                \"total_in_seconds\": 524,\n                \"total_in_minutes\": 8,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 4270.482824427481,\n                \"rpm\": 279716.625,\n                \"rph\": \"Infinity\"\n            }\n        }\n    }\n}"
+				},
+				{
+					"name": "experiments_m6a.large_2023-02-07T19:45:02.802Z",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{control.url}}/control/v1/experiments",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"experiments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Feb 2023 19:50:45 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"tables\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T19:44:11.302Z\",\n        \"end\": \"2023-02-07T19:44:12.015Z\"\n    },\n    \"execution\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T19:45:02.802Z\",\n        \"end\": \"2023-02-07T19:49:57.244Z\"\n    },\n    \"agents\": [\n        {\n            \"location\": \"http://10.0.2.30:8080\",\n            \"type\": \"questdb_pg\",\n            \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n            \"vehicles\": 2\n        },\n        {\n            \"location\": \"http://10.0.2.31:8080\",\n            \"type\": \"questdb_rest\",\n            \"datasource\": \"http://10.0.2.21:9000\",\n            \"vehicles\": 2\n        },\n        {\n            \"location\": \"http://10.0.2.32:8080\",\n            \"type\": \"questdb_influx\",\n            \"datasource\": \"10.0.2.22:9009\",\n            \"vehicles\": 2\n        },\n        {\n            \"location\": \"http://10.0.2.33:8080\",\n            \"type\": \"mongodb\",\n            \"datasource\": \"mongodb://10.0.2.23\",\n            \"vehicles\": 2\n        }\n    ],\n    \"results\": {\n        \"questdb_influx\": {\n            \"inserted\": 150454275,\n            \"duration\": {\n                \"total_in_seconds\": 294,\n                \"total_in_minutes\": 4,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 511749.2346938776,\n                \"rpm\": 37613568.75,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_rest\": {\n            \"inserted\": 498706,\n            \"duration\": {\n                \"total_in_seconds\": 294,\n                \"total_in_minutes\": 4,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 1696.2789115646258,\n                \"rpm\": 124676.5,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_pg\": {\n            \"inserted\": 1848519,\n            \"duration\": {\n                \"total_in_seconds\": 294,\n                \"total_in_minutes\": 4,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 6287.4795918367345,\n                \"rpm\": 462129.75,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"mongodb\": {\n            \"inserted\": 1986182,\n            \"duration\": {\n                \"total_in_seconds\": 294,\n                \"total_in_minutes\": 4,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 6755.721088435374,\n                \"rpm\": 496545.5,\n                \"rph\": \"Infinity\"\n            }\n        }\n    }\n}"
+				},
+				{
+					"name": "experiments_t2.micro_2023-02-07T20:24:33.799Z",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{control.url}}/control/v1/experiments",
+							"host": [
+								"{{control.url}}"
+							],
+							"path": [
+								"control",
+								"v1",
+								"experiments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Feb 2023 20:35:52 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"tables\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T20:17:06.632Z\",\n        \"end\": \"2023-02-07T20:17:07.242Z\"\n    },\n    \"execution\": {\n        \"status\": \"completed\",\n        \"start\": \"2023-02-07T20:24:33.799Z\",\n        \"end\": \"2023-02-07T20:35:40.839Z\"\n    },\n    \"agents\": [\n        {\n            \"location\": \"http://10.0.2.30:8080\",\n            \"type\": \"questdb_pg\",\n            \"datasource\": \"jdbc:postgresql://10.0.2.20:8812/qdb?user=admin&password=quest&sslmode=disable\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.31:8080\",\n            \"type\": \"questdb_rest\",\n            \"datasource\": \"http://10.0.2.21:9000\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.32:8080\",\n            \"type\": \"questdb_influx\",\n            \"datasource\": \"10.0.2.22:9009\",\n            \"vehicles\": 1\n        },\n        {\n            \"location\": \"http://10.0.2.33:8080\",\n            \"type\": \"mongodb\",\n            \"datasource\": \"mongodb://10.0.2.23\",\n            \"vehicles\": 4\n        }\n    ],\n    \"results\": {\n        \"questdb_rest\": {\n            \"inserted\": 382491,\n            \"duration\": {\n                \"total_in_seconds\": 667,\n                \"total_in_minutes\": 11,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 573.4497751124438,\n                \"rpm\": 34771.90909090909,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_influx\": {\n            \"inserted\": 10140191,\n            \"duration\": {\n                \"total_in_seconds\": 667,\n                \"total_in_minutes\": 11,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 15202.685157421289,\n                \"rpm\": 921835.5454545454,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"questdb_pg\": {\n            \"inserted\": 977186,\n            \"duration\": {\n                \"total_in_seconds\": 667,\n                \"total_in_minutes\": 11,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 1465.0464767616193,\n                \"rpm\": 88835.09090909091,\n                \"rph\": \"Infinity\"\n            }\n        },\n        \"mongodb\": {\n            \"inserted\": 1856205,\n            \"duration\": {\n                \"total_in_seconds\": 667,\n                \"total_in_minutes\": 11,\n                \"total_in_hours\": 0\n            },\n            \"throughput\": {\n                \"rps\": 2782.9160419790105,\n                \"rpm\": 168745.9090909091,\n                \"rph\": \"Infinity\"\n            }\n        }\n    }\n}"
 				}
 			]
+		},
+		{
+			"name": "set aws ip",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ip experiment: t2.micro",
+							"pm.environment.set(\"aws.ip\", \"3.71.52.80\")",
+							"",
+							"// ip experiment: t2.small",
+							"//pm.environment.set(\"aws.ip\", \"3.70.95.158\")",
+							"",
+							"// ip experiment: t3.micro",
+							"//pm.environment.set(\"aws.ip\", \"3.124.193.130\")",
+							"",
+							"// ip experiment: m6a.large",
+							"//pm.environment.set(\"aws.ip\", \"3.67.13.104\")",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://postman-echo.com/get",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"get"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
